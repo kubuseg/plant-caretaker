@@ -71,18 +71,21 @@ void setAlarm(DateTime dateTime, AlarmMode mode) {
 
 void setup() {
   //Set up Serial communication
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //Set pins for soil sensor
+  //A1 - analog input, A2 - VCC, A3 - GND
   pinMode(A2, OUTPUT);
   digitalWrite(A2, HIGH);
   pinMode(A3, OUTPUT);
   digitalWrite(A3, LOW);
 
   //Setup for MOS pwm pin
+  //D6 - pwm pin
   pinMode(6, OUTPUT);
 
   //Setup for RTC
+  //SDA - A4, SCL - A5
   beginRTC();
   if (rtc.lostPower()) {
     // this will adjust to the date and time at compilation
