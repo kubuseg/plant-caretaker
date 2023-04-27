@@ -29,8 +29,8 @@ type SectionProps = PropsWithChildren<{
 
 const AppHeader = () => {
   return (
-    <View>
-      <Text>Mój Ogród</Text>
+    <View style={styles.appHeader}>
+      <Text style={{ textAlign: 'center' }}>Mój Ogród</Text>
     </View>
   );
 };
@@ -38,6 +38,7 @@ const AppHeader = () => {
 function App(): JSX.Element {
 
   const backgroundStyle = {
+    flex:1,
     backgroundColor: Colors.lighter,
   };
 
@@ -50,11 +51,8 @@ function App(): JSX.Element {
       <AppHeader/>
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: Colors.white,
-          }}>
+        style={styles.scrollView}>
+        <View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -62,11 +60,12 @@ function App(): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-  header: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-      fontSize: 24,
-      fontWeight: '600'
+  appHeader: {
+      flex:1,
+      backgroundColor: '#77b690'
+  },
+  scrollView: {
+      backgroundColor: 'white'
   },
 });
 
