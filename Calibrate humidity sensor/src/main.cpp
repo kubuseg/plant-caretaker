@@ -3,17 +3,16 @@
 #include <numeric>
 
 //Sensor 1
-//Dry calibration value: 495
-//Wet calibration value: 248
+// Dry calibration value: 2633
+// Wet calibration value: 917
 //Sensor 2
-//Dry calibration value: 461
-//Wet calibration value: 216
+// Dry calibration value: 2654
+// Wet calibration value: 964
 //Sensor 3
-//Dry calibration value: 463
-//Wet calibration value: 209
+// Dry calibration value: 2657
+// Wet calibration value: 909
 
-constexpr int humiditySensorVcc = 15;
-constexpr int humiditySensorInput = 2;
+constexpr int humiditySensorInput = 36;
 
 enum Calibration {
   Dry,
@@ -29,8 +28,6 @@ void setup() {
   //set the resolution to 12 bits (0-4096)
   analogReadResolution(12);
 
-  pinMode(humiditySensorVcc, OUTPUT);
-  digitalWrite(humiditySensorVcc, HIGH);
   pinMode(humiditySensorInput, INPUT);
 
   calibration = Dry;
