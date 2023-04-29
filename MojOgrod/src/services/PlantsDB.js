@@ -13,18 +13,18 @@ class PlantsDB {
     this.database = database;
   }
 
-  async getPlants() {
-    const { resources: myPlants } = await this.database.container("Plants")
+  async getPlantsDescription() {
+    const { resources: plants } = await this.database.container("Plants")
       .items.query('SELECT * FROM c')
       .fetchAll();
-    return myPlants;
+    return plants;
   }
 
   async getMeasurements() {
-    const { resources: myPlants } = await this.database.container("Measurements")
+    const { resources: measurements } = await this.database.container("Measurements")
       .items.query('SELECT * FROM c')
       .fetchAll();
-    return myPlants;
+    return measurements;
   }
 }
 

@@ -5,10 +5,10 @@ test('Initialize CosmosDB', () => {
   db.initialize();
 });
 
-test('Test getPlants', async () => {
+test('Test getPlantsDescription', async () => {
   const db = new PlantsDB();
   await db.initialize();
-  const plants = await db.getPlants();
+  const plants = await db.getPlantsDescription();
   let id = 0;
 
   plants.forEach(plant => {
