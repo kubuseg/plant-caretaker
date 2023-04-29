@@ -19,6 +19,13 @@ class PlantsDB {
       .fetchAll();
     return myPlants;
   }
+
+  async getMeasurements() {
+    const { resources: myPlants } = await this.database.container("Measurements")
+      .items.query('SELECT * FROM c')
+      .fetchAll();
+    return myPlants;
+  }
 }
 
 module.exports = PlantsDB;
