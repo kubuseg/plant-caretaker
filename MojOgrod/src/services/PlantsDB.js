@@ -6,18 +6,15 @@ class PlantsDB {
     const key = 'x7RlJmLiCD1BMQbCVNpc1Sqhc5LBOlU3q0BQr4DMwwT7GbMPksT0jcrvR4Ywfu55fXT3eZHWh0YxACDbJ01lhw==';
     this.client = new CosmosClient({ endpoint, key });
     this.database = null;
-    this.plantsContainer = null;
   }
 
   async initialize() {
-    const { database } = await this.client.databases.createIfNotExists({ id: "plantsDB" });
-    const { container } = await database.containers.createIfNotExists({ id: "Plants" });
+    const database = await this.client.database("plantsDB");
     this.database = database;
-    this.plantsContainer = container;
   }
 
   async getPlants() {
-    const { resources: myPlants } = await this.plantsContainer
+    const { resources: myPlants } = await this.database.container("Plants")
       .items.query('SELECT * FROM c')
       .fetchAll();
     return myPlants;
