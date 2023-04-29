@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Text,
   View,
+  Dimensions
 } from 'react-native';
 
 import {
@@ -29,8 +30,8 @@ type SectionProps = PropsWithChildren<{
 
 const AppHeader = () => {
   return (
-    <View style={styles.appHeader}>
-      <Text style={{ textAlign: 'center' }}>Mój Ogród</Text>
+    <View style={elementsStyles.appHeader}>
+      <Text style={textsStyles.headerTitle}>Mój Ogród</Text>
     </View>
   );
 };
@@ -51,7 +52,7 @@ function App(): JSX.Element {
       <AppHeader />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={styles.scrollView}>
+        style={elementsStyles.scrollView}>
         <View>
         </View>
       </ScrollView>
@@ -59,13 +60,27 @@ function App(): JSX.Element {
   );
 }
 
-const styles = StyleSheet.create({
+const screenHeight = Dimensions.get('screen').height;
+const headerHeight = screenHeight * 0.17
+
+const elementsStyles = StyleSheet.create({
   appHeader: {
-    flex: 1,
-    backgroundColor: '#77b690'
+    backgroundColor: '#77b690',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: headerHeight,
   },
   scrollView: {
     backgroundColor: 'white'
+  },
+});
+
+const textsStyles = StyleSheet.create({
+  headerTitle: {
+    textAlign: 'center',
+    fontFamily: 'NewTitleRoman',
+    fontSize: 24,
+    color: '#fff'
   },
 });
 
