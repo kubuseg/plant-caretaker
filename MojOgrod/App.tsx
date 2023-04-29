@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import type { PropsWithChildren } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -38,7 +38,7 @@ const AppHeader = () => {
 function App(): JSX.Element {
 
   const backgroundStyle = {
-    flex:1,
+    flex: 1,
     backgroundColor: Colors.lighter,
   };
 
@@ -48,7 +48,7 @@ function App(): JSX.Element {
         barStyle={'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <AppHeader/>
+      <AppHeader />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
@@ -61,11 +61,11 @@ function App(): JSX.Element {
 
 const styles = StyleSheet.create({
   appHeader: {
-      flex:1,
-      backgroundColor: '#77b690'
+    flex: 1,
+    backgroundColor: '#77b690'
   },
   scrollView: {
-      backgroundColor: 'white'
+    backgroundColor: 'white'
   },
 });
 
