@@ -1,5 +1,5 @@
-import CosmosDB from '../src/services/CosmosDB.js';
+import PlantsDB from '../src/services/CosmosDB.js';
 
 test('Create CosmosDB', () => {
-  const db = new CosmosDB();
+  const db = new PlantsDB();
 });

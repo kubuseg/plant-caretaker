@@ -1,6 +1,6 @@
 const { CosmosClient } = require("@azure/cosmos");
 
-class CosmosDB {
+class PlantsDB {
   constructor() {
     const endpoint = 'https://plants-db.documents.azure.com:443/';
     const key = 'x7RlJmLiCD1BMQbCVNpc1Sqhc5LBOlU3q0BQr4DMwwT7GbMPksT0jcrvR4Ywfu55fXT3eZHWh0YxACDbJ01lhw==';
@@ -17,4 +17,4 @@ class CosmosDB {
   }
 }
 
-module.exports = CosmosDB;
+module.exports = PlantsDB;
