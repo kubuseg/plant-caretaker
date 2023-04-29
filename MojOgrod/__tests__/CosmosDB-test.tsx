@@ -1,5 +1,17 @@
-import PlantsDB from '../src/services/CosmosDB.js';
+import PlantsDB from '../src/services/PlantsDB.js';
 
-test('Create CosmosDB', () => {
+test('Initialize CosmosDB', () => {
   const db = new PlantsDB();
+  db.initialize();
+});
+
+test('Create CosmosDB', async () => {
+  const db = new PlantsDB();
+  await db.initialize();
+  const plants = await db.getPlants();
+  let id = 0;
+  plants.forEach(plant => {
+    id++;
+    expect(plant.id).toBe(id.toString());
+  });
 });

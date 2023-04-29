@@ -15,6 +15,13 @@ class PlantsDB {
     this.database = database;
     this.plantsContainer = container;
   }
+
+  async getPlants() {
+    const { resources: myPlants } = await this.plantsContainer
+      .items.query('SELECT * FROM c')
+      .fetchAll();
+    return myPlants;
+  }
 }
 
 module.exports = PlantsDB;
