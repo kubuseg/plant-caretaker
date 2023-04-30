@@ -31,7 +31,9 @@ const AppFooter = (props: AppFooterProps) => {
   );
 };
 
-const headerHeight = Dimensions.get('screen').height * 0.17;
+const screenHeight = Dimensions.get('screen').height;
+const buttonScrRatio = 0.1;
+const footerScrRatio = 0.17;
 
 const styles = StyleSheet.create({
   appFooter: {
@@ -39,11 +41,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#77b690',
     alignItems: 'center',
     justifyContent: 'space-around',
-    height: headerHeight,
+    height: screenHeight * footerScrRatio,
   },
   footerButton: {
-    width: '100%',
-    height: '100%',
+    width: screenHeight * buttonScrRatio,
+    height: screenHeight * buttonScrRatio,
     marginHorizontal: 10,
     resizeMode: 'contain',
   },
