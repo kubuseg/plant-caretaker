@@ -1,15 +1,14 @@
 import React from 'react';
 import type { PropsWithChildren } from 'react';
+import AppFooter from './src/components/AppFooter'
+import AppHeader from './src/components/AppHeader'
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   View,
   Dimensions,
-  TouchableOpacity,
-  Image,
 } from 'react-native';
 
 import {
@@ -19,42 +18,6 @@ import {
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
-
-const AppHeader = () => {
-  return (
-    <View style={elementsStyles.appHeader}>
-      <Text style={textsStyles.headerTitle}>Mój Ogród</Text>
-    </View>
-  );
-};
-
-const AppFooter = () => {
-  return (
-    <View style={elementsStyles.appFooter}>
-      <TouchableOpacity>
-        <Image
-          source={require('./assets/icon.png')}
-          style={elementsStyles.footerButton}
-          resizeMode='contain'
-        />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image
-          source={require('./assets/icon.png')}
-          style={elementsStyles.footerButton}
-          resizeMode='contain'
-        />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Image
-          source={require('./assets/icon.png')}
-          style={elementsStyles.footerButton}
-          resizeMode='contain'
-        />
-      </TouchableOpacity>
-    </View>
-  );
-};
 
 function App(): JSX.Element {
 
@@ -72,7 +35,7 @@ function App(): JSX.Element {
       <AppHeader />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
-        style={elementsStyles.scrollView}>
+        style={styles.scrollView}>
         <View>
         </View>
       </ScrollView>
@@ -84,37 +47,9 @@ function App(): JSX.Element {
 const screenHeight = Dimensions.get('screen').height;
 const headerHeight = screenHeight * 0.17
 
-const elementsStyles = StyleSheet.create({
-  appHeader: {
-    backgroundColor: '#77b690',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: headerHeight,
-  },
+const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: 'white'
-  },
-  appFooter: {
-    flexDirection: 'row',
-    backgroundColor: '#77b690',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    height: headerHeight,
-  },
-  footerButton: {
-    width: "100%",
-    height: "100%",
-    marginHorizontal: 10,
-    resizeMode: 'contain',
-  },
-});
-
-const textsStyles = StyleSheet.create({
-  headerTitle: {
-    textAlign: 'center',
-    fontFamily: 'NewTitleRoman',
-    fontSize: 24,
-    color: 'white'
   },
 });
 
