@@ -1,4 +1,6 @@
 import React from 'react';
+import AppFooter from '../components/AppFooter'
+import AppHeader from '../components/AppHeader'
 import type { PropsWithChildren } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import {
@@ -9,6 +11,7 @@ import {
     Text,
     Image,
     StyleSheet,
+    SafeAreaView
 } from 'react-native';
 import plantTypes from '../mocks/plantTypes';
 
@@ -27,32 +30,36 @@ function HomeScreen(): JSX.Element {
     //const navigation = useNavigation();
 
     return (
-        <ScrollView
-            contentInsetAdjustmentBehavior="automatic"
-            style={styles.scrollView}>
-            <View style={styles.container}>
-                {pTypes.map((plantType) => (
-                    <TouchableOpacity
-                        key={plantType.id}
-                        style={styles.card}
-                        onPress={() => {
-                            // navigation.navigate('PlantDetails', { plantType });
-                        }}
-                    >
-                        <View style={styles.cardInner}>
-                            <Image style={styles.icon} source={plantType.icon} />
-                            <Text style={styles.title}>{plantType.name}</Text>
-                            <View style={styles.arrowContainer}>
-                                <Image
-                                    style={styles.icon}
-                                    source={require('../../assets/icon.png')}
-                                />
+        <SafeAreaView style={{ flex: 1 }}>
+            <AppHeader />
+            <ScrollView
+                contentInsetAdjustmentBehavior="automatic"
+                style={styles.scrollView}>
+                <View style={styles.container}>
+                    {pTypes.map((plantType) => (
+                        <TouchableOpacity
+                            key={plantType.id}
+                            style={styles.card}
+                            onPress={() => {
+                                // navigation.navigate('PlantDetails', { plantType });
+                            }}
+                        >
+                            <View style={styles.cardInner}>
+                                <Image style={styles.icon} source={plantType.icon} />
+                                <Text style={styles.title}>{plantType.name}</Text>
+                                <View style={styles.arrowContainer}>
+                                    <Image
+                                        style={styles.icon}
+                                        source={require('../../assets/icon.png')}
+                                    />
+                                </View>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                ))}
-            </View>
-        </ScrollView>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
+            <AppFooter />
+        </SafeAreaView>
     );
 }
 

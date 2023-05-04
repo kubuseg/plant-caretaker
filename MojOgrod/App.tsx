@@ -1,6 +1,4 @@
 import React from 'react';
-import AppFooter from './src/components/AppFooter'
-import AppHeader from './src/components/AppHeader'
 import HomeScreen from './src/screens/HomeScreen'
 import {
   SafeAreaView,
@@ -23,9 +21,7 @@ function App(): JSX.Element {
         barStyle={'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <AppHeader />
       <HomeScreen />
-      <AppFooter />
     </SafeAreaView>
   );
 }
