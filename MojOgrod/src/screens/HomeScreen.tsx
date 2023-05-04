@@ -18,16 +18,10 @@ import plantTypes from '../mocks/plantTypes';
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
 
-type PlantType = {
-    id: number;
-    name: string;
-    icon: any;
-};
-
 const pTypes = plantTypes();
 
 function HomeScreen(): JSX.Element {
-    //const navigation = useNavigation();
+    const navigation = useNavigation();
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -41,7 +35,7 @@ function HomeScreen(): JSX.Element {
                             key={plantType.id}
                             style={styles.card}
                             onPress={() => {
-                                // navigation.navigate('PlantDetails', { plantType });
+                                // navigation.navigate('PlantDetails' as never, { pType: plantType } as never);
                             }}
                         >
                             <View style={styles.cardInner}>

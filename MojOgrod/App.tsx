@@ -1,13 +1,12 @@
 import React from 'react';
-import HomeScreen from './src/screens/HomeScreen'
-import {
-  SafeAreaView,
-  StatusBar,
-} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from './src/screens/HomeScreen';
+import PlantDetails from './src/screens/PlantDetails';
+import { SafeAreaView, StatusBar } from 'react-native';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
+const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const backgroundStyle = {
@@ -16,13 +15,26 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <HomeScreen />
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={backgroundStyle}>
+        <StatusBar
+          barStyle={'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PlantDetails"
+            component={PlantDetails}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 }
 
