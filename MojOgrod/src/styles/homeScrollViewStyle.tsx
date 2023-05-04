@@ -6,7 +6,7 @@ const screenWidth = Dimensions.get('screen').width;
 function style() {
     return StyleSheet.create({
         scrollView: {
-            backgroundColor: 'white'
+            backgroundColor: '#f1eff3'
         },
         container: {
             flexDirection: 'column',
