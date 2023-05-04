@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { View, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 
 const AppFooter = ({ children }: PropsWithChildren) => {
   return (

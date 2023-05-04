@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions } from 'react-native';
 
 const AppHeader = ({ children }: PropsWithChildren) => {
   const headerHeight = Dimensions.get('screen').height * 0.17;
