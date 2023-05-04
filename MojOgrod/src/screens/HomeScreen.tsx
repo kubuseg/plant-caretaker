@@ -35,7 +35,7 @@ function HomeScreen(): JSX.Element {
                             key={plantType.id}
                             style={styles.card}
                             onPress={() => {
-                                // navigation.navigate('PlantDetails' as never, { pType: plantType } as never);
+                                navigation.navigate('PlantDetails' as never, { pType: plantType } as never);
                             }}
                         >
                             <View style={styles.cardInner}>
