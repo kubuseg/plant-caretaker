@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
-type AppHeaderProps = {};
-
-const AppHeader = (props: AppHeaderProps) => {
+const AppHeader = ({ children }: PropsWithChildren) => {
   const headerHeight = Dimensions.get('screen').height * 0.17;
 
   return (
     <View style={[styles.appHeader, { height: headerHeight }]}>
-      <Text style={styles.headerTitle}>Mój Ogród</Text>
+      {children}
     </View>
   );
 };
@@ -18,12 +16,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#77b690',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  headerTitle: {
-    textAlign: 'center',
-    fontFamily: 'NewTitleRoman',
-    fontSize: 24,
-    color: 'white',
   },
 });
 
