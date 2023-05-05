@@ -5,22 +5,38 @@ import {
     Text,
     Image,
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import PlantsDB from '../services/PlantsDB';
 
 import style from '../styles/homeScrollViewStyle'
-import plantTypes from '../mocks/plantTypes';
-const pTypes = plantTypes();
 
 const styles = style();
 
-function PlantTypesScrollView(): JSX.Element {
+const PlantTypesScrollView = () => {
+    //  const db = new PlantsDB(); //error here
+    // const [plantTypes, setPlantTypes] = useState([]);
+
+    // useEffect(() => {
+    //     async function getPlantTypes() {
+    //         try {
+    //             //await db.initialize();
+    //             const types = await db.getPlantsDescription();
+    //             setPlantTypes(types as never);
+    //         } catch (error) {
+    //             console.log("Error while getting plant types: ", error);
+    //         }
+    //     }
+    //     getPlantTypes();
+    // }, []);
+
     const navigation = useNavigation();
     return (
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
-            <View style={styles.container}>
-                {pTypes.map((plantType) => (
+            {/* <View style={styles.container}>
+                {plantTypes.map((plantType: any) => ( // Dodano typ `any` dla `plantType`
                     <TouchableOpacity
                         key={plantType.id}
                         style={styles.card}
@@ -40,7 +56,7 @@ function PlantTypesScrollView(): JSX.Element {
                         </View>
                     </TouchableOpacity>
                 ))}
-            </View>
+            </View> */}
         </ScrollView>
     )
 }

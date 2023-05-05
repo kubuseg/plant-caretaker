@@ -4,8 +4,8 @@ type PlantType = {
     icon: any;
 };
 
-function plantTypes(): PlantType[] {
-    const plantTypes: PlantType[] = [
+function userPlants(): PlantType[] {
+    const userPlants: PlantType[] = [
         {
             id: 1,
             name: 'Kaktus1',
@@ -33,7 +33,7 @@ function plantTypes(): PlantType[] {
         },
     ];
 
-    return plantTypes;
+    return userPlants;
 }
 
-export default plantTypes;
+export default userPlants;
