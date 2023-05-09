@@ -5,12 +5,7 @@ class PlantsDB {
     const endpoint = 'https://plants-db.documents.azure.com:443/';
     const key = 'x7RlJmLiCD1BMQbCVNpc1Sqhc5LBOlU3q0BQr4DMwwT7GbMPksT0jcrvR4Ywfu55fXT3eZHWh0YxACDbJ01lhw==';
     this.client = new CosmosClient({ endpoint, key });
-    this.database = null;
-  }
-
-  async initialize() {
-    const database = await this.client.database("plantsDB");
-    this.database = database;
+    this.database = this.client.database("plantsDB");;
   }
 
   async getPlantsDescription() {
