@@ -14,14 +14,13 @@ import style from '../styles/homeScrollViewStyle'
 const styles = style();
 
 const PlantTypesScrollView = () => {
-    //  const db = new PlantsDB(); //error here
+    //  const db = new PlantsDB();
     // const [plantTypes, setPlantTypes] = useState([]);
 
     // useEffect(() => {
     //     async function getPlantTypes() {
     //         try {
-    //             //await db.initialize();
-    //             const types = await db.getPlantsDescription();
+    //             const types = await db.getPlantsDescription(); //error here
     //             setPlantTypes(types as never);
     //         } catch (error) {
     //             console.log("Error while getting plant types: ", error);
@@ -36,7 +35,7 @@ const PlantTypesScrollView = () => {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             {/* <View style={styles.container}>
-                {plantTypes.map((plantType: any) => ( // Dodano typ `any` dla `plantType`
+                {plantTypes.map((plantType: any) => (
                     <TouchableOpacity
                         key={plantType.id}
                         style={styles.card}

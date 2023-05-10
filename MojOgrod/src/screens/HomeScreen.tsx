@@ -1,3 +1,4 @@
+import 'react-native-get-random-values';
 import React from 'react';
 import AppFooter from '../components/AppFooter'
 import AppHeader from '../components/AppHeader'
