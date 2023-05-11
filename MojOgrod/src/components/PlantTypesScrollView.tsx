@@ -10,9 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import PlantsDB from '../services/PlantsDB';
 import plantTypes, { PlantType } from '../mocks/plantTypes';
 
-import style from '../styles/homeScrollViewStyle'
-
-const styles = style();
+import homeScrollViewStyles from '../styles/homeScrollViewStyle'
 
 const PlantTypesScrollView = () => {
     //  const db = new PlantsDB();
@@ -31,6 +29,7 @@ const PlantTypesScrollView = () => {
     // }, []);
 
     const pTypes = plantTypes(); // use mock for platTypes instead of items from db
+    const styles = homeScrollViewStyles;
 
     const navigation = useNavigation();
     return (

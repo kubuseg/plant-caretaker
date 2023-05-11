@@ -7,11 +7,11 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import style from '../styles/homeScrollViewStyle'
+import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import userPlants from '../mocks/userPlants';
 const plants = userPlants();
 
-const styles = style();
+const styles = homeScrollViewStyles;
 
 function UserPlantsScrollView(): JSX.Element {
     const navigation = useNavigation();
