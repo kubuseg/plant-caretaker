@@ -1,8 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import appColors from './appColors';
-
-const screenHeight = Dimensions.get('screen').height;
-const screenWidth = Dimensions.get('screen').width;
+import sizes from './sizes';
 
 function style() {
     return StyleSheet.create({
@@ -11,14 +9,14 @@ function style() {
         },
         container: {
             flexDirection: 'column',
-            marginVertical: screenHeight * 0.025,
+            marginVertical: sizes.screenHeight * 0.025,
             alignItems: 'center'
         },
         card: {
             marginHorizontal: 10,
-            marginBottom: screenHeight * 0.025,
-            width: screenWidth * 0.93,
-            height: screenHeight * 0.1,
+            marginBottom: sizes.screenHeight * 0.025,
+            width: sizes.screenWidth * 0.93,
+            height: sizes.screenHeight * 0.1,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'flex-start',
@@ -30,8 +28,8 @@ function style() {
             alignItems: 'center',
         },
         icon: {
-            width: screenHeight * 0.1,
-            height: screenHeight * 0.1,
+            width: sizes.screenHeight * 0.1,
+            height: sizes.screenHeight * 0.1,
         },
         title: {
             fontSize: 16,

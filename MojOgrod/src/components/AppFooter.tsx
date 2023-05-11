@@ -1,6 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import appColors from '../styles/appColors';
+import sizes from '../styles/sizes';
 
 const AppFooter = ({ children }: PropsWithChildren) => {
   return (
@@ -10,16 +11,13 @@ const AppFooter = ({ children }: PropsWithChildren) => {
   );
 };
 
-const screenHeight = Dimensions.get('screen').height;
-const footerScrRatio = 0.17;
-
 const styles = StyleSheet.create({
   appFooter: {
     flexDirection: 'row',
     backgroundColor: appColors.turquoise,
     alignItems: 'center',
     justifyContent: 'space-around',
-    height: screenHeight * footerScrRatio,
+    height: sizes.footerHeight,
   },
 });
 
