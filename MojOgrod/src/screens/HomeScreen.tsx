@@ -19,7 +19,7 @@ function HomeScreen({ route }): JSX.Element {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <AppHeader children={headerContents} />
-            <UserPlantsScrollView />{/* error with <PlantTypesScrollView /> */}
+            <PlantTypesScrollView />
             <AppFooter children={footerContents} />
         </SafeAreaView>
     );

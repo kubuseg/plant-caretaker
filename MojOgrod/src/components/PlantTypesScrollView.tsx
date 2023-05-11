@@ -8,6 +8,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import PlantsDB from '../services/PlantsDB';
+import plantTypes, { PlantType } from '../mocks/plantTypes';
 
 import style from '../styles/homeScrollViewStyle'
 
@@ -29,13 +30,15 @@ const PlantTypesScrollView = () => {
     //     getPlantTypes();
     // }, []);
 
+    const pTypes = plantTypes(); // use mock for platTypes instead of items from db
+
     const navigation = useNavigation();
     return (
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
-            {/* <View style={styles.container}>
-                {plantTypes.map((plantType: any) => (
+            <View style={styles.container}>
+                {pTypes.map((plantType: any) => (
                     <TouchableOpacity
                         key={plantType.id}
                         style={styles.card}
@@ -44,7 +47,7 @@ const PlantTypesScrollView = () => {
                         }}
                     >
                         <View style={styles.cardInner}>
-                            <Image style={styles.icon} source={plantType.icon} />
+                            <Image style={styles.icon} source={require('../../assets/icon.png')} />
                             <Text style={styles.title}>{plantType.name}</Text>
                             <View style={styles.arrowContainer}>
                                 <Image
@@ -55,7 +58,7 @@ const PlantTypesScrollView = () => {
                         </View>
                     </TouchableOpacity>
                 ))}
-            </View> */}
+            </View>
         </ScrollView>
     )
 }
