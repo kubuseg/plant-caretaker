@@ -21,7 +21,7 @@ function App(): JSX.Element {
           barStyle={'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ animation: 'fade' }}>
           <Stack.Screen
             name="Home"
             component={HomeScreen}
