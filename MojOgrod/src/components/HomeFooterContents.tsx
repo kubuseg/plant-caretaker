@@ -1,6 +1,6 @@
 import { StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 
-function HomeFooter(): JSX.Element {
+function HomeFooterContents(): JSX.Element {
     return (
         < View style={{ flexDirection: 'row' }}>
             <TouchableOpacity>
@@ -40,4 +40,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeFooter;
+export default HomeFooterContents;
