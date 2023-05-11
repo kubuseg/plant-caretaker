@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import appColors from './appColors';
 
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
@@ -6,7 +7,7 @@ const screenWidth = Dimensions.get('screen').width;
 function style() {
     return StyleSheet.create({
         scrollView: {
-            backgroundColor: '#f1eff3'
+            backgroundColor: appColors.darkerWhite
         },
         container: {
             flexDirection: 'column',

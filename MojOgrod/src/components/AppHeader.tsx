@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
+import appColors from '../styles/appColors';
 
 const AppHeader = ({ children }: PropsWithChildren) => {
   const headerHeight = Dimensions.get('screen').height * 0.17;
@@ -13,7 +14,7 @@ const AppHeader = ({ children }: PropsWithChildren) => {
 
 const styles = StyleSheet.create({
   appHeader: {
-    backgroundColor: '#77b690',
+    backgroundColor: appColors.turquoise,
     alignItems: 'center',
     justifyContent: 'center',
   },
