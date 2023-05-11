@@ -1,13 +1,17 @@
 import React, { PropsWithChildren } from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import appColors from '../styles/appColors';
 
-const AppHeader = ({ children }: PropsWithChildren) => {
+type AppHeaderProps = {
+  children: string;
+};
+
+const AppHeader = ({ children }: PropsWithChildren<AppHeaderProps>) => {
   const headerHeight = Dimensions.get('screen').height * 0.17;
 
   return (
     <View style={[styles.appHeader, { height: headerHeight }]}>
-      {children}
+      <Text style={styles.headerTitle}>{children}</Text>
     </View>
   );
 };
@@ -17,6 +21,12 @@ const styles = StyleSheet.create({
     backgroundColor: appColors.turquoise,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  headerTitle: {
+    textAlign: 'center',
+    fontFamily: 'NewTitleRoman',
+    fontSize: 24,
+    color: 'white',
   },
 });
 

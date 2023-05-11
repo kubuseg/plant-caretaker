@@ -9,30 +9,17 @@ import { SafeAreaView, StyleSheet, View, Text } from 'react-native';
 
 
 function HomeScreen({ route }): JSX.Element {
-    const headerContents = (
-        <View>
-            <Text style={styles.headerTitle}>Mój Ogród</Text>
-        </View>);
 
     const footerContents = HomeFooterContents();
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <AppHeader children={headerContents} />
+            <AppHeader>Mój Ogród</AppHeader>
             <PlantTypesScrollView />
             <AppFooter children={footerContents} />
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    headerTitle: {
-        textAlign: 'center',
-        fontFamily: 'NewTitleRoman',
-        fontSize: 24,
-        color: 'white',
-    },
-});
 
 
 export default HomeScreen;
