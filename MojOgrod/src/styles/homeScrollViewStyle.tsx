@@ -8,7 +8,7 @@ const homeScrollViewStyles = StyleSheet.create({
     },
     container: {
         flexDirection: 'column',
-        marginVertical: sizes.screenHeight * 0.025,
+        marginTop: sizes.mainViewMarginTop,
         alignItems: 'center'
     },
     card: {
