@@ -31,19 +31,22 @@ function HomeScreen({ route }): JSX.Element {
     }, []);
 
     let list;
-
+    let headerText = "";
     if (SVType == homeSVTypes.plantTypes) {
         list = <PlantTypesScrollView />;
+        headerText = "BAZA WIEDZY";
     }
     else if (SVType == homeSVTypes.userPlants) {
         list = <UserPlantsScrollView />;
+        headerText = "MÓJ OGRÓD";
     }
 
     const footerContents = HomeFooterContents();
 
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <AppHeader>Mój Ogród</AppHeader>
+            <AppHeader>{headerText}</AppHeader>
             {list}
             <AppFooter children={footerContents} />
         </SafeAreaView>

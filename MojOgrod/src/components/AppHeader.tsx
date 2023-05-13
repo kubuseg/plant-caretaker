@@ -16,7 +16,7 @@ const AppHeader = ({ children }: PropsWithChildren<AppHeaderProps>) => {
   );
 };
 
-let localStyles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   appHeader: {
     backgroundColor: appColors.turquoise,
     alignItems: 'center',
