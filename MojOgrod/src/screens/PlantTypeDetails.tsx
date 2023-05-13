@@ -18,6 +18,7 @@ function PlantDetails({ route }): JSX.Element {
                 <View style={localStyles.header}>
                     {/*  */}
                 </View>
+
                 <ScrollView
                     contentInsetAdjustmentBehavior="automatic"
                     style={localStyles.scrollView}>

@@ -30,6 +30,7 @@ const backButtonStyles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white', // Biały kolor tła
         borderRadius: 20,
+        flexDirection: 'row',
     },
     buttonText: {
         flex: 1,
