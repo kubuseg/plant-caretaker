@@ -16,7 +16,7 @@ const sizes = {
     homeFooterButtonW: screenHeight * 0.1,
     homeFooterButtonH: screenHeight * 0.1,
 
-    mainViewMarginTop: screenHeight * 0.025,
+    mainViewMargin: screenHeight * 0.0125,
 };
 
 export default sizes;

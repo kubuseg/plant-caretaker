@@ -8,12 +8,12 @@ const homeScrollViewStyles = StyleSheet.create({
     },
     container: {
         flexDirection: 'column',
-        marginTop: sizes.mainViewMarginTop,
+        marginVertical: sizes.mainViewMargin,
         alignItems: 'center'
     },
     card: {
         marginHorizontal: 10,
-        marginBottom: sizes.screenHeight * 0.025,
+        marginVertical: sizes.screenHeight * 0.0125,
         width: sizes.screenWidth * 0.93,
         height: sizes.screenHeight * 0.1,
         flexDirection: 'row',
@@ -34,6 +34,7 @@ const homeScrollViewStyles = StyleSheet.create({
         fontSize: 16,
         marginLeft: 10,
         fontWeight: 'bold',
+        color: 'black',
     },
     arrowContainer: {
         flex: 1,
