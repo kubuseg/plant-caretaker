@@ -10,13 +10,13 @@ type AppHeaderProps = {
 const AppHeader = ({ children }: PropsWithChildren<AppHeaderProps>) => {
 
   return (
-    <View style={styles.appHeader}>
-      <Text style={styles.headerTitle}>{children}</Text>
+    <View style={localStyles.appHeader}>
+      <Text style={localStyles.headerTitle}>{children}</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+let localStyles = StyleSheet.create({
   appHeader: {
     backgroundColor: appColors.turquoise,
     alignItems: 'center',

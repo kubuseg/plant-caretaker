@@ -13,21 +13,21 @@ function HomeFooterContents(): JSX.Element {
             <TouchableOpacity onPress={() => selectList(homeSVTypes.plantTypes)}>
                 <Image
                     source={require('../../assets/icon.png')}
-                    style={styles.footerButton}
+                    style={localStyles.footerButton}
                     resizeMode='contain'
                 />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => selectList(homeSVTypes.userPlants)}>
                 <Image
                     source={require('../../assets/icon.png')}
-                    style={styles.footerButton}
+                    style={localStyles.footerButton}
                     resizeMode='contain'
                 />
             </TouchableOpacity>
             <TouchableOpacity>
                 <Image
                     source={require('../../assets/icon.png')}
-                    style={styles.footerButton}
+                    style={localStyles.footerButton}
                     resizeMode='contain'
                 />
             </TouchableOpacity>
@@ -35,7 +35,7 @@ function HomeFooterContents(): JSX.Element {
 }
 
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
     footerButton: {
         width: sizes.homeFooterButtonW,
         height: sizes.homeFooterButtonH,

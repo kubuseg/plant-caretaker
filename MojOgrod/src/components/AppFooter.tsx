@@ -5,13 +5,13 @@ import sizes from '../styles/sizes';
 
 const AppFooter = ({ children }: PropsWithChildren) => {
   return (
-    <View style={styles.appFooter}>
+    <View style={localStyles.appFooter}>
       {children}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   appFooter: {
     flexDirection: 'row',
     backgroundColor: appColors.turquoise,
