@@ -1,17 +1,23 @@
 import { StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
 import sizes from '../styles/sizes';
+import eventEmitter from '../services/eventEmitter';
+import { homeSVTypes } from '../screens/HomeScreen';
+
+const selectList = (selectedList: number) => {
+    eventEmitter.emit('HomeScrollViewType', selectedList)
+}
 
 function HomeFooterContents(): JSX.Element {
     return (
         < View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => selectList(homeSVTypes.plantTypes)}>
                 <Image
                     source={require('../../assets/icon.png')}
                     style={styles.footerButton}
                     resizeMode='contain'
                 />
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => selectList(homeSVTypes.userPlants)}>
                 <Image
                     source={require('../../assets/icon.png')}
                     style={styles.footerButton}
