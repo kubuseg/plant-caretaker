@@ -12,7 +12,6 @@ const homeScrollViewStyles = StyleSheet.create({
         alignItems: 'center'
     },
     card: {
-        marginHorizontal: 10,
         marginVertical: sizes.mainViewMargin,
         width: sizes.SVelementWidth,
         height: sizes.SVelementHeight,
@@ -20,7 +19,7 @@ const homeScrollViewStyles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
-        elevation: 5,
+        elevation: 4,
     },
     cardInner: {
         flexDirection: 'row',
