@@ -7,16 +7,18 @@ const sizes = {
     screenHeight: screenHeight,
     screenWidth: screenWidth,
 
-    footerHeight: screenHeight * 0.13,
-    headerHeight: screenHeight * 0.13,
+    footerHeight: '14%',
+    headerHeight: '14%',
 
-    backButtonWidth: screenWidth * 0.5,
-    backButtonHeight: screenHeight * 0.06,
+    backButtonWidth: '50%',
+    backButtonHeight: '50%',
 
     homeFooterButtonW: screenHeight * 0.1,
     homeFooterButtonH: screenHeight * 0.1,
 
     mainViewMargin: screenHeight * 0.0125,
+    SVelementWidth: screenWidth * 0.93,
+    SVelementHeight: screenHeight * 0.1,
 };
 
 export default sizes;

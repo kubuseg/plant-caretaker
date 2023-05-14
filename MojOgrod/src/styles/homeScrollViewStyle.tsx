@@ -13,9 +13,9 @@ const homeScrollViewStyles = StyleSheet.create({
     },
     card: {
         marginHorizontal: 10,
-        marginVertical: sizes.screenHeight * 0.0125,
-        width: sizes.screenWidth * 0.93,
-        height: sizes.screenHeight * 0.1,
+        marginVertical: sizes.mainViewMargin,
+        width: sizes.SVelementWidth,
+        height: sizes.SVelementHeight,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -27,8 +27,8 @@ const homeScrollViewStyles = StyleSheet.create({
         alignItems: 'center',
     },
     icon: {
-        width: sizes.screenHeight * 0.1,
-        height: sizes.screenHeight * 0.1,
+        width: sizes.SVelementHeight,
+        height: sizes.SVelementHeight,
     },
     title: {
         fontSize: 16,
