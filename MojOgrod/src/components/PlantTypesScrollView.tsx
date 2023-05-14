@@ -42,7 +42,7 @@ const PlantTypesScrollView = () => {
                         key={plantType.id}
                         style={styles.card}
                         onPress={() => {
-                            //navigation.navigate('PlantTypeDetails' as never, { pType: plantType } as never);
+                            navigation.navigate('PlantTypeDetails' as never, { pType: plantType } as never);
                         }}
                     >
                         <View style={styles.cardInner}>
