@@ -67,7 +67,7 @@ let localStyles = StyleSheet.create({
     footerButton: {
         width: sizes.homeFooterButtonW,
         height: sizes.homeFooterButtonH,
-        marginHorizontal: 10,
+        marginHorizontal: sizes.homeFooterButtonHorizontalMargin,
         resizeMode: 'contain',
     },
 });

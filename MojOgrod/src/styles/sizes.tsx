@@ -15,6 +15,7 @@ const sizes = {
 
     homeFooterButtonW: screenHeight * 0.1,
     homeFooterButtonH: screenHeight * 0.1,
+    homeFooterButtonHorizontalMargin: screenWidth * 0.025,
 
     mainViewMargin: screenHeight * 0.0125,
     SVelementWidth: screenWidth * 0.93,
