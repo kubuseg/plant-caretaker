@@ -13,7 +13,7 @@ const homeScrollViewStyles = StyleSheet.create({
     },
     card: {
         marginVertical: sizes.mainViewMargin,
-        width: sizes.SVelementWidth,
+        width: sizes.mainViewElementWidth,
         height: sizes.SVelementHeight,
         flexDirection: 'row',
         alignItems: 'center',

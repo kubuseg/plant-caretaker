@@ -2,6 +2,7 @@ import { Dimensions } from 'react-native';
 
 const screenHeight = Dimensions.get('screen').height;
 const screenWidth = Dimensions.get('screen').width;
+const SVelementHeight = screenHeight * 0.11;
 
 const sizes = {
     screenHeight: screenHeight,
@@ -18,8 +19,10 @@ const sizes = {
     homeFooterButtonHorizontalMargin: screenWidth * 0.025,
 
     mainViewMargin: screenHeight * 0.0125,
-    SVelementWidth: '93%',
-    SVelementHeight: screenHeight * 0.1,
+    mainViewElementWidth: '93%',
+
+    SVelementHeight: SVelementHeight,
+    plantHeaderHeight: SVelementHeight,
 };
 
 export default sizes;
