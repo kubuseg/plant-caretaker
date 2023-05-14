@@ -8,7 +8,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import PlantsDB from '../services/PlantsDB';
-import plantTypes, { PlantType } from '../mocks/plantTypes';
+import plantTypes from '../mocks/plantTypes';
 
 import homeScrollViewStyles from '../styles/homeScrollViewStyle'
 
@@ -42,7 +42,7 @@ const PlantTypesScrollView = () => {
                         key={plantType.id}
                         style={styles.card}
                         onPress={() => {
-                            navigation.navigate('PlantTypeDetails' as never, { pType: plantType } as never);
+                            //navigation.navigate('PlantTypeDetails' as never, { pType: plantType } as never);
                         }}
                     >
                         <View style={styles.cardInner}>
