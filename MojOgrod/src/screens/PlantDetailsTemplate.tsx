@@ -50,19 +50,14 @@ const localStyles = StyleSheet.create({
         justifyContent: 'flex-start',
         backgroundColor: 'white',
     },
-    scrollView: {
-        flex: 1,
-        backgroundColor: 'white',
-        marginVertical: sizes.mainViewMargin
-    },
     mainContents: {
         marginVertical: sizes.mainViewMargin,
         width: sizes.mainViewElementWidth,
         height: '75%',
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
+        paddingVertical: '3.5%',
     }
 });
 
