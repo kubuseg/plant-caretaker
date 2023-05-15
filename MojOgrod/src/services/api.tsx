@@ -2,25 +2,23 @@ import axios from 'axios';
 
 axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
 axios.defaults.params = {
-    code: 'hshWx3wyNS3KAVX2CG-m9HQHAYR8QupoBMcvhUTj86zbAzFuT1bcdQ=='
+    code: 'FQJeOsdGEgd9AQJdkVNiV6osFHxV0oBgV5XqiWL_stT_AzFuUwy7eQ=='
 }
 
 export const addPlant = (userId: string, plantId: string) => {
     axios.post(`/plants/${userId}`, {params: {"plantId": plantId}})
     .then( (response) => {
         console.log(response);
-        console.log(response.data);
     })
     .catch( (error) => {
         console.log(error);
     });
 }
 
-export const deletePlant = (userId: string, plantId: string) => {
-    axios.delete(`/plants/${userId}`, {params: {"plantId": plantId}})
+export const deletePlant = (userId: string, plantUUID: string) => {
+    axios.delete(`/plants/${userId}`, {params: {"uuid": plantUUID}})
     .then( (response) => {
         console.log(response);
-        console.log(response.data);
     })
     .catch( (error) => {
         console.log(error);
