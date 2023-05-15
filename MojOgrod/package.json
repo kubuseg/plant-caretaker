@@ -10,7 +10,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@azure/cosmos": "^3.17.3",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "events": "^3.3.0",
