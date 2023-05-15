@@ -7,33 +7,31 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import PlantsDB from '../services/PlantsDB.js';
-import { CosmosClient } from '@azure/cosmos';
 import axios from 'axios';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle'
 
+const userId = "1";
+axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
+axios.defaults.params = {
+    code: 'FQJeOsdGEgd9AQJdkVNiV6osFHxV0oBgV5XqiWL_stT_AzFuUwy7eQ=='
+}
 
 const PlantTypesScrollView = () => {
     const [plantTypes, setPlantTypes] = useState([]);
 
-    axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
-    axios.defaults.params = {
-        code: 'WaiEKsxHpgKVmkYBAS2jhmWoD-L1Sf289qwNmlcwTgViAzFuXSZLVg=='
+    const refreshPlants = async (userId: string) => {
+        axios.get(`/plants/${userId}`)
+        .then( (response) => {
+            setPlantTypes(response.data);
+        })
+        .catch( (error) => {
+            console.error(error);
+        })
     }
+
     useEffect(() => {
-        axios.get('/plants')
-            .then(function (response) {
-                console.log(response);
-                console.log(response.data);
-                setPlantTypes(response.data);
-            })
-            .catch(function (error) {
-                console.log(error);
-            })
-            .finally(function () {
-                // always executed
-            });
-    }, []);
+        refreshPlants(userId);
+      }, []);
     const pTypes = plantTypes; // use mock for platTypes instead of items from db
     const styles = homeScrollViewStyles;
 
