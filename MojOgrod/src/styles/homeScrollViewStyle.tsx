@@ -32,8 +32,8 @@ const homeScrollViewStyles = StyleSheet.create({
     title: {
         fontSize: 16,
         marginLeft: 10,
-        fontWeight: 'bold',
         color: 'black',
+        fontFamily: 'OpenSans-Bold'
     },
     arrowContainer: {
         flex: 1,

@@ -24,9 +24,9 @@ const localStyles = StyleSheet.create({
     height: sizes.headerHeight,
   },
   headerTitle: {
+    fontFamily: "AmaticSC-Bold",
     textAlign: 'center',
-    fontFamily: 'NewTitleRoman',
-    fontSize: 24,
+    fontSize: 40,
     color: 'white',
   },
 });

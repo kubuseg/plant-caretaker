@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/AmaticSC-Bold.ttf",
+      "sha1": "190921abad6b93a0cf51cbb37800fcba37c22dbc"
+    },
+    {
+      "path": "assets/fonts/BukhariScript-Regular.otf",
+      "sha1": "8a8bbbf15950ac837219b9229b223882d2f7f55a"
+    },
+    {
+      "path": "assets/fonts/OpenSans-Bold.ttf",
+      "sha1": "b4dc84e68228806b968ebe82c7c5b5af77a06d89"
+    }
+  ]
+}
