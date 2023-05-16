@@ -7,32 +7,20 @@ import {
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle'
-
-const userId = "1";
-axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
-axios.defaults.params = {
-    code: 'FQJeOsdGEgd9AQJdkVNiV6osFHxV0oBgV5XqiWL_stT_AzFuUwy7eQ=='
-}
+import { getPlantsDescriptions } from '../services/PlantsDBApi';
 
 const PlantTypesScrollView = () => {
-    const [plantTypes, setPlantTypes] = useState([]);
+    const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
-    const refreshPlants = async (userId: string) => {
-        axios.get(`/plants/${userId}`)
-        .then( (response) => {
-            setPlantTypes(response.data);
-        })
-        .catch( (error) => {
-            console.error(error);
-        })
+    const refreshPlants = async () => {
+        const result = await getPlantsDescriptions();
+        setPlantTypes(result);
     }
 
     useEffect(() => {
-        refreshPlants(userId);
-      }, []);
-    const pTypes = plantTypes; // use mock for platTypes instead of items from db
+        refreshPlants();
+    }, []);
     const styles = homeScrollViewStyles;
 
     const navigation = useNavigation();
@@ -41,7 +29,7 @@ const PlantTypesScrollView = () => {
             contentInsetAdjustmentBehavior="automatic"
             style={styles.scrollView}>
             <View style={styles.container}>
-                {pTypes.map((plantType: any) => (
+                {plantTypes.map((plantType: any) => (
                     <TouchableOpacity
                         key={plantType.id}
                         style={styles.card}
