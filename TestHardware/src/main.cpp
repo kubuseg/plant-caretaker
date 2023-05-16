@@ -1,32 +1,47 @@
 #include <Arduino.h>
 
-constexpr int pin1 = 13;
-constexpr int pin2 = 12;
+constexpr int pumpPin = 14;
+constexpr int valvePin1 = 13;
+constexpr int valvePin2 = 12;
+
 
 enum State {
-  Pump,
-  Wait
+  OpenValve1,
+  OpenValve2,
+  CloseValve1,
+  CloseValve2
 };
-State state = Wait;
+State state = OpenValve1;
 
 void setup() {
-  pinMode(pin1, OUTPUT);
-  pinMode(pin2, OUTPUT);
+  pinMode(pumpPin, OUTPUT);
+  pinMode(valvePin1, OUTPUT);
+  pinMode(valvePin2, OUTPUT);
+  digitalWrite(pumpPin, HIGH);
 }
 
 void loop(){
   switch (state) {
-    case Wait:
-    digitalWrite(pin1, LOW);
-    digitalWrite(pin2, LOW);
-    delay(1000);
-    state = Pump;
+    case OpenValve1:
+    digitalWrite(valvePin1, HIGH);
+    digitalWrite(valvePin2, LOW);
+    state = OpenValve2;
     break;
-    case Pump:
-    digitalWrite(pin1, HIGH);
-    digitalWrite(pin2, HIGH);
-    delay(1000);
-    state = Wait;
+    case OpenValve2:
+    digitalWrite(valvePin1, HIGH);
+    digitalWrite(valvePin2, HIGH);
+    state = CloseValve1;
+    break;
+    case CloseValve1:
+    digitalWrite(valvePin1, LOW);
+    digitalWrite(valvePin2, HIGH);
+    state = CloseValve2;
+    break;
+    case CloseValve2:
+    digitalWrite(valvePin1, LOW);
+    digitalWrite(valvePin2, LOW);
+    state = OpenValve1;
     break;
   }
+  delay(5000);
 }
