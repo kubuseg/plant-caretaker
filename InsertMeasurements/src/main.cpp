@@ -3,14 +3,14 @@
 #include <HTTPClient.h>
 #include <vector>
 
-constexpr char ssid[] = "NETWORK_NAME";
-constexpr char password[] = "PASSWORD";
+constexpr char ssid[] = "TP-Link_2908";
+constexpr char password[] = "97571803";
 
 String serverName = "https://plants-function-app.azurewebsites.net/api/InsertMeasurmentsTrigger?code=bJJxu6Op-AXde9VHz23lVGorgXiIPdRS4EIWsLrIOK_YAzFuX0j9TQ==";
 
 unsigned long lastTime = 0;
 //Make measurment every hour
-constexpr unsigned long timerDelay = 60*60*1000;
+constexpr unsigned long timerDelay = 60*1000;
 //VP pin
 constexpr int humiditySensorInput0 = 36;
 //VN pin
@@ -31,11 +31,8 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   analogReadResolution(12);
-
-  //Setup for analog sensor input
-  pinMode(humiditySensorInput0, INPUT_PULLUP);
-  pinMode(humiditySensorInput1, INPUT_PULLUP);
-
+  adcAttachPin(humiditySensorInput0);
+  adcAttachPin(humiditySensorInput1);
   connectWifi();
 }
 
@@ -100,19 +97,19 @@ void loop() {
   humidityArray0[0] = humidity0;
   Serial.printf("Humidity0 = %d\n", average(humidityArray0));
 
-  int analogValue1 = analogRead(humiditySensorInput1);
-  int humidity1 = map(analogValue1, drySensor1, wetSensor1, 0, 100);
-  for (int i=1; i<arraySize; ++i) {
-    humidityArray1[i] = humidityArray1[i-1];
-  }
-  humidityArray1[0] = humidity1;
-  Serial.printf("Humidity1 = %d\n", average(humidityArray1));
+  // int analogValue1 = analogRead(humiditySensorInput1);
+  // int humidity1 = map(analogValue1, drySensor1, wetSensor1, 0, 100);
+  // for (int i=1; i<arraySize; ++i) {
+  //   humidityArray1[i] = humidityArray1[i-1];
+  // }
+  // humidityArray1[0] = humidity1;
+  // Serial.printf("Humidity1 = %d\n", average(humidityArray1));
   
   delay(1000);
   if ((millis() - lastTime) > timerDelay) {
     if(WiFi.status() == WL_CONNECTED) {
       sendToApi(serverName + getQueryString("humidities", 
-        std::vector<String>{String(average(humidityArray0)), String(average(humidityArray1))}));
+        std::vector<String>{String(average(humidityArray0))}));
     }
     else {
       Serial.println("WiFi Disconnected");
