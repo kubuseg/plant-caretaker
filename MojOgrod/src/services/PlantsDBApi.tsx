@@ -17,7 +17,7 @@ export const getPlantsDescriptions = async (): Promise<any> => {
 };
 
 export const addPlant = (userId: string, plantId: string) => {
-    axios.post(`/plants/${userId}`, { params: { "plantId": plantId } })
+    axios.post(`/plants/${userId}`, { "plantId": plantId })
         .then((response) => {
             console.log(response);
         })
@@ -49,7 +49,7 @@ export const getPlantsBySensors = (userId: string): object => {
 }
 
 export const addPlantsBySensors = (userId: string, plantBySensor: object) => {
-    axios.post(`/plantsBySensors/${userId}`, { params: { "plantBySensor": plantBySensor } })
+    axios.post(`/plantsBySensors/${userId}`, { "plantBySensor": plantBySensor })
         .then((response) => {
             console.log(response);
             console.log(response.data);
