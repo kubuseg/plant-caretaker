@@ -40,6 +40,30 @@ export const deleteUserPlants = (userId: string, plantUUID: string) => {
         });
 }
 
+export const getUser = (userId: string) => {
+    return axios.get(`/user/${userId}`);
+}
+
+export const addUser = (username: string, password: string) => {
+    axios.post(`/user`, { username: username, password: password})
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+export const deleteUser = (userId: string) => {
+    axios.delete(`/user/${userId}`)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
 export const getPlantsBySensors = (userId: string): object => {
     let result = {};
     axios.get(`/plantsBySensors/${userId}`)
