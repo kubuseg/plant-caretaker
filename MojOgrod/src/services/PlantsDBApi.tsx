@@ -64,6 +64,10 @@ export const deleteUser = (userId: string) => {
         });
 }
 
+export const getMicrocontroller = (mcId: string) => {
+    return axios.get(`/mc/${mcId}`);
+}
+
 export const getPlantsBySensors = (userId: string): object => {
     let result = {};
     axios.get(`/plantsBySensors/${userId}`)
