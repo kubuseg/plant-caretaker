@@ -68,34 +68,20 @@ export const getMicrocontroller = (mcId: string) => {
     return axios.get(`/mc/${mcId}`);
 }
 
-export const getPlantsBySensors = (userId: string): object => {
-    let result = {};
-    axios.get(`/plantsBySensors/${userId}`)
-        .then((response) => {
-            result = response.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        })
-    return result;
-}
-
-export const addPlantsBySensors = (userId: string, plantBySensor: object) => {
-    axios.post(`/plantsBySensors/${userId}`, { "plantBySensor": plantBySensor })
+export const addPlantToMicrocontroller = (mcId: string, sensorId: string, plantId: string) => {
+    axios.post(`/mc/${mcId}`, {plantId: plantId, sensor: sensorId})
         .then((response) => {
             console.log(response);
-            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
         });
 }
 
-export const deletePlantsBySensors = (userId: string, sensorId: string) => {
-    axios.delete(`/plantsBySensors/${userId}`, { params: { "sensorId": sensorId } })
+export const deletePlantFromMicrocontroller = (mcId: string, sensorId: string) => {
+    axios.delete(`/mc/${mcId}`, { params: { sensor: sensorId } })
         .then((response) => {
             console.log(response);
-            console.log(response.data);
         })
         .catch((error) => {
             console.log(error);
