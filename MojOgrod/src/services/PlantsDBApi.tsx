@@ -40,8 +40,8 @@ export const deleteUserPlants = (userId: string, plantUUID: string) => {
         });
 }
 
-export const getUser = (userId: string) => {
-    return axios.get(`/user/${userId}`);
+export const getUser = (username: string, password: string) => {
+    return axios.get(`/user`, {params: {username: username, password: password}});
 }
 
 export const addUser = (username: string, password: string) => {
