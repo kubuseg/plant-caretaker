@@ -10,11 +10,10 @@ import sizes from "../styles/sizes";
 import PlantDetailsSection from '../components/PlantDetailsSection';
 
 function PlantTypeDetails({ route }): JSX.Element {
-    const pType = route.params.pType;
-    const description = pType.description;
+    const plantDescription = route.params.pType;
 
-    const shortDescriptions: string[] = description.text;
-    const sunlightExposure = description.sunlightExposure;
+    const shortDescriptions: string[] = plantDescription.text;
+    const sunlightExposure = plantDescription.sunlightExposure;
 
     const plantHeaderContents = (
         <View style={styles.cardInner}>
@@ -31,7 +30,7 @@ function PlantTypeDetails({ route }): JSX.Element {
         <PlantDetailsSection title="Nasłonecznienie" items={sunlightExposure} containerColor="yellow" />
     );
 
-    const appHeaderText = "OPIS: " + pType.name;
+    const appHeaderText = "OPIS: " + plantDescription.name;
     return PlantDetailsTemplate({
         appHeaderText,
         plantHeaderContents,

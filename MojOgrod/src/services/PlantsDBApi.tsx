@@ -8,7 +8,7 @@ axios.defaults.params = {
 
 export const getPlantsDescriptions = async (): Promise<any> => {
     try {
-        const response: AxiosResponse<any> = await axios.get(`/plants`);
+        const response: AxiosResponse<any> = await axios.get(`/plantsDescriptions`);
         return response.data;
     } catch (error) {
         console.log(error);
@@ -16,7 +16,11 @@ export const getPlantsDescriptions = async (): Promise<any> => {
     }
 };
 
-export const addPlant = (userId: string, plantId: string) => {
+export const getUserPlants = (userId: string) => {
+    return axios.get(`/plants/${userId}`);
+}
+
+export const addUserPlants = (userId: string, plantId: string) => {
     axios.post(`/plants/${userId}`, { "plantId": plantId })
         .then((response) => {
             console.log(response);
@@ -26,7 +30,7 @@ export const addPlant = (userId: string, plantId: string) => {
         });
 }
 
-export const deletePlant = (userId: string, plantUUID: string) => {
+export const deleteUserPlants = (userId: string, plantUUID: string) => {
     axios.delete(`/plants/${userId}`, { params: { "uuid": plantUUID } })
         .then((response) => {
             console.log(response);
