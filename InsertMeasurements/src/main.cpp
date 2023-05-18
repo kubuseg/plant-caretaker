@@ -10,11 +10,16 @@ String serverName = "https://plants-function-app.azurewebsites.net/api/InsertMea
 
 unsigned long lastTime = 0;
 //Make measurment every hour
-constexpr unsigned long timerDelay = 60*1000;
-//VP pin
-constexpr int humiditySensorInput0 = 36;
-//VN pin
-constexpr int humiditySensorInput1 = 39;
+constexpr unsigned long timerDelay = 60*60*1000;
+
+
+constexpr int sensorsNo = 1, maxSensorsNo = 4;
+constexpr int humiditySensorPin[maxSensorsNo] = {36, 39}; //VP pin, VN pin
+
+constexpr int dryWetConst[maxSensorsNo][2] = {{2643, 879}, {2657, 944}};
+
+constexpr int arraySize = 10;
+int analogValuesArray[maxSensorsNo][arraySize];
 
 void connectWifi() {
   WiFi.begin(ssid, password);
@@ -31,28 +36,18 @@ void connectWifi() {
 void setup() {
   Serial.begin(115200);
   analogReadResolution(12);
-  adcAttachPin(humiditySensorInput0);
-  adcAttachPin(humiditySensorInput1);
+  for (int i=0; i<sensorsNo; ++i)
+    adcAttachPin(humiditySensorPin[i]);
   connectWifi();
 }
 
-constexpr int drySensor0 = 2643;
-constexpr int wetSensor0 = 879;
-
-constexpr int drySensor1 = 2657;
-constexpr int wetSensor1 = 944;
-
-String getQueryString(const char variableName[], String value) {
-  return getQueryString(variableName, {value});
-}
-
-String getQueryString(const char variableName[], std::vector<String> values) {
+String getQueryString(const char variableName[], const int values[]) {
   String queryString = "&" + String(variableName) + "=";
   queryString += "[";
-  for (int i=0; i<values.size()-1; ++i) {
+  for (int i=0; i<sensorsNo-1; ++i) {
     queryString += values[i] + ",";
   }
-  queryString += values[values.size()-1];
+  queryString += values[sensorsNo-1];
   queryString += "]";
   return queryString;
 }
@@ -77,9 +72,6 @@ void sendToApi(String serverPath) {
   http.end();
 }
 
-constexpr int arraySize = 5;
-int humidityArray0[arraySize], humidityArray1[arraySize];
-
 int average(int array[]) {
   int avg = 0;
   for (int i=0; i<arraySize; ++i) {
@@ -88,28 +80,26 @@ int average(int array[]) {
   return avg/arraySize;
 }
 
-void loop() {
-  int analogValue0 = analogRead(humiditySensorInput0);
-  int humidity0 = map(analogValue0, drySensor0, wetSensor0, 0, 100);
-  for (int i=1; i<arraySize; ++i) {
-    humidityArray0[i] = humidityArray0[i-1];
-  }
-  humidityArray0[0] = humidity0;
-  Serial.printf("Humidity0 = %d\n", average(humidityArray0));
+int getHumidty(const int sensor) {
+  int analogValue = analogRead(humiditySensorPin[sensor]);
+  for (int i=arraySize-1; i>0; --i)
+    analogValuesArray[sensor][i] = analogValuesArray[sensor][i-1];
+  analogValuesArray[sensor][0] = analogValue;
+  int humidity = map(average(analogValuesArray[sensor]), dryWetConst[sensor][0], dryWetConst[sensor][1], 0, 100);
+  humidity = min(max(humidity, 0), 100); //Make sure 0<=humidity<=100
+  Serial.printf("Humidity%d = %d\n", sensor, humidity);
+  return humidity;
+}
 
-  // int analogValue1 = analogRead(humiditySensorInput1);
-  // int humidity1 = map(analogValue1, drySensor1, wetSensor1, 0, 100);
-  // for (int i=1; i<arraySize; ++i) {
-  //   humidityArray1[i] = humidityArray1[i-1];
-  // }
-  // humidityArray1[0] = humidity1;
-  // Serial.printf("Humidity1 = %d\n", average(humidityArray1));
-  
-  delay(1000);
+void loop() {
+  int humidity[sensorsNo];
+  for (int i=0; i<sensorsNo; ++i) {
+    humidity[i] = getHumidty(i);
+  }
+
   if ((millis() - lastTime) > timerDelay) {
     if(WiFi.status() == WL_CONNECTED) {
-      sendToApi(serverName + getQueryString("humidities", 
-        std::vector<String>{String(average(humidityArray0))}));
+      sendToApi(serverName + getQueryString("humidities", humidity));
     }
     else {
       Serial.println("WiFi Disconnected");
@@ -117,4 +107,5 @@ void loop() {
     }
     lastTime = millis();
   }
+    delay(1000);
 }
