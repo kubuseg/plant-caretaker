@@ -5,7 +5,7 @@ import appColors from '../styles/appColors';
 
 type SectionProps = {
     title: string;
-    items: any[];
+    items: string[];
     containerColor: string;
 };
 
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     },
     chipContainer: {
         borderRadius: 20,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
+        paddingHorizontal: 13,
+        paddingVertical: 6,
         marginVertical: 5,
         marginRight: 10,
         justifyContent: 'center',
