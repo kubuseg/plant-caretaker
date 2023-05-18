@@ -8,13 +8,13 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle'
-import { getPlantsDescriptions } from '../services/PlantsDBApi';
+import getDescriptions from '../data/plantTypeDescriptions';
 
 const PlantTypesScrollView = () => {
     const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
     const refreshPlants = async () => {
-        const result = await getPlantsDescriptions();
+        const result = await getDescriptions();
         setPlantTypes(result);
     }
 
