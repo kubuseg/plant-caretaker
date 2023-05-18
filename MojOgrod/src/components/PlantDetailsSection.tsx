@@ -10,6 +10,9 @@ type SectionProps = {
 };
 
 const PlantDetailsSection = ({ title, items, containerColor }: SectionProps): JSX.Element => {
+    if (items.length === 0) {
+        return <View />;
+    }
     return (
         <View style={styles.sectionContainer}>
             <Text style={styles.sectionTitle}>{title}</Text>
