@@ -3,6 +3,7 @@ import {
     StyleSheet,
     Text,
     Image,
+    ScrollView
 } from 'react-native';
 import React from 'react';
 import PlantDetailsTemplate from "./PlantDetailsTemplate";
@@ -13,7 +14,11 @@ function PlantTypeDetails({ route }): JSX.Element {
     const plantDescription = route.params.pType;
 
     const shortDescriptions: string[] = plantDescription.text;
-    const sunlightExposure = plantDescription.sunlightExposure;
+    const sunlightExposure: string[] = plantDescription.sunlightExposure;
+    const watering: string[] = plantDescription.watering;
+    const fertilization: string[] = plantDescription.fertilization;
+    const commonIssues: string[] = plantDescription.commonIssues;
+    const growthPeriods: string[] = plantDescription.growthPeriods;
 
     const plantHeaderContents = (
         <View style={styles.cardInner}>
@@ -27,7 +32,13 @@ function PlantTypeDetails({ route }): JSX.Element {
     );
 
     const mainContents = (
-        <PlantDetailsSection title="Nasłonecznienie" items={sunlightExposure} containerColor="yellow" />
+        <ScrollView>
+            <PlantDetailsSection title="Podlewanie" items={sunlightExposure} containerColor="#d3e9ff" />
+            <PlantDetailsSection title="Nawożenie" items={watering} containerColor="#bc8c74" />
+            <PlantDetailsSection title="Nasłonecznienie" items={fertilization} containerColor="#fff1c1" />
+            <PlantDetailsSection title="Okresy wzrostu" items={growthPeriods} containerColor="#beed9c" />
+            <PlantDetailsSection title="Częste problemy" items={commonIssues} containerColor="#ff664a" />
+        </ScrollView>
     );
 
     const appHeaderText = "OPIS: " + plantDescription.name;
