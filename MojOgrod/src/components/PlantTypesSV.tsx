@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import getDescriptions from '../data/plantTypeDescriptions';
 import PlantsSVTemplate from './PlantsSVTemplate';
 
-const PlantTypesScrollView = () => {
+const PlantTypesSV = () => {
     const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
     const readPlants = async () => {
@@ -20,4 +20,4 @@ const PlantTypesScrollView = () => {
     });
 }
 
-export default PlantTypesScrollView;
+export default PlantTypesSV;

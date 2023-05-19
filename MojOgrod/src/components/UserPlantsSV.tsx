@@ -4,7 +4,7 @@ import PlantsSVTemplate from './PlantsSVTemplate';
 
 const plants = userPlants();
 
-const PlantTypesScrollView = () => {
+const PlantTypesSV = () => {
 
     return PlantsSVTemplate({
         plantsList: plants,
@@ -12,4 +12,4 @@ const PlantTypesScrollView = () => {
     });
 }
 
-export default PlantTypesScrollView;
+export default PlantTypesSV;

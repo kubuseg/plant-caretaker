@@ -4,8 +4,8 @@ import AppFooter from '../components/AppFooter'
 import AppHeader from '../components/AppHeader'
 import AppTitleText from '../components/AppTitleText';
 import HomeFooterContents from '../components/HomeFooterContents'
-import PlantTypesScrollView from '../components/PlantTypesScrollView';
-import UserPlantsScrollView from '../components/UserPlantsScrollView';
+import PlantTypesSV from '../components/PlantTypesSV';
+import UserPlantsSV from '../components/UserPlantsSV';
 import { Text, SafeAreaView } from 'react-native';
 import eventEmitter from '../services/eventEmitter';
 
@@ -33,21 +33,21 @@ function HomeScreen({ route }): JSX.Element {
     let list;
     let headerText = "";
     if (SVType == homeSVTypes.plantTypes) {
-        list = <PlantTypesScrollView />;
+        list = <PlantTypesSV />;
         headerText = "BAZA WIEDZY"
     }
     else if (SVType == homeSVTypes.userPlants) {
-        list = <UserPlantsScrollView />;
-        headerText = <AppTitleText/>
+        list = <UserPlantsSV />;
+        headerText = <AppTitleText />
     }
 
     const footerContents = HomeFooterContents();
 
 
     return (
-        <SafeAreaView style={{ flex: 1}}>
+        <SafeAreaView style={{ flex: 1 }}>
             <AppHeader>
-            {headerText}
+                {headerText}
             </AppHeader>
             {list}
             <AppFooter children={footerContents} />
