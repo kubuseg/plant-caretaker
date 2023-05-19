@@ -4,7 +4,7 @@ import PlantsSVTemplate from './PlantsSVTemplate';
 
 const plants = userPlants();
 
-const PlantTypesSV = () => {
+const UserPlantsSV = () => {
 
     return PlantsSVTemplate({
         plantsList: plants,
@@ -12,4 +12,4 @@ const PlantTypesSV = () => {
     });
 }
 
-export default PlantTypesSV;
+export default UserPlantsSV;

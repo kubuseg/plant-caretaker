@@ -6,7 +6,7 @@ type PlantTypesSVParams = {
     onTouchScreen: string;
 }
 
-function PlantTypesSVTemplate({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
+function PlantTypesSV({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
     const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
     const readPlants = async () => {
@@ -24,4 +24,4 @@ function PlantTypesSVTemplate({ onTouchScreen }: PlantTypesSVParams): JSX.Elemen
     });
 }
 
-export default PlantTypesSVTemplate;
+export default PlantTypesSV;
