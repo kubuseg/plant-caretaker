@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import getDescriptions from '../data/plantTypeDescriptions';
 import PlantsSVTemplate from './PlantsSVTemplate';
 
-const PlantTypesSV = () => {
+type PlantTypesSVParams = {
+    onTouchScreen: string;
+}
+
+function PlantTypesSVTemplate({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
     const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
     const readPlants = async () => {
@@ -16,8 +20,8 @@ const PlantTypesSV = () => {
 
     return PlantsSVTemplate({
         plantsList: plantTypes,
-        onTouchScreen: 'PlantTypeDetails',
+        onTouchScreen: onTouchScreen,
     });
 }
 
-export default PlantTypesSV;
+export default PlantTypesSVTemplate;
