@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import PlantTypeDetails from './src/screens/PlantTypeDetails';
+import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -30,6 +31,11 @@ function App(): JSX.Element {
           <Stack.Screen
             name="PlantTypeDetails"
             component={PlantTypeDetails}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PlantTypeChoice"
+            component={PlantTypeChoice}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

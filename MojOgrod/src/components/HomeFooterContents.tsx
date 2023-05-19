@@ -13,7 +13,9 @@ function HomeFooterContents(): JSX.Element {
     const navigation = useNavigation();
 
     let addPlantButton = (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+            navigation.navigate('PlantTypeChoice' as never);
+        }}>
             <Image
                 source={require('../../assets/add-button.png')}
                 style={localStyles.footerButton}
