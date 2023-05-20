@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import getDescriptions from '../data/plantTypeDescriptions';
 import PlantsSVTemplate from './PlantsSVTemplate';
+import JsonFileManager from '../data/JsonFileManager';
 
 type PlantTypesSVParams = {
     onTouchScreen: string;
@@ -10,7 +10,7 @@ function PlantTypesSV({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
     const [plantTypes, setPlantTypes] = useState<any[]>([]);
 
     const readPlants = async () => {
-        const result = await getDescriptions();
+        const result = await JsonFileManager.read('typesDescriptions');
         setPlantTypes(result);
     }
 

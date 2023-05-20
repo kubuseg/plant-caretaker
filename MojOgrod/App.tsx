@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
@@ -6,10 +6,26 @@ import PlantTypeDetails from './src/screens/PlantTypeDetails';
 import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { getPlantsDescriptions } from './src/services/PlantsDBApi';
+import JsonFileManager from './src/data/JsonFileManager';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
+  let x = 0;
+  useEffect(() => {
+    const updateDescriptions = async () => {
+      try {
+        const descriptions = await getPlantsDescriptions();
+        JsonFileManager.save('typesDescriptions', descriptions);
+      } catch (error) {
+        // toDo - implement alert
+      }
+    };
+
+    updateDescriptions();
+  }, []);
+
   const backgroundStyle = {
     flex: 1,
     backgroundColor: Colors.lighter,
