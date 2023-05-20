@@ -7,7 +7,7 @@ import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { getPlantsDescriptions } from './src/services/PlantsDBApi';
-import JsonFileManager from './src/data/JsonFileManager';
+import JsonFileManager from './src/services/JsonFileManager';
 
 const Stack = createNativeStackNavigator();
 

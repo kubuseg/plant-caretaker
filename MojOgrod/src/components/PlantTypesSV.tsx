@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import PlantsSVTemplate from './PlantsSVTemplate';
-import JsonFileManager from '../data/JsonFileManager';
+import JsonFileManager from '../services/JsonFileManager';
 
 type PlantTypesSVParams = {
     onTouchScreen: string;
