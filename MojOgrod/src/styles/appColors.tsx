@@ -1,5 +1,5 @@
 const appColors = {
-  turquoise: '#77b690',
+  turquoise: '#85b493ff',
   darkerWhite: '#f1eff3',
   grey: '#545454',
 };

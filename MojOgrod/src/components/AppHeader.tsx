@@ -28,7 +28,7 @@ const localStyles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 40,
     color: 'white',
-    width: '100%'
+    width: "100%",
   },
 });
 
