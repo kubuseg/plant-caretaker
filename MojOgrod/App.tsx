@@ -6,24 +6,38 @@ import PlantTypeDetails from './src/screens/PlantTypeDetails';
 import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { getPlantsDescriptions } from './src/services/PlantsDBApi';
+import { getPlantsDescriptions, getUserPlants } from './src/services/PlantsDBApi';
 import JsonFileManager from './src/services/JsonFileManager';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  let x = 0;
+  const userId = '1';
+
   useEffect(() => {
     const updateDescriptions = async () => {
       try {
         const descriptions = await getPlantsDescriptions();
         JsonFileManager.save('typesDescriptions', descriptions);
       } catch (error) {
+        console.log("Error with updating plants descriptions", error);
+        // toDo - implement alert
+      }
+    };
+
+    const updateUserPlants = async () => {
+      try {
+        const userPlants = await getUserPlants(userId);
+        JsonFileManager.save('userPlants', userPlants);
+      } catch (error) {
+        console.log("Error with updating user plants", error);
         // toDo - implement alert
       }
     };
 
     updateDescriptions();
+    updateUserPlants();
+
   }, []);
 
   const backgroundStyle = {

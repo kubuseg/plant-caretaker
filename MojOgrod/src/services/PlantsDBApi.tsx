@@ -16,9 +16,15 @@ export const getPlantsDescriptions = async (): Promise<any> => {
     }
 };
 
-export const getUserPlants = (userId: string) => {
-    return axios.get(`/plants/${userId}`);
-}
+export const getUserPlants = async (userId: string): Promise<any> => {
+    try {
+        const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
+        return response.data;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+};
 
 export const addUserPlants = (userId: string, plantId: string) => {
     axios.post(`/plants/${userId}`, { "plantId": plantId })
@@ -41,11 +47,11 @@ export const deleteUserPlants = (userId: string, plantUUID: string) => {
 }
 
 export const getUser = (username: string, password: string) => {
-    return axios.get(`/user`, {params: {username: username, password: password}});
+    return axios.get(`/user`, { params: { username: username, password: password } });
 }
 
 export const addUser = (username: string, password: string) => {
-    axios.post(`/user`, { username: username, password: password})
+    axios.post(`/user`, { username: username, password: password })
         .then((response) => {
             console.log(response);
         })
@@ -69,7 +75,7 @@ export const getMicrocontroller = (mcId: string) => {
 }
 
 export const addPlantToMicrocontroller = (mcId: string, sensorId: string, plantId: string) => {
-    axios.post(`/mc/${mcId}`, {plantId: plantId, sensor: sensorId})
+    axios.post(`/mc/${mcId}`, { plantId: plantId, sensor: sensorId })
         .then((response) => {
             console.log(response);
         })
