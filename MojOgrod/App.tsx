@@ -8,7 +8,7 @@ import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { getPlantsDescriptions, getUserPlants } from './src/services/PlantsDBApi';
 import JsonFileManager from './src/services/JsonFileManager';
-
+import UserPlantDetails from './src/screens/UserPlantDetails';
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
@@ -66,6 +66,11 @@ function App(): JSX.Element {
           <Stack.Screen
             name="PlantTypeChoice"
             component={PlantTypeChoice}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UserPlantDetails"
+            component={UserPlantDetails}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

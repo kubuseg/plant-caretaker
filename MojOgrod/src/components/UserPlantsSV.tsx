@@ -25,7 +25,7 @@ function PlantTypesSV(): JSX.Element {
     return (
         <PlantsSVTemplate
             plantsList={plantTypes}
-            onTouchScreen={''}
+            onTouchScreen={'UserPlantDetails'}
             fadeAnim={fadeAnim}
         />
     );
