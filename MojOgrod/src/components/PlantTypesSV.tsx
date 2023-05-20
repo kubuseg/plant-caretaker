@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { Animated } from 'react-native';
 import PlantsSVTemplate from './PlantsSVTemplate';
 import JsonFileManager from '../data/JsonFileManager';
 
@@ -7,21 +8,31 @@ type PlantTypesSVParams = {
 }
 
 function PlantTypesSV({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
-    const [plantTypes, setPlantTypes] = useState<any[]>([]);
+    const [plantTypes, setPlantTypes] = React.useState<any[]>([]);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
 
     const readPlants = async () => {
+
         const result = await JsonFileManager.read('typesDescriptions');
         setPlantTypes(result);
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start();
     }
 
     useEffect(() => {
         readPlants();
     }, []);
 
-    return PlantsSVTemplate({
-        plantsList: plantTypes,
-        onTouchScreen: onTouchScreen,
-    });
+    return (
+        <PlantsSVTemplate
+            plantsList={plantTypes}
+            onTouchScreen={onTouchScreen}
+            fadeAnim={fadeAnim}
+        />
+    );
 }
 
 export default PlantTypesSV;
