@@ -32,7 +32,7 @@ function HomeFooterContents(): JSX.Element {
             setMidButton(addPlantButton);
         }}>
             <Image
-                source={require('../../assets/icon.png')}
+                source={require('../../assets/add-button.png')}
                 style={localStyles.footerButton}
                 resizeMode='contain'
             />
@@ -46,7 +46,7 @@ function HomeFooterContents(): JSX.Element {
                 setMidButton(userPlantsButton);
             }}>
                 <Image
-                    source={require('../../assets/icon.png')}
+                    source={require('../../assets/book-button.png')}
                     style={localStyles.footerButton}
                     resizeMode='contain'
                 />
@@ -56,7 +56,7 @@ function HomeFooterContents(): JSX.Element {
 
             <TouchableOpacity>
                 <Image
-                    source={require('../../assets/icon.png')}
+                    source={require('../../assets/info-button.png')}
                     style={localStyles.footerButton}
                     resizeMode='contain'
                 />

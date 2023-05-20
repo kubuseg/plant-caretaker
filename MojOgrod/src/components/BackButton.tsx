@@ -35,9 +35,9 @@ const backButtonStyles = StyleSheet.create({
     buttonText: {
         flex: 1,
         textAlign: 'center',
-        fontFamily: 'NewTitleRoman',
         fontSize: 14,
         color: appColors.turquoise,
+        fontFamily: "OpenSans-Bold" // nie zmienia sie
     },
 });
 

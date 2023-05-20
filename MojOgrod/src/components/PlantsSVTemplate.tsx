@@ -40,8 +40,8 @@ function PlantsSVTemplate({ plantsList, onTouchScreen, fadeAnim }: PlantSVParams
                                 <Text style={styles.title}>{plant.name}</Text>
                                 <View style={styles.arrowContainer}>
                                     <Image
-                                        style={styles.icon}
-                                        source={require('../../assets/icon.png')}
+                                        style={styles.arrowIcon}
+                                        source={require('../../assets/arrow.png')}
                                     />
                                 </View>
                             </View>

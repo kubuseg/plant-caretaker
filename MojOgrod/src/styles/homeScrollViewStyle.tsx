@@ -29,6 +29,11 @@ const homeScrollViewStyles = StyleSheet.create({
         width: sizes.SVelementHeight,
         height: sizes.SVelementHeight,
     },
+    arrowIcon: {
+        width: sizes.SVelementHeight*0.4,
+        height: sizes.SVelementHeight*0.4,
+        marginRight: 15
+    },
     title: {
         fontSize: 16,
         marginLeft: 10,

@@ -22,10 +22,10 @@ function PlantTypeDetails({ route }): JSX.Element {
 
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={require('../../assets/icon.png')} />
+            <Image style={styles.icon} source={require('../mocks/plant_photos/mieta.png')} />
             <View style={styles.descView}>
                 {shortDescriptions.map((desc: string, index: number) => (
-                    <Text key={index} style={styles.descLine}>- {desc}</Text>
+                    <Text key={index} style={styles.descLine}>{desc}</Text>
                 ))}
             </View>
         </View>
