@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import PlantDetailsTemplate from "./PlantDetailsTemplate";
 import sizes from "../styles/sizes";
-import PlantDetailsSection from '../components/PlantDetailsSection';
+import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
 
 function PlantTypeDetails({ route }): JSX.Element {
     const plantDescription = route.params.plantInfo;
@@ -33,11 +33,11 @@ function PlantTypeDetails({ route }): JSX.Element {
 
     const mainContents = (
         <ScrollView>
-            <PlantDetailsSection title="Podlewanie" items={sunlightExposure} containerColor="#d3e9ff" />
-            <PlantDetailsSection title="Nawożenie" items={watering} containerColor="#bc8c74" />
-            <PlantDetailsSection title="Nasłonecznienie" items={fertilization} containerColor="#fff1c1" />
-            <PlantDetailsSection title="Okresy wzrostu" items={growthPeriods} containerColor="#beed9c" />
-            <PlantDetailsSection title="Częste problemy" items={commonIssues} containerColor="#ff664a" />
+            <PlantTypeDetailsSection title="Podlewanie" items={sunlightExposure} containerColor="#d3e9ff" />
+            <PlantTypeDetailsSection title="Nawożenie" items={watering} containerColor="#bc8c74" />
+            <PlantTypeDetailsSection title="Nasłonecznienie" items={fertilization} containerColor="#fff1c1" />
+            <PlantTypeDetailsSection title="Okresy wzrostu" items={growthPeriods} containerColor="#beed9c" />
+            <PlantTypeDetailsSection title="Częste problemy" items={commonIssues} containerColor="#ff664a" />
         </ScrollView>
     );
 
