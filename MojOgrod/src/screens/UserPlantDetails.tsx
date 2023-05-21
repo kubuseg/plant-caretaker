@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Button, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';
@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 import DataManager from '../services/DataManager';
+import LoadingScreen from './LoadingScreen';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -110,9 +111,7 @@ const UserPlantDetails = ({ route }) => {
 
     if (isLoading) {
         return (
-            <View>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
+            <LoadingScreen />
         );
     }
     return (
