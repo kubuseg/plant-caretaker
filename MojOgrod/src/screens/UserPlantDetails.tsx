@@ -2,16 +2,26 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
+import PlantDetailsSection from '../components/PlantDetailsSection';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
     const editMode = false;
-    const [wateringIntervalInDays, setWateringIntervalInDays] = useState(plantInfo.wateringIntervalInDays.toString());
-    const [fertilizationIntervalInWeeks, setFertilizationIntervalInWeeks] = useState(plantInfo.fertilizationIntervalInWeeks.toString());
-    const [fertilizationMonthStart, setFertilizationMonthStart] = useState(plantInfo.fertilizationMonthBetweenCondition[0].toString());
-    const [fertilizationMonthEnd, setFertilizationMonthEnd] = useState(plantInfo.fertilizationMonthBetweenCondition[1].toString());
+
+    const appHeaderText = "Szczegóły rośliny";
+    const plantHeaderContents = (
+        <View style={styles.cardInner}>
+            <Image style={styles.icon} source={require('../../assets/icon.png')} />
+            <Text>{plantInfo.name}</Text>
+        </View>
+    );
+
+    const [wateringInterval, setWateringInterval] = useState(plantInfo.wateringIntervalInDays.toString());
+    const [fertilizationInterval, setFertilizationInterval] = useState(plantInfo.fertilizationIntervalInWeeks.toString());
+    const [fMonthStart, setFMonthStart] = useState(plantInfo.fertilizationMonthBetweenCondition[0].toString());
+    const [fMonthEnd, setFMonthEnd] = useState(plantInfo.fertilizationMonthBetweenCondition[1].toString());
 
     const wateringIntervalOptions = Array.from({ length: 100 }, (_, i) => i + 1).map((m) => (
         <Picker.Item key={m} label={m.toString()} value={m.toString()} />
@@ -25,69 +35,68 @@ const UserPlantDetails = ({ route }) => {
         <Picker.Item key={m} label={m.toString()} value={m.toString()} />
     ));
 
-    const appHeaderText = "Szczegóły rośliny";
-    const plantHeaderContents = (
-        <View style={styles.cardInner}>
-            <Image style={styles.icon} source={require('../../assets/icon.png')} />
-            <Text>{plantInfo.name}</Text>
-        </View>
-    );
+    const pickerDropdownIconColor = editMode ? 'black' : 'white';
+    const pickerBGColor = editMode ? 'gray' : 'white'
+
     const mainContents = (
         <View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text>Interwał nawadniania(dni): </Text>
+            <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
                 <Picker
-                    selectedValue={wateringIntervalInDays}
+                    selectedValue={wateringInterval}
                     enabled={editMode}
-                    onValueChange={setWateringIntervalInDays}
-                    style={{ width: '30%' }}
-                    dropdownIconColor={editMode ? 'gray' : 'white'}
+                    onValueChange={setWateringInterval}
+                    style={[styles.picker, { backgroundColor: pickerBGColor }]}
+                    dropdownIconColor={pickerDropdownIconColor}
                 >
                     {wateringIntervalOptions}
                 </Picker>
-            </View>
+            </PlantDetailsSection>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text>Interwał nawożenia(tygodnie): </Text>
+            <PlantDetailsSection title={'Czas między nawożeniem (tygodnie):'}>
                 <Picker
-                    selectedValue={fertilizationIntervalInWeeks}
+                    selectedValue={fertilizationInterval}
                     enabled={editMode}
-                    onValueChange={setFertilizationIntervalInWeeks}
-                    style={{ width: '30%' }}
-                    dropdownIconColor={editMode ? 'gray' : 'white'}
+                    onValueChange={setFertilizationInterval}
+                    style={[styles.picker, { backgroundColor: pickerBGColor }]}
+                    dropdownIconColor={pickerDropdownIconColor}
                 >
                     {fertilizationIntervalOptions}
                 </Picker>
-            </View>
+            </PlantDetailsSection>
 
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text>Miesiące nawożenia: </Text>
-                <Picker
-                    selectedValue={fertilizationMonthStart}
-                    enabled={editMode}
-                    onValueChange={setFertilizationMonthStart}
-                    style={{ width: '30%' }}
-                    dropdownIconColor={editMode ? 'gray' : 'white'}
-                >
-                    {monthOptions}
-                </Picker>
-                <Text style={{ marginHorizontal: 5 }}>-</Text>
-                <Picker
-                    selectedValue={fertilizationMonthEnd}
-                    enabled={editMode}
-                    onValueChange={setFertilizationMonthEnd}
-                    style={{ width: '30%' }}
-                    dropdownIconColor={editMode ? 'gray' : 'white'}
-                >
-                    {monthOptions}
-                </Picker>
-            </View>
+            <PlantDetailsSection title={'Miesiące nawożenia: '}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Picker
+                        selectedValue={fMonthStart}
+                        enabled={editMode}
+                        onValueChange={setFMonthStart}
+                        style={[styles.picker, { backgroundColor: pickerBGColor }]}
+                        dropdownIconColor={pickerDropdownIconColor}
+                    >
+                        {monthOptions}
+                    </Picker>
+                    <Text style={{ marginHorizontal: 5 }}>-</Text>
+                    <Picker
+                        selectedValue={fMonthEnd}
+                        enabled={editMode}
+                        onValueChange={setFMonthEnd}
+                        style={[styles.picker, { backgroundColor: pickerBGColor }]}
+                        dropdownIconColor={pickerDropdownIconColor}
+                    >
+                        {monthOptions}
+                    </Picker>
+                </View>
+            </PlantDetailsSection>
+
         </View>
     );
 
 
     return (
-        <PlantDetailsTemplate appHeaderText={appHeaderText} plantHeaderContents={plantHeaderContents} mainContents={mainContents} />
+        <PlantDetailsTemplate
+            appHeaderText={appHeaderText}
+            plantHeaderContents={plantHeaderContents}
+            mainContents={mainContents} />
     );
 };
 
@@ -100,6 +109,10 @@ const styles = StyleSheet.create({
     icon: {
         width: sizes.SVelementHeight,
         height: sizes.SVelementHeight,
+    },
+    picker: {
+        color: 'black',
+        width: sizes.screenWidth * 0.25,
     },
 });
 
