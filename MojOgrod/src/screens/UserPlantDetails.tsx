@@ -5,8 +5,6 @@ import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';
 import { deleteUserPlants } from '../services/PlantsDBApi';
 import { useNavigation } from '@react-navigation/native';
-import JsonFileManager from '../services/JsonFileManager';
-import { getUserPlants } from '../services/PlantsDBApi';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 import DataManager from '../services/DataManager';
@@ -20,7 +18,7 @@ const UserPlantDetails = ({ route }) => {
     async function deletePlant() {
         setIsLoading(true);
         await deleteUserPlants("1", plantInfo.uuid.toString());
-        await updateUserPlants("1");
+        await DataManager.updateUserPlants("1");
         setIsLoading(false);
         navigation.navigate('Home' as never);
     }

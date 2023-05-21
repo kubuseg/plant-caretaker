@@ -32,7 +32,7 @@ function HomeFooterContents(): JSX.Element {
             setMidButton(addPlantButton);
         }}>
             <Image
-                source={require('../../assets/add-button.png')}
+                source={require('../../assets/plant.png')}
                 style={localStyles.footerButton}
                 resizeMode='contain'
             />
