@@ -36,14 +36,12 @@ export const addUserPlants = (userId: string, plantId: string) => {
         });
 }
 
-export const deleteUserPlants = (userId: string, plantUUID: string) => {
-    axios.delete(`/plants/${userId}`, { params: { "uuid": plantUUID } })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+export const deleteUserPlants = async (userId: string, plantUUID: string) => {
+    try {
+        await axios.delete(`/plants/${userId}`, { params: { "uuid": plantUUID } });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export const getUser = (username: string, password: string) => {
