@@ -27,9 +27,9 @@ function PlantsSVTemplate({ plantsList, onTouchScreen, fadeAnim }: PlantSVParams
             style={styles.scrollView}>
             <Animated.View style={{ opacity: fadeAnim }}>
                 <View style={styles.container}>
-                    {plantsList.map((plant: any) => (
+                    {plantsList.map((plant, index) => (
                         <TouchableOpacity
-                            key={plant.id}
+                            key={index}
                             style={styles.card}
                             onPress={() => {
                                 navigation.navigate(onTouchScreen as never, { plantInfo: plant } as never);
