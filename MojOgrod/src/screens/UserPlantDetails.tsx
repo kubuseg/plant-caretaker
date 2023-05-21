@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Button, ActivityIndicator } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';
+import { deleteUserPlants } from '../services/PlantsDBApi';
+import { useNavigation } from '@react-navigation/native';
+import JsonFileManager from '../services/JsonFileManager';
+import { getUserPlants } from '../services/PlantsDBApi';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
     const editMode = false;
+    const [isLoading, setIsLoading] = useState(false);
+    const navigation = useNavigation();
+
+    async function deletePlant() {
+        setIsLoading(true);
+        await deleteUserPlants("1", plantInfo.uuid.toString());
+        const userPlants = await getUserPlants("1");
+        JsonFileManager.save('userPlants', userPlants);
+        setIsLoading(false);
+        navigation.navigate('Home' as never);
+    }
 
     const appHeaderText = "Szczegóły rośliny";
     const plantHeaderContents = (
@@ -87,11 +102,21 @@ const UserPlantDetails = ({ route }) => {
                     </Picker>
                 </View>
             </PlantDetailsSection>
+            <Button title={"Usuń roślinę"} onPress={() => {
+                deletePlant()
+            }
+            } />
 
         </View>
     );
 
-
+    if (isLoading) {
+        return (
+            <View>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        );
+    }
     return (
         <PlantDetailsTemplate
             appHeaderText={appHeaderText}
