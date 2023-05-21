@@ -9,6 +9,7 @@ import JsonFileManager from '../services/JsonFileManager';
 import { getUserPlants } from '../services/PlantsDBApi';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
+import DataManager from '../services/DataManager';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -19,8 +20,7 @@ const UserPlantDetails = ({ route }) => {
     async function deletePlant() {
         setIsLoading(true);
         await deleteUserPlants("1", plantInfo.uuid.toString());
-        const userPlants = await getUserPlants("1");
-        JsonFileManager.save('userPlants', userPlants);
+        await updateUserPlants("1");
         setIsLoading(false);
         navigation.navigate('Home' as never);
     }
