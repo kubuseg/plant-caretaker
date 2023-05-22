@@ -15,7 +15,7 @@ function App(): JSX.Element {
   const userId = '1';
 
   useEffect(() => {
-    DataManager.updateDescriptions();
+    DataManager.updatePlantTypes();
     DataManager.updateUserPlants(userId);
 
   }, []);

@@ -11,7 +11,7 @@ import sizes from "../styles/sizes";
 import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
 
 function PlantTypeDetails({ route }): JSX.Element {
-    const plantDescription = route.params.plantInfo;
+    const plantDescription = route.params.plantInfo.description;
 
     const shortDescriptions: string[] = plantDescription.text;
     const sunlightExposure: string[] = plantDescription.sunlightExposure;
