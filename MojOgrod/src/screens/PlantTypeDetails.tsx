@@ -12,7 +12,8 @@ import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
 import chipColors from '../styles/chipColors';
 
 function PlantTypeDetails({ route }): JSX.Element {
-    const plantDescription = route.params.plantInfo.description;
+    const plantInfo = route.params.plantInfo;
+    const plantDescription = plantInfo.description;
 
     const shortDescriptions: string[] = plantDescription.text;
     const sunlightExposure: string[] = plantDescription.sunlightExposure;
@@ -60,7 +61,7 @@ function PlantTypeDetails({ route }): JSX.Element {
         </ScrollView>
     );
 
-    const appHeaderText = "OPIS: " + plantDescription.name;
+    const appHeaderText = "OPIS: " + plantInfo.name;
     return PlantDetailsTemplate({
         appHeaderText,
         plantHeaderContents,
