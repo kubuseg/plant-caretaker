@@ -52,6 +52,12 @@ const UserPlantDetails = ({ route }) => {
                     plantTypeInfo();
                 }}
             />
+            <Button
+                title={"Edytuj roślinę"}
+                onPress={() => {
+                    navigation.navigate("UserPlantDetailsEdit" as never, { plantInfo: plantInfo } as never);
+                }}
+            />
 
         </View>
     );
