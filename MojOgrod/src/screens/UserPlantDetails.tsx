@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 import monthMap from '../services/monthMap';
 import JsonFileManager from '../services/JsonFileManager';
+import chipColors from '../styles/chipColors';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -33,15 +34,15 @@ const UserPlantDetails = ({ route }) => {
     const mainContents = (
         <View style={{ width: '100%' }}>
             <PlantDetailsSection title={'Czas między podlewaniem:'}>
-                <Text style={styles.detailsText}>{wateringInterval} dni</Text>
+                <Text style={[styles.detailsText, { backgroundColor: chipColors.blue }]}>{wateringInterval} dni</Text>
             </PlantDetailsSection>
 
             <PlantDetailsSection title={'Czas między nawożeniem:'}>
-                <Text style={styles.detailsText}>{fertilizationInterval} tygodni</Text>
+                <Text style={[styles.detailsText, { backgroundColor: chipColors.blue }]}>{fertilizationInterval} tygodni</Text>
             </PlantDetailsSection>
 
             <PlantDetailsSection title={'Miesiące nawożenia: '}>
-                <Text style={styles.detailsText}>
+                <Text style={[styles.detailsText, { backgroundColor: chipColors.blue }]}>
                     {monthMap.get(parseInt(fMonthStart, 10))}  -  {monthMap.get(parseInt(fMonthEnd, 10))}
                 </Text>
             </PlantDetailsSection>
