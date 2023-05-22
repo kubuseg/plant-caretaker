@@ -6,9 +6,9 @@ axios.defaults.params = {
     code: 'FQJeOsdGEgd9AQJdkVNiV6osFHxV0oBgV5XqiWL_stT_AzFuUwy7eQ=='
 }
 
-export const getPlantsDescriptions = async (): Promise<any> => {
+export const getPlants = async (): Promise<any> => {
     try {
-        const response: AxiosResponse<any> = await axios.get(`/plantsDescriptions`);
+        const response: AxiosResponse<any> = await axios.get(`/plants`);
         return response.data;
     } catch (error) {
         console.log(error);
