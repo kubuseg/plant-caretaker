@@ -35,6 +35,8 @@ const styles = StyleSheet.create({
     },
     sectionMainContainer: {
         marginLeft: '2.5%',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
 });
 
