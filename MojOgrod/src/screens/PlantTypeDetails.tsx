@@ -32,7 +32,7 @@ function PlantTypeDetails({ route }): JSX.Element {
     );
 
     const mainContents = (
-        <ScrollView>
+        <ScrollView style={{ flex: 1 }}>
             <PlantTypeDetailsSection title="Podlewanie" items={sunlightExposure} containerColor="#d3e9ff" />
             <PlantTypeDetailsSection title="Nawożenie" items={watering} containerColor="#bc8c74" />
             <PlantTypeDetailsSection title="Nasłonecznienie" items={fertilization} containerColor="#fff1c1" />

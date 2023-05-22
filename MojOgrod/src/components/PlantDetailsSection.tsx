@@ -26,7 +26,6 @@ const PlantDetailsSection = ({ children, title }: SectionProps): JSX.Element => 
 const styles = StyleSheet.create({
     sectionContainer: {
         maxWidth: '100%',
-        paddingHorizontal: '2.5%',
     },
     sectionTitle: {
         color: 'black',
