@@ -3,6 +3,7 @@ import { Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import PlantsSVTemplate from './PlantsSVTemplate';
 import JsonFileManager from '../services/JsonFileManager';
+import plantsNameCompare from '../services/plantsNameCompare';
 
 function UserPlantsSV(): JSX.Element {
     const [plantTypes, setPlantTypes] = React.useState<any[]>([]);
@@ -12,6 +13,8 @@ function UserPlantsSV(): JSX.Element {
         React.useCallback(() => {
             const readPlants = async () => {
                 const result = await JsonFileManager.read('userPlants');
+                result.sort(plantsNameCompare);
+
                 setPlantTypes(result);
                 Animated.timing(fadeAnim, {
                     toValue: 1,

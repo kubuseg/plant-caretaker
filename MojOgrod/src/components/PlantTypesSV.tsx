@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Animated } from 'react-native';
 import PlantsSVTemplate from './PlantsSVTemplate';
 import JsonFileManager from '../services/JsonFileManager';
+import plantsNameCompare from '../services/plantsNameCompare';
 
 type PlantTypesSVParams = {
     onTouchScreen: string;
@@ -14,6 +15,7 @@ function PlantTypesSV({ onTouchScreen }: PlantTypesSVParams): JSX.Element {
     const readPlants = async () => {
 
         const result = await JsonFileManager.read('typesDescriptions');
+        result.sort(plantsNameCompare);
         setPlantTypes(result);
         Animated.timing(fadeAnim, {
             toValue: 1,
