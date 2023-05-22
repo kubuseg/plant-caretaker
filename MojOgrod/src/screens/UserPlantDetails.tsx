@@ -1,27 +1,20 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Button } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import React from 'react';
+import { View, Text, StyleSheet, Image, Button } from 'react-native';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';
-import { deleteUserPlants } from '../services/PlantsDBApi';
 import { useNavigation } from '@react-navigation/native';
-
 import PlantDetailsTemplate from './PlantDetailsTemplate';
-import DataManager from '../services/DataManager';
-import LoadingScreen from './LoadingScreen';
+import monthMap from '../services/monthMap';
+import JsonFileManager from '../services/JsonFileManager';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
-    const editMode = false;
-    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
 
-    async function deletePlant() {
-        setIsLoading(true);
-        await deleteUserPlants("1", plantInfo.uuid.toString());
-        await DataManager.updateUserPlants("1");
-        setIsLoading(false);
-        navigation.navigate('Home' as never);
+    async function plantTypeInfo() {
+        const types = await JsonFileManager.read('typesDescriptions');
+        const typeInfo = types.find(plant => plant.id === plantInfo.id);
+        navigation.navigate('PlantTypeDetails' as never, { plantInfo: typeInfo } as never);
     }
 
     const appHeaderText = "Szczegóły rośliny";
@@ -32,88 +25,36 @@ const UserPlantDetails = ({ route }) => {
         </View>
     );
 
-    const [wateringInterval, setWateringInterval] = useState(plantInfo.wateringIntervalInDays.toString());
-    const [fertilizationInterval, setFertilizationInterval] = useState(plantInfo.fertilizationIntervalInWeeks.toString());
-    const [fMonthStart, setFMonthStart] = useState(plantInfo.fertilizationMonthBetweenCondition[0].toString());
-    const [fMonthEnd, setFMonthEnd] = useState(plantInfo.fertilizationMonthBetweenCondition[1].toString());
-
-    const wateringIntervalOptions = Array.from({ length: 100 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
-    const fertilizationIntervalOptions = Array.from({ length: 30 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
-    const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
-    const pickerDropdownIconColor = editMode ? 'black' : 'white';
-    const pickerBGColor = editMode ? 'gray' : 'white'
+    const wateringInterval = plantInfo.wateringIntervalInDays.toString();
+    const fertilizationInterval = plantInfo.fertilizationIntervalInWeeks.toString();
+    const fMonthStart = plantInfo.fertilizationMonthBetweenCondition[0].toString();
+    const fMonthEnd = plantInfo.fertilizationMonthBetweenCondition[1].toString();
 
     const mainContents = (
-        <View>
-            <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
-                <Picker
-                    selectedValue={wateringInterval}
-                    enabled={editMode}
-                    onValueChange={setWateringInterval}
-                    style={[styles.picker, { backgroundColor: pickerBGColor }]}
-                    dropdownIconColor={pickerDropdownIconColor}
-                >
-                    {wateringIntervalOptions}
-                </Picker>
+        <View style={{ width: '100%' }}>
+            <PlantDetailsSection title={'Czas między podlewaniem:'}>
+                <Text style={styles.detailsText}>{wateringInterval} dni</Text>
             </PlantDetailsSection>
 
-            <PlantDetailsSection title={'Czas między nawożeniem (tygodnie):'}>
-                <Picker
-                    selectedValue={fertilizationInterval}
-                    enabled={editMode}
-                    onValueChange={setFertilizationInterval}
-                    style={[styles.picker, { backgroundColor: pickerBGColor }]}
-                    dropdownIconColor={pickerDropdownIconColor}
-                >
-                    {fertilizationIntervalOptions}
-                </Picker>
+            <PlantDetailsSection title={'Czas między nawożeniem:'}>
+                <Text style={styles.detailsText}>{fertilizationInterval} tygodni</Text>
             </PlantDetailsSection>
 
             <PlantDetailsSection title={'Miesiące nawożenia: '}>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                    <Picker
-                        selectedValue={fMonthStart}
-                        enabled={editMode}
-                        onValueChange={setFMonthStart}
-                        style={[styles.picker, { backgroundColor: pickerBGColor }]}
-                        dropdownIconColor={pickerDropdownIconColor}
-                    >
-                        {monthOptions}
-                    </Picker>
-                    <Text style={{ marginHorizontal: 5 }}>-</Text>
-                    <Picker
-                        selectedValue={fMonthEnd}
-                        enabled={editMode}
-                        onValueChange={setFMonthEnd}
-                        style={[styles.picker, { backgroundColor: pickerBGColor }]}
-                        dropdownIconColor={pickerDropdownIconColor}
-                    >
-                        {monthOptions}
-                    </Picker>
-                </View>
+                <Text style={styles.detailsText}>
+                    {monthMap.get(parseInt(fMonthStart, 10))}  -  {monthMap.get(parseInt(fMonthEnd, 10))}
+                </Text>
             </PlantDetailsSection>
-            <Button title={"Usuń roślinę"} onPress={() => {
-                deletePlant()
-            }
-            } />
+            <Button
+                title={"Opis gatunku"}
+                onPress={async () => {
+                    plantTypeInfo();
+                }}
+            />
 
         </View>
     );
 
-    if (isLoading) {
-        return (
-            <LoadingScreen />
-        );
-    }
     return (
         <PlantDetailsTemplate
             appHeaderText={appHeaderText}
@@ -135,6 +76,10 @@ const styles = StyleSheet.create({
     picker: {
         color: 'black',
         width: sizes.screenWidth * 0.25,
+    },
+    detailsText: {
+        fontSize: 20,
+        marginBottom: '3%'
     },
 });
 

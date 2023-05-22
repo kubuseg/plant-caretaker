@@ -4,7 +4,7 @@ import JsonFileManager from './JsonFileManager';
 class DataManager {
     static updateDescriptions = async () => {
         try {
-            const descriptions = await getPlantsDescriptions();
+            const descriptions = await getPlants();
             JsonFileManager.save('typesDescriptions', descriptions);
         } catch (error) {
             console.log("Error with updating plants descriptions", error);
