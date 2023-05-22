@@ -72,8 +72,8 @@ export const getMicrocontroller = (mcId: string) => {
     return axios.get(`/mc/${mcId}`);
 }
 
-export const addPlantToMicrocontroller = (mcId: string, sensorId: string, plantId: string) => {
-    axios.post(`/mc/${mcId}`, { plantId: plantId, sensor: sensorId })
+export const addPlantToMicrocontroller = (mcId: string, sensorId: string, userId: string, plantUUID: string ) => {
+    axios.post(`/mc/${mcId}`, { userId: userId, sensorId: sensorId, plantUUID: plantUUID })
         .then((response) => {
             console.log(response);
         })
