@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Image, Button } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
-import PlantDetailsSection from '../components/PlantDetailsSection';
-import { deleteUserPlants } from '../services/PlantsDBApi';
+import PlantDetailsSection from '../components/PlantDetailsSection';;
 import { useNavigation } from '@react-navigation/native';
 
 import PlantDetailsTemplate from './PlantDetailsTemplate';
@@ -18,8 +17,7 @@ const UserPlantDetailsEdit = ({ route }) => {
 
     async function deletePlant() {
         setIsLoading(true);
-        await deleteUserPlants("1", plantInfo.uuid.toString());
-        await DataManager.updateUserPlants("1");
+        await DataManager.deletePlant(plantInfo.uuid.toString());
         setIsLoading(false);
         navigation.navigate('Home' as never);
     }
