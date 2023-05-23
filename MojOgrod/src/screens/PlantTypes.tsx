@@ -1,28 +1,23 @@
 import 'react-native-get-random-values';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AppFooter from '../components/AppFooter'
 import AppHeader from '../components/AppHeader'
-import AppTitleText from '../components/AppTitleText';
 import HomeFooterContents from '../components/HomeFooterContents'
 import PlantTypesSV from '../components/PlantTypesSV';
-import UserPlantsSV from '../components/UserPlantsSV';
-import { Text, SafeAreaView } from 'react-native';
-import eventEmitter from '../services/eventEmitter';
+import { SafeAreaView } from 'react-native';
+import BackButton from '../components/BackButton';
+
 
 export const homeSVTypes = {
     userPlants: 1,
     plantTypes: 2,
 };
 
-function HomeScreen({ route }): JSX.Element {
+function PlantTypes(): JSX.Element {
 
-    let list;
-    let headerText = "";
-    list = <UserPlantsSV />;
-    headerText = <AppTitleText />
+    const headerText = "BAZA WIEDZY";
 
-
-    const footerContents = HomeFooterContents();
+    const footerContents = BackButton();
 
 
     return (
@@ -30,11 +25,11 @@ function HomeScreen({ route }): JSX.Element {
             <AppHeader>
                 {headerText}
             </AppHeader>
-            {list}
+            <PlantTypesSV onTouchScreen='PlantTypeDetails' ></PlantTypesSV>
             <AppFooter children={footerContents} />
         </SafeAreaView>
     );
+
 }
 
-
-export default HomeScreen;
+export default PlantTypes;

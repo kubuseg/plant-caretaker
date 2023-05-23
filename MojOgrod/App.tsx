@@ -9,6 +9,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import UserPlantDetails from './src/screens/UserPlantDetails';
 import UserPlantDetailsEdit from './src/screens/UserPlantDetailsEdit';
 import DataManager from './src/services/DataManager';
+import PlantTypes from './src/screens/PlantTypes';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,11 @@ function App(): JSX.Element {
           <Stack.Screen
             name="UserPlantDetailsEdit"
             component={UserPlantDetailsEdit}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="PlantTypes"
+            component={PlantTypes}
             options={{ headerShown: false }}
           />
         </Stack.Navigator>

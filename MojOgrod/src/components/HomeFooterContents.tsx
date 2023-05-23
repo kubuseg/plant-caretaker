@@ -1,13 +1,7 @@
-import { StyleSheet, View, TouchableOpacity, Image, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 import sizes from '../styles/sizes';
-import eventEmitter from '../services/eventEmitter';
-import { homeSVTypes } from '../screens/HomeScreen';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-
-const selectList = (selectedList: number) => {
-    eventEmitter.emit('HomeScrollViewType', selectedList)
-}
 
 function HomeFooterContents(): JSX.Element {
     const navigation = useNavigation();
@@ -24,26 +18,10 @@ function HomeFooterContents(): JSX.Element {
         </TouchableOpacity >
     );
 
-    const [midButton, setMidButton] = useState(addPlantButton);
-
-    let userPlantsButton = (
-        <TouchableOpacity onPress={() => {
-            selectList(homeSVTypes.userPlants);
-            setMidButton(addPlantButton);
-        }}>
-            <Image
-                source={require('../../assets/plant.png')}
-                style={localStyles.footerButton}
-                resizeMode='contain'
-            />
-        </TouchableOpacity>
-    );
-
     return (
         < View style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={() => {
-                selectList(homeSVTypes.plantTypes);
-                setMidButton(userPlantsButton);
+                navigation.navigate('PlantTypes' as never)
             }}>
                 <Image
                     source={require('../../assets/book-button.png')}
@@ -51,8 +29,15 @@ function HomeFooterContents(): JSX.Element {
                     resizeMode='contain'
                 />
             </TouchableOpacity>
-
-            {midButton}
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('PlantTypeChoice' as never);
+            }}>
+                <Image
+                    source={require('../../assets/add-button.png')}
+                    style={localStyles.footerButton}
+                    resizeMode='contain'
+                />
+            </TouchableOpacity >
 
             <TouchableOpacity>
                 <Image
