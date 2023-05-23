@@ -30,10 +30,10 @@ const UserPlantDetailsEdit = ({ route }) => {
         </View>
     );
 
-    const [wateringInterval, setWateringInterval] = useState(plantInfo.wateringIntervalInDays.toString());
-    const [fertilizationInterval, setFertilizationInterval] = useState(plantInfo.fertilizationIntervalInWeeks.toString());
-    const [fMonthStart, setFMonthStart] = useState(plantInfo.fertilizationMonthBetweenCondition[0].toString());
-    const [fMonthEnd, setFMonthEnd] = useState(plantInfo.fertilizationMonthBetweenCondition[1].toString());
+    const [wateringInterval, setWateringInterval] = useState(parseInt(plantInfo.wateringIntervalInDays));
+    const [fertilizationInterval, setFertilizationInterval] = useState(parseInt(plantInfo.fertilizationIntervalInWeeks));
+    const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
+    const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
 
     const wateringIntervalOptions = Array.from({ length: 100 }, (_, i) => i + 1).map((m) => (
         <Picker.Item key={m} label={m.toString()} value={m.toString()} />
@@ -51,8 +51,8 @@ const UserPlantDetailsEdit = ({ route }) => {
         <View>
             <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
                 <Picker
-                    selectedValue={wateringInterval}
-                    onValueChange={setWateringInterval}
+                    selectedValue={wateringInterval.toString()}
+                    onValueChange={(itemValue) => setWateringInterval(parseInt(itemValue))}
                     style={styles.picker}
                 >
                     {wateringIntervalOptions}
@@ -61,8 +61,8 @@ const UserPlantDetailsEdit = ({ route }) => {
 
             <PlantDetailsSection title={'Czas między nawożeniem (tygodnie):'}>
                 <Picker
-                    selectedValue={fertilizationInterval}
-                    onValueChange={setFertilizationInterval}
+                    selectedValue={fertilizationInterval.toString()}
+                    onValueChange={(itemValue) => setFertilizationInterval(parseInt(itemValue))}
                     style={styles.picker}
                 >
                     {fertilizationIntervalOptions}
@@ -72,26 +72,23 @@ const UserPlantDetailsEdit = ({ route }) => {
             <PlantDetailsSection title={'Miesiące nawożenia: '}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Picker
-                        selectedValue={fMonthStart}
-                        onValueChange={setFMonthStart}
+                        selectedValue={fMonthStart.toString()}
+                        onValueChange={(itemValue) => setFMonthStart(parseInt(itemValue))}
                         style={styles.picker}
                     >
                         {monthOptions}
                     </Picker>
                     <Text style={{ marginHorizontal: 5 }}>-</Text>
                     <Picker
-                        selectedValue={fMonthEnd}
-                        onValueChange={setFMonthEnd}
+                        selectedValue={fMonthEnd.toString()}
+                        onValueChange={(itemValue) => setFMonthEnd(parseInt(itemValue))}
                         style={styles.picker}
                     >
                         {monthOptions}
                     </Picker>
                 </View>
             </PlantDetailsSection>
-            <Button title={"Usuń roślinę"} onPress={() => {
-                deletePlant();
-            }
-            } />
+            <Button title={"Usuń roślinę"} onPress={deletePlant} />
 
         </View>
     );
