@@ -1,12 +1,12 @@
 import { getPlants, getUserPlants } from './PlantsDBApi';
 import JsonFileManager from './JsonFileManager';
-import { deleteUserPlant } from './PlantsDBApi';
+import PlantsDBApi from './PlantsDBApi';
 import userId from './userId';
 
 class DataManager {
     static updatePlantTypes = async () => {
         try {
-            const plantTypes = await getPlants();
+            const plantTypes = await PlantsDBApi.getPlants();
             JsonFileManager.save('typesDescriptions', plantTypes);
         } catch (error) {
             console.log("Error with updating plants descriptions", error);
@@ -16,7 +16,7 @@ class DataManager {
 
     static updateUserPlants = async () => {
         try {
-            const userPlants = await getUserPlants(userId);
+            const userPlants = await PlantsDBApi.getUserPlants();
             JsonFileManager.save('userPlants', userPlants);
         } catch (error) {
             console.log("Error with updating user plants", error);
@@ -26,7 +26,7 @@ class DataManager {
 
     static deletePlant = async (plantUuid) => {
         try {
-            await deleteUserPlant(userId, plantUuid);
+            await plantsDBApi.deleteUserPlant(userId, plantUuid);
             await this.updateUserPlants("1")
         } catch (error) {
             console.log("Error with handling deletion of user plant", error);
