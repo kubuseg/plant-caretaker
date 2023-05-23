@@ -26,8 +26,8 @@ class DataManager {
 
     static deletePlant = async (plantUuid) => {
         try {
-            await plantsDBApi.deleteUserPlant(userId, plantUuid);
-            await this.updateUserPlants("1")
+            await PlantsDBApi.deleteUserPlant(plantUuid);
+            await this.updateUserPlants()
         } catch (error) {
             console.log("Error with handling deletion of user plant", error);
             // toDo - implement alert
