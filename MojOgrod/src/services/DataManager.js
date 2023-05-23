@@ -33,6 +33,16 @@ class DataManager {
             // toDo - implement alert
         }
     };
+
+    static updatePlant = async (plantUuid, newPlant) => {
+        try {
+            await PlantsDBApi.updateUserPlant(plantUuid, newPlant);
+            await this.updateUserPlants()
+        } catch (error) {
+            console.log("Error with handling update of user plant", error);
+            // toDo - implement alert
+        }
+    };
 }
 
 export default DataManager;
