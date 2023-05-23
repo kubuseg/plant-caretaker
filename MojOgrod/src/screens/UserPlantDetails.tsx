@@ -19,7 +19,7 @@ const UserPlantDetails = ({ route }) => {
     const appHeaderText = "Szczegóły rośliny";
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={require('../../assets/icon.png')} />
+            <Image style={styles.icon} source={{uri: plantInfo.image}} />
             <Text>{plantInfo.name}</Text>
         </View>
     );

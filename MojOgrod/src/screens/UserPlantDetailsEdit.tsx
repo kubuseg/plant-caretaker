@@ -38,7 +38,7 @@ const UserPlantDetailsEdit = ({ route }) => {
     const appHeaderText = "Edycja rośliny";
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={require('../../assets/icon.png')} />
+            <Image style={styles.icon} source={{uri: plantInfo.image}} />
             <TextInput
                 value={plantName}
                 onChangeText={setPlantName}
