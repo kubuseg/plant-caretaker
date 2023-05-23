@@ -1,11 +1,11 @@
-import { getPlantsDescriptions, getUserPlants } from './PlantsDBApi';
+import { getPlants, getUserPlants } from './PlantsDBApi';
 import JsonFileManager from './JsonFileManager';
 
 class DataManager {
-    static updateDescriptions = async () => {
+    static updatePlantTypes = async () => {
         try {
-            const descriptions = await getPlants();
-            JsonFileManager.save('typesDescriptions', descriptions);
+            const plantTypes = await getPlants();
+            JsonFileManager.save('typesDescriptions', plantTypes);
         } catch (error) {
             console.log("Error with updating plants descriptions", error);
             // toDo - implement alert

@@ -54,6 +54,7 @@ const localStyles = StyleSheet.create({
         marginVertical: sizes.mainViewMargin,
         width: sizes.mainViewElementWidth,
         height: '75%',
+        paddingHorizontal: '2.5%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         backgroundColor: 'white',

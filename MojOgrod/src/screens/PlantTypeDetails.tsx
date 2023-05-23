@@ -9,9 +9,11 @@ import React from 'react';
 import PlantDetailsTemplate from "./PlantDetailsTemplate";
 import sizes from "../styles/sizes";
 import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
+import chipColors from '../styles/chipColors';
 
 function PlantTypeDetails({ route }): JSX.Element {
-    const plantDescription = route.params.plantInfo;
+    const plantInfo = route.params.plantInfo;
+    const plantDescription = plantInfo.description;
 
     const shortDescriptions: string[] = plantDescription.text;
     const sunlightExposure: string[] = plantDescription.sunlightExposure;
@@ -32,16 +34,34 @@ function PlantTypeDetails({ route }): JSX.Element {
     );
 
     const mainContents = (
-        <ScrollView>
-            <PlantTypeDetailsSection title="Podlewanie" items={sunlightExposure} containerColor="#d3e9ff" />
-            <PlantTypeDetailsSection title="Nawożenie" items={watering} containerColor="#bc8c74" />
-            <PlantTypeDetailsSection title="Nasłonecznienie" items={fertilization} containerColor="#fff1c1" />
-            <PlantTypeDetailsSection title="Okresy wzrostu" items={growthPeriods} containerColor="#beed9c" />
-            <PlantTypeDetailsSection title="Częste problemy" items={commonIssues} containerColor="#ff664a" />
+        <ScrollView style={{ flex: 1 }}>
+            <PlantTypeDetailsSection
+                title="Podlewanie"
+                items={sunlightExposure}
+                containerColor={chipColors.blue} />
+
+            <PlantTypeDetailsSection
+                title="Nawożenie"
+                items={watering}
+                containerColor={chipColors.brown} />
+
+            <PlantTypeDetailsSection
+                title="Nasłonecznienie"
+                items={fertilization}
+                containerColor={chipColors.yellow} />
+
+            <PlantTypeDetailsSection
+                title="Okresy wzrostu"
+                items={growthPeriods}
+                containerColor={chipColors.green} />
+            <PlantTypeDetailsSection
+                title="Częste problemy"
+                items={commonIssues}
+                containerColor={chipColors.red} />
         </ScrollView>
     );
 
-    const appHeaderText = "OPIS: " + plantDescription.name;
+    const appHeaderText = "OPIS: " + plantInfo.name;
     return PlantDetailsTemplate({
         appHeaderText,
         plantHeaderContents,
