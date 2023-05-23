@@ -28,15 +28,12 @@ class PlantsDBApi {
     }
   };
 
-  static addUserPlant = (plantId: string) => {
-    axios
-      .post(`/plants/${userId}`, { plantId: plantId })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  static addUserPlant = async (plantId: string) => {
+    try {
+      await axios.post(`/plants/${userId}`, { plantId: plantId });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   static deleteUserPlant = async (plantUUID: string) => {
@@ -69,8 +66,19 @@ class PlantsDBApi {
     }
   };
 
-  static getUser = (username: string, password: string) => {
-    return axios.get(`/user`, { params: { username: username, password: password } });
+  static getUser = async (
+    username: string,
+    password: string,
+  ): Promise<any> => {
+    try {
+      const response: AxiosResponse<any> = await axios.get(`/user`, {
+        params: { username: username, password: password },
+      });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   };
 
   static addUser = (username: string, password: string) => {
@@ -84,53 +92,50 @@ class PlantsDBApi {
       });
   };
 
-  static deleteUser = () => {
-    axios
-      .delete(`/user/${userId}`)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  static deleteUser = async () => {
+    try {
+      await axios.delete(`/user/${userId}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  static getMicrocontroller = (mcId: string) => {
-    return axios.get(`/mc/${mcId}`);
+  static getMicrocontroller = async (mcId: string) => {
+    try {
+      const response: AxiosResponse<any> = await axios.get(`/mc/${mcId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
   };
 
-  static addPlantToMicrocontroller = (
+  static addPlantToMicrocontroller = async (
     mcId: string,
     sensorId: string,
     userId: string,
     plantUUID: string,
   ) => {
-    axios
-      .post(`/mc/${mcId}`, {
+    try {
+      await axios.post(`/mc/${mcId}`, {
         userId: userId,
         sensorId: sensorId,
         plantUUID: plantUUID,
-      })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
       });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  static deletePlantFromMicrocontroller = (
+  static deletePlantFromMicrocontroller = async (
     mcId: string,
     sensorId: string,
   ) => {
-    axios
-      .delete(`/mc/${mcId}`, { params: { sensor: sensorId } })
-      .then(response => {
-        console.log(response);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    try {
+      await axios.delete(`/mc/${mcId}`, { params: { sensor: sensorId } });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
 
