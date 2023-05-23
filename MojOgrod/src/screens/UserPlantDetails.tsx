@@ -13,9 +13,7 @@ const UserPlantDetails = ({ route }) => {
     const navigation = useNavigation();
 
     async function plantTypeInfo() {
-        const types = await JsonFileManager.read('typesDescriptions');
-        const typeInfo = types.find(plant => plant.id === plantInfo.id);
-        navigation.navigate('PlantTypeDetails' as never, { plantInfo: typeInfo } as never);
+        navigation.navigate('PlantTypeDetails' as never, { plantInfo: plantInfo } as never);
     }
 
     const appHeaderText = "Szczegóły rośliny";
