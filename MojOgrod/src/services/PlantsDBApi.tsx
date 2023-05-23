@@ -26,15 +26,12 @@ export const getUserPlants = async (userId: string): Promise<any> => {
   }
 };
 
-export const addUserPlant = (userId: string, plantId: string) => {
-  axios
-    .post(`/plants/${userId}`, {plantId: plantId})
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+export const addUserPlant = async (userId: string, plantId: string) => {
+  try {
+    await axios.post(`/plants/${userId}`, {plantId: plantId});
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const deleteUserPlant = async (userId: string, plantUUID: string) => {
@@ -68,66 +65,71 @@ export const updateUserMicrocontroller = async (
   }
 };
 
-export const getUser = (username: string, password: string) => {
-  return axios.get(`/user`, {params: {username: username, password: password}});
-};
-
-export const addUser = (username: string, password: string) => {
-  axios
-    .post(`/user`, {username: username, password: password})
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
+export const getUser = async (
+  username: string,
+  password: string,
+): Promise<any> => {
+  try {
+    const response: AxiosResponse<any> = await axios.get(`/user`, {
+      params: {username: username, password: password},
     });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };
 
-export const deleteUser = (userId: string) => {
-  axios
-    .delete(`/user/${userId}`)
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+export const addUser = async (username: string, password: string) => {
+  try {
+    await axios.post(`/user`, {username: username, password: password});
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const getMicrocontroller = (mcId: string) => {
-  return axios.get(`/mc/${mcId}`);
+export const deleteUser = async (userId: string) => {
+  try {
+    await axios.delete(`/user/${userId}`);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const addPlantToMicrocontroller = (
+export const getMicrocontroller = async (mcId: string): Promise<any> => {
+  try {
+    const response: AxiosResponse<any> = await axios.get(`/mc/${mcId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+export const addPlantToMicrocontroller = async (
   mcId: string,
   sensorId: string,
   userId: string,
   plantUUID: string,
 ) => {
-  axios
-    .post(`/mc/${mcId}`, {
+  try {
+    await axios.post(`/mc/${mcId}`, {
       userId: userId,
       sensorId: sensorId,
       plantUUID: plantUUID,
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
     });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export const deletePlantFromMicrocontroller = (
+export const deletePlantFromMicrocontroller = async (
   mcId: string,
   sensorId: string,
 ) => {
-  axios
-    .delete(`/mc/${mcId}`, {params: {sensor: sensorId}})
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  try {
+    await axios.delete(`/mc/${mcId}`, {params: {sensor: sensorId}});
+  } catch (error) {
+    console.log(error);
+  }
 };
