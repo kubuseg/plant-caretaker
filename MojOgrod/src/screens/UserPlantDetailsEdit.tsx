@@ -14,6 +14,7 @@ const UserPlantDetailsEdit = ({ route }) => {
     const plantInfo = route.params.plantInfo;
     const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
+    const [plantName, setPlantName] = useState(plantInfo.name);
 
     async function deletePlant() {
         setIsLoading(true);
@@ -22,11 +23,26 @@ const UserPlantDetailsEdit = ({ route }) => {
         navigation.navigate('Home' as never);
     }
 
+    async function saveEdit() {
+        plantInfo.name = plantName;
+        plantInfo.wateringIntervalInDays = wateringInterval;
+        plantInfo.fertilizationIntervalInWeeks = fertilizationInterval;
+        plantInfo.fertilizationMonthBetweenCondition[0] = fMonthStart;
+        plantInfo.fertilizationMonthBetweenCondition[1] = fMonthEnd;
+        setIsLoading(true);
+        await DataManager.updatePlant(plantInfo.uuid, plantInfo)
+        setIsLoading(false);
+        navigation.navigate('UserPlantDetails' as never, { plantInfo: plantInfo } as never);
+    }
+
     const appHeaderText = "Edycja rośliny";
     const plantHeaderContents = (
         <View style={styles.cardInner}>
             <Image style={styles.icon} source={require('../../assets/icon.png')} />
-            <Text>{plantInfo.name}</Text>
+            <TextInput
+                value={plantName}
+                onChangeText={setPlantName}
+            />
         </View>
     );
 
@@ -88,6 +104,8 @@ const UserPlantDetailsEdit = ({ route }) => {
                     </Picker>
                 </View>
             </PlantDetailsSection>
+            <Button title={"Zapisz"} onPress={saveEdit} />
+
             <Button title={"Usuń roślinę"} onPress={deletePlant} />
 
         </View>
