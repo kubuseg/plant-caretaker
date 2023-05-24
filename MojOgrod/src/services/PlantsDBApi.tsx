@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
+import {AxiosResponse} from 'axios';
 import userId from './userId';
 
 axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
@@ -28,28 +28,33 @@ class PlantsDBApi {
     }
   };
 
-  static addUserPlant = async (plantId: string) => {
+  static addUserPlant = async (plantId: string): Promise<any> => {
     try {
-      await axios.post(`/plants/${userId}`, { plantId: plantId });
+      const response: AxiosResponse<any> = await axios.post(
+        `/plants/${userId}`,
+        {plantId: plantId},
+      );
+      return response.data;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
   static deleteUserPlant = async (plantUUID: string) => {
     try {
-      await axios.delete(`/plants/${userId}`, { params: { uuid: plantUUID } });
+      await axios.delete(`/plants/${userId}`, {params: {uuid: plantUUID}});
     } catch (error) {
       console.log(error);
     }
   };
 
-  static updateUserPlant = async (
-    plantUUID: string,
-    newPlant: object,
-  ) => {
+  static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
-      await axios.patch(`/plants/${userId}`, { uuid: plantUUID, plant: newPlant });
+      await axios.patch(`/plants/${userId}`, {
+        uuid: plantUUID,
+        plant: newPlant,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -60,19 +65,16 @@ class PlantsDBApi {
     newMcId: string,
   ) => {
     try {
-      await axios.patch(`/mcId/${userId}`, { mcId: newMcId });
+      await axios.patch(`/mcId/${userId}`, {mcId: newMcId});
     } catch (error) {
       console.log(error);
     }
   };
 
-  static getUser = async (
-    username: string,
-    password: string,
-  ): Promise<any> => {
+  static getUser = async (username: string, password: string): Promise<any> => {
     try {
       const response: AxiosResponse<any> = await axios.get(`/user`, {
-        params: { username: username, password: password },
+        params: {username: username, password: password},
       });
       return response.data;
     } catch (error) {
@@ -83,7 +85,7 @@ class PlantsDBApi {
 
   static addUser = (username: string, password: string) => {
     axios
-      .post(`/user`, { username: username, password: password })
+      .post(`/user`, {username: username, password: password})
       .then(response => {
         console.log(response);
       })
@@ -132,7 +134,7 @@ class PlantsDBApi {
     sensorId: string,
   ) => {
     try {
-      await axios.delete(`/mc/${mcId}`, { params: { sensor: sensorId } });
+      await axios.delete(`/mc/${mcId}`, {params: {sensor: sensorId}});
     } catch (error) {
       console.log(error);
     }
