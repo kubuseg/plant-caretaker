@@ -11,6 +11,7 @@ import LoadingScreen from './LoadingScreen';
 import appColors from '../styles/appColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
+import FooterTextButton from '../components/FooterTextButton';
 import PlantDetailsPickerOptions from '../services/PlantDetailsPickerOptions';
 
 const UserPlantDetailsEdit = ({ route }) => {
@@ -26,7 +27,7 @@ const UserPlantDetailsEdit = ({ route }) => {
         navigation.navigate('Home' as never);
     }
 
-    async function saveEdit() {
+    async function onPressSave() {
         plantInfo.name = plantName;
         plantInfo.wateringIntervalInDays = wateringInterval;
         plantInfo.fertilizationIntervalInWeeks = fertilizationInterval;
@@ -97,7 +98,6 @@ const UserPlantDetailsEdit = ({ route }) => {
                     </Picker>
                 </View>
             </PlantDetailsSection>
-            <Button title={"Zapisz"} onPress={saveEdit} />
 
             <Button title={"Usuń roślinę"} onPress={deletePlant} />
 
@@ -110,7 +110,12 @@ const UserPlantDetailsEdit = ({ route }) => {
         );
     }
 
-    const footerContents = BackButton();
+    const footerContents = (
+        <>
+            <BackButton />
+            <FooterTextButton text="ZAPISZ" onPress={onPressSave} />
+        </>
+    );
 
     return (
         <PlantDetailsTemplate
@@ -125,7 +130,7 @@ const UserPlantDetailsEdit = ({ route }) => {
 const styles = StyleSheet.create({
     icon: homeScrollViewStyles.icon,
     picker: {
-        backgroundColor: appColors.turquoise,
+        backgroundColor: appColors.onEditGrey,
         width: sizes.screenWidth * 0.25,
     },
 });
