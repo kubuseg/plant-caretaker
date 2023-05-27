@@ -8,7 +8,7 @@ import monthMap from '../services/monthMap';
 import chipColors from '../styles/chipColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
-import EditPlantButton from '../components/EditPlantButton';
+import FooterTextButton from '../components/FooterTextButton';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -63,7 +63,7 @@ const UserPlantDetails = ({ route }) => {
     const footerContents = (
         <>
             <BackButton />
-            <EditPlantButton onPress={onPressEdit} />
+            <FooterTextButton text="EDYTUJ" onPress={onPressEdit} />
         </>
     );
 

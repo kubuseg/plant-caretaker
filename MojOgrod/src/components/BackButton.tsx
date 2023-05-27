@@ -1,21 +1,12 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import textButtonStyles from '../styles/textButtonStyle';
+import FooterTextButton from './FooterTextButton';
 
 function BackButton(): JSX.Element {
     const navigation = useNavigation();
+    const onPress = () => navigation.goBack();
 
-    return (
-        <TouchableOpacity
-            onPress={() => {
-                navigation.goBack();
-            }}
-            style={textButtonStyles.button}
-        >
-            <Text style={textButtonStyles.buttonText}>POWRÓT</Text>
-        </TouchableOpacity>
-    );
+    return <FooterTextButton text='POWRÓT' onPress={onPress} />;
 }
 
 export default BackButton;
