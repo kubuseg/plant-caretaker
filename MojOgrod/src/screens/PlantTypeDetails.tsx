@@ -11,6 +11,7 @@ import sizes from "../styles/sizes";
 import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
 import chipColors from '../styles/chipColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
+import BackButton from '../components/BackButton';
 
 function PlantTypeDetails({ route }): JSX.Element {
     const plantInfo = route.params.plantInfo;
@@ -63,11 +64,15 @@ function PlantTypeDetails({ route }): JSX.Element {
     );
 
     const appHeaderText = "OPIS: " + plantInfo.name;
-    return PlantDetailsTemplate({
-        appHeaderText,
-        plantHeaderContents,
-        mainContents,
-    });
+    const footerContents = BackButton();
+    return (
+        <PlantDetailsTemplate
+            appHeaderText={appHeaderText}
+            plantHeaderContents={plantHeaderContents}
+            mainContents={mainContents}
+            footerContents={footerContents}
+        />
+    );
 }
 
 const styles = StyleSheet.create({

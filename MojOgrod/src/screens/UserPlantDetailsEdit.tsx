@@ -10,6 +10,8 @@ import DataManager from '../services/DataManager';
 import LoadingScreen from './LoadingScreen';
 import appColors from '../styles/appColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
+import HomeFooterContents from '../components/HomeFooterContents';
+import BackButton from '../components/BackButton';
 
 const UserPlantDetailsEdit = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -119,11 +121,16 @@ const UserPlantDetailsEdit = ({ route }) => {
             <LoadingScreen />
         );
     }
+
+    const footerContents = BackButton();
+
     return (
         <PlantDetailsTemplate
             appHeaderText={appHeaderText}
             plantHeaderContents={plantHeaderContents}
-            mainContents={mainContents} />
+            mainContents={mainContents}
+            footerContents={footerContents}
+        />
     );
 };
 

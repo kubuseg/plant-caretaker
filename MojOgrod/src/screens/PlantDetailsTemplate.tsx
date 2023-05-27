@@ -1,20 +1,19 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import AppFooter from '../components/AppFooter';
-import BackButton from '../components/BackButton';
 import AppHeader from '../components/AppHeader';
 import appColors from '../styles/appColors';
 import sizes from '../styles/sizes';
 
 type PTypeDetailsProps = {
     appHeaderText: string;
-    plantHeaderContents: React.ReactNode;
-    mainContents: React.ReactNode;
+    plantHeaderContents: JSX.Element;
+    mainContents: JSX.Element;
+    footerContents: JSX.Element;
 };
 
 function PlantDetailsTemplate(props: PTypeDetailsProps): JSX.Element {
-    const { appHeaderText, plantHeaderContents, mainContents } = props;
-    const footerContents = BackButton();
+    const { appHeaderText, plantHeaderContents, mainContents, footerContents } = props;
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

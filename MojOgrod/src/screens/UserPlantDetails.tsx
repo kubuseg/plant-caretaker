@@ -5,9 +5,9 @@ import PlantDetailsSection from '../components/PlantDetailsSection';
 import { useNavigation } from '@react-navigation/native';
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 import monthMap from '../services/monthMap';
-import JsonFileManager from '../services/JsonFileManager';
 import chipColors from '../styles/chipColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
+import BackButton from '../components/BackButton';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -61,11 +61,15 @@ const UserPlantDetails = ({ route }) => {
         </View>
     );
 
+    const footerContents = BackButton()
+
     return (
         <PlantDetailsTemplate
             appHeaderText={appHeaderText}
             plantHeaderContents={plantHeaderContents}
-            mainContents={mainContents} />
+            mainContents={mainContents}
+            footerContents={footerContents}
+        />
     );
 };
 
