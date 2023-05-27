@@ -9,6 +9,7 @@ import PlantDetailsTemplate from './PlantDetailsTemplate';
 import DataManager from '../services/DataManager';
 import LoadingScreen from './LoadingScreen';
 import appColors from '../styles/appColors';
+import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 
 const UserPlantDetailsEdit = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -38,10 +39,12 @@ const UserPlantDetailsEdit = ({ route }) => {
     const appHeaderText = "Edycja rośliny";
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={{uri: plantInfo.image}} />
+            <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <TextInput
                 value={plantName}
                 onChangeText={setPlantName}
+                style={[homeScrollViewStyles.title, { marginLeft: 6, backgroundColor: appColors.onEditGrey }]}
+                maxLength={28}
             />
         </View>
     );

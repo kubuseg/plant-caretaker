@@ -10,6 +10,7 @@ import PlantDetailsTemplate from "./PlantDetailsTemplate";
 import sizes from "../styles/sizes";
 import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
 import chipColors from '../styles/chipColors';
+import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 
 function PlantTypeDetails({ route }): JSX.Element {
     const plantInfo = route.params.plantInfo;
@@ -24,7 +25,7 @@ function PlantTypeDetails({ route }): JSX.Element {
 
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={{uri: plantInfo.image}} />
+            <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <View style={styles.descView}>
                 {shortDescriptions.map((desc: string, index: number) => (
                     <Text key={index} style={styles.descLine}>{desc}</Text>
@@ -79,10 +80,7 @@ const styles = StyleSheet.create({
         width: sizes.SVelementHeight,
         height: sizes.SVelementHeight,
     },
-    descView: {
-        flexDirection: 'column',
-        marginLeft: '3%',
-    },
+    descView: homeScrollViewStyles.title,
     descLine: {
         fontWeight: 'bold',
         color: 'black',

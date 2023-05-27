@@ -7,6 +7,7 @@ import PlantDetailsTemplate from './PlantDetailsTemplate';
 import monthMap from '../services/monthMap';
 import JsonFileManager from '../services/JsonFileManager';
 import chipColors from '../styles/chipColors';
+import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -19,8 +20,8 @@ const UserPlantDetails = ({ route }) => {
     const appHeaderText = "Szczegóły rośliny";
     const plantHeaderContents = (
         <View style={styles.cardInner}>
-            <Image style={styles.icon} source={{uri: plantInfo.image}} />
-            <Text>{plantInfo.name}</Text>
+            <Image style={styles.icon} source={{ uri: plantInfo.image }} />
+            <Text style={homeScrollViewStyles.title}>{plantInfo.name}</Text>
         </View>
     );
 
