@@ -36,7 +36,7 @@ function PlantsSVTemplate({ plantsList, onTouchScreen, fadeAnim }: PlantSVParams
                             }}
                         >
                             <View style={styles.cardInner}>
-                                <Image style={styles.icon} source={require('../../assets/icon.png')} />
+                                <Image style={styles.icon} source={{ uri: plant.image }} />
                                 <Text style={styles.title}>{plant.name}</Text>
                                 <View style={styles.arrowContainer}>
                                     <Image
