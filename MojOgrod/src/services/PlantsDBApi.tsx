@@ -51,13 +51,25 @@ class PlantsDBApi {
 
   static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
-      await axios.patch(`/plants/${userId}`, {
+        await axios.patch(`/plants/${userId}`, {
         uuid: plantUUID,
         plant: newPlant,
       });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  static getUserMicrocontroller = async (
+    userId: string
+  ) => {
+    try {
+        const response: AxiosResponse<any> = await axios.get(''); // TODO
+        return response.data;
+    } catch (error){
+        console.log(error);
+        return null;
+        }
   };
 
   static updateUserMicrocontroller = async (

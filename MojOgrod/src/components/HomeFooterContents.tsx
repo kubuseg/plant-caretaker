@@ -39,7 +39,9 @@ function HomeFooterContents(): JSX.Element {
                 />
             </TouchableOpacity >
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('InformationChoice' as never);
+            }}>
                 <Image
                     source={require('../../assets/info-button.png')}
                     style={localStyles.footerButton}

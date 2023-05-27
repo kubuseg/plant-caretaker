@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import PlantTypeDetails from './src/screens/PlantTypeDetails';
 import PlantTypeChoice from './src/screens/PlantTypeChoice';
+import InformationChoice from './src/screens/InformationChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import UserPlantDetails from './src/screens/UserPlantDetails';
@@ -64,6 +65,11 @@ function App(): JSX.Element {
             name="PlantTypes"
             component={PlantTypes}
             options={{ headerShown: false }}
+          />
+          <Stack.Screen
+          name="InformationChoice"
+          component={InformationChoice}
+          options={{ headerShown: false}}
           />
         </Stack.Navigator>
       </SafeAreaView>
