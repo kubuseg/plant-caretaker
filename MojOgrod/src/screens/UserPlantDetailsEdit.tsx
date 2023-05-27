@@ -10,8 +10,8 @@ import DataManager from '../services/DataManager';
 import LoadingScreen from './LoadingScreen';
 import appColors from '../styles/appColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
-import HomeFooterContents from '../components/HomeFooterContents';
 import BackButton from '../components/BackButton';
+import PlantDetailsPickerOptions from '../services/PlantDetailsPickerOptions';
 
 const UserPlantDetailsEdit = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -56,18 +56,6 @@ const UserPlantDetailsEdit = ({ route }) => {
     const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
     const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
 
-    const wateringIntervalOptions = Array.from({ length: 100 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
-    const fertilizationIntervalOptions = Array.from({ length: 30 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
-    const monthOptions = Array.from({ length: 12 }, (_, i) => i + 1).map((m) => (
-        <Picker.Item key={m} label={m.toString()} value={m.toString()} />
-    ));
-
     const mainContents = (
         <View>
             <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
@@ -76,7 +64,7 @@ const UserPlantDetailsEdit = ({ route }) => {
                     onValueChange={(itemValue) => setWateringInterval(parseInt(itemValue))}
                     style={styles.picker}
                 >
-                    {wateringIntervalOptions}
+                    {PlantDetailsPickerOptions.wateringIntervalOptions}
                 </Picker>
             </PlantDetailsSection>
 
@@ -86,7 +74,7 @@ const UserPlantDetailsEdit = ({ route }) => {
                     onValueChange={(itemValue) => setFertilizationInterval(parseInt(itemValue))}
                     style={styles.picker}
                 >
-                    {fertilizationIntervalOptions}
+                    {PlantDetailsPickerOptions.fertilizationIntervalOptions}
                 </Picker>
             </PlantDetailsSection>
 
@@ -97,7 +85,7 @@ const UserPlantDetailsEdit = ({ route }) => {
                         onValueChange={(itemValue) => setFMonthStart(parseInt(itemValue))}
                         style={styles.picker}
                     >
-                        {monthOptions}
+                        {PlantDetailsPickerOptions.monthOptions}
                     </Picker>
                     <Text style={{ marginHorizontal: 5 }}>-</Text>
                     <Picker
@@ -105,7 +93,7 @@ const UserPlantDetailsEdit = ({ route }) => {
                         onValueChange={(itemValue) => setFMonthEnd(parseInt(itemValue))}
                         style={styles.picker}
                     >
-                        {monthOptions}
+                        {PlantDetailsPickerOptions.monthOptions}
                     </Picker>
                 </View>
             </PlantDetailsSection>
