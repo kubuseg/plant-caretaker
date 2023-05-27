@@ -20,10 +20,10 @@ const UserPlantDetails = ({ route }) => {
 
     const appHeaderText = "Szczegóły rośliny";
     const plantHeaderContents = (
-        <View style={styles.cardInner}>
+        <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <Text style={homeScrollViewStyles.title}>{plantInfo.name}</Text>
-        </View>
+        </>
     );
 
     const wateringInterval = plantInfo.wateringIntervalInDays.toString();
@@ -78,15 +78,7 @@ const UserPlantDetails = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    cardInner: {
-        width: sizes.screenWidth * 0.7,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    icon: {
-        width: sizes.SVelementHeight,
-        height: sizes.SVelementHeight,
-    },
+    icon: homeScrollViewStyles.icon,
     picker: {
         color: 'black',
         width: sizes.screenWidth * 0.25,

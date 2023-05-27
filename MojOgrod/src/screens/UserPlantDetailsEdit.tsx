@@ -40,7 +40,7 @@ const UserPlantDetailsEdit = ({ route }) => {
 
     const appHeaderText = "Edycja rośliny";
     const plantHeaderContents = (
-        <View style={styles.cardInner}>
+        <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <TextInput
                 value={plantName}
@@ -48,7 +48,7 @@ const UserPlantDetailsEdit = ({ route }) => {
                 style={[homeScrollViewStyles.title, { marginLeft: 6, backgroundColor: appColors.onEditGrey }]}
                 maxLength={28}
             />
-        </View>
+        </>
     );
 
     const [wateringInterval, setWateringInterval] = useState(parseInt(plantInfo.wateringIntervalInDays));
@@ -123,15 +123,7 @@ const UserPlantDetailsEdit = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-    cardInner: {
-        width: sizes.screenWidth * 0.7,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    icon: {
-        width: sizes.SVelementHeight,
-        height: sizes.SVelementHeight,
-    },
+    icon: homeScrollViewStyles.icon,
     picker: {
         backgroundColor: appColors.turquoise,
         width: sizes.screenWidth * 0.25,

@@ -25,14 +25,14 @@ function PlantTypeDetails({ route }): JSX.Element {
     const growthPeriods: string[] = plantDescription.growthPeriods;
 
     const plantHeaderContents = (
-        <View style={styles.cardInner}>
+        <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <View style={styles.descView}>
                 {shortDescriptions.map((desc: string, index: number) => (
                     <Text key={index} style={styles.descLine}>{desc}</Text>
                 ))}
             </View>
-        </View>
+        </>
     );
 
     const mainContents = (
@@ -76,15 +76,7 @@ function PlantTypeDetails({ route }): JSX.Element {
 }
 
 const styles = StyleSheet.create({
-    cardInner: {
-        width: sizes.screenWidth * 0.7,
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    icon: {
-        width: sizes.SVelementHeight,
-        height: sizes.SVelementHeight,
-    },
+    icon: homeScrollViewStyles.icon,
     descView: homeScrollViewStyles.title,
     descLine: {
         fontWeight: 'bold',
