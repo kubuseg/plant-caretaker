@@ -8,6 +8,7 @@ import monthMap from '../services/monthMap';
 import chipColors from '../styles/chipColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
+import EditPlantButton from '../components/EditPlantButton';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -51,17 +52,20 @@ const UserPlantDetails = ({ route }) => {
                     plantTypeInfo();
                 }}
             />
-            <Button
-                title={"Edytuj roślinę"}
-                onPress={() => {
-                    navigation.navigate("UserPlantDetailsEdit" as never, { plantInfo: plantInfo } as never);
-                }}
-            />
-
         </View>
     );
 
-    const footerContents = BackButton()
+    const onPressEdit = () => {
+        navigation.navigate("UserPlantDetailsEdit" as never, { plantInfo: plantInfo } as never);
+    }
+
+
+    const footerContents = (
+        <>
+            <BackButton />
+            <EditPlantButton onPress={onPressEdit} />
+        </>
+    );
 
     return (
         <PlantDetailsTemplate
