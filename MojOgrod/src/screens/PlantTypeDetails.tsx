@@ -17,7 +17,7 @@ function PlantTypeDetails({ route }): JSX.Element {
     const plantInfo = route.params.plantInfo;
     const plantDescription = plantInfo.description;
 
-    const shortDescriptions: string[] = plantDescription.text;
+    const shortDescription: string[] = plantDescription.text;
     const sunlightExposure: string[] = plantDescription.sunlightExposure;
     const watering: string[] = plantDescription.watering;
     const fertilization: string[] = plantDescription.fertilization;
@@ -27,11 +27,7 @@ function PlantTypeDetails({ route }): JSX.Element {
     const plantHeaderContents = (
         <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
-            <View style={styles.descView}>
-                {shortDescriptions.map((desc: string, index: number) => (
-                    <Text key={index} style={styles.descLine}>{desc}</Text>
-                ))}
-            </View>
+            <Text style={styles.descLine}>{shortDescription[0]}</Text>
         </>
     );
 
@@ -77,10 +73,11 @@ function PlantTypeDetails({ route }): JSX.Element {
 
 const styles = StyleSheet.create({
     icon: homeScrollViewStyles.icon,
-    descView: homeScrollViewStyles.title,
     descLine: {
         fontWeight: 'bold',
         color: 'black',
+        marginLeft: '3%',
+        width: '68%',
     },
     arrowContainer: {
         flex: 1,

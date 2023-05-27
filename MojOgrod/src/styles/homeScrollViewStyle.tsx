@@ -25,13 +25,14 @@ const homeScrollViewStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+
     icon: {
         width: sizes.SVelementHeight,
         height: sizes.SVelementHeight,
     },
     arrowIcon: {
-        width: sizes.SVelementHeight*0.4,
-        height: sizes.SVelementHeight*0.4,
+        width: sizes.SVelementHeight * 0.4,
+        height: sizes.SVelementHeight * 0.4,
         marginRight: 15
     },
     title: {
