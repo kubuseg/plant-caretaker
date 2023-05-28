@@ -1,7 +1,5 @@
-import { getPlants, getUserPlants } from './PlantsDBApi';
 import JsonFileManager from './JsonFileManager';
 import PlantsDBApi from './PlantsDBApi';
-import userId from './userId';
 
 class DataManager {
     static updatePlantTypes = async () => {
@@ -34,13 +32,17 @@ class DataManager {
         }
     };
 
-    static updatePlant = async (plantUuid, newPlant) => {
+    static savePlantInfo = async (newPlantInfo) => {
         try {
-            await PlantsDBApi.updateUserPlant(plantUuid, newPlant);
+            if (!newPlantInfo.uuid) {
+                await PlantsDBApi.addUserPlant(newPlantInfo);
+            } else {
+                await PlantsDBApi.updateUserPlant(newPlantInfo.uuid, newPlantInfo);
+            }
+
             await this.updateUserPlants()
-        } catch (error) {
-            console.log("Error with handling update of user plant", error);
-            // toDo - implement alert
+        } catch {
+            console.log("Error with saving plant settings", error)
         }
     };
 }

@@ -14,7 +14,7 @@ import BackButton from '../components/BackButton';
 import FooterTextButton from '../components/FooterTextButton';
 import PlantDetailsPickerOptions from '../services/PlantDetailsPickerOptions';
 
-const UserPlantDetailsEdit = ({ route }) => {
+const UserPlantSettings = ({ route }) => {
     const plantInfo = route.params.plantInfo;
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
@@ -38,10 +38,12 @@ const UserPlantDetailsEdit = ({ route }) => {
         plantInfo.fertilizationIntervalInWeeks = fertilizationInterval;
         plantInfo.fertilizationMonthBetweenCondition[0] = fMonthStart;
         plantInfo.fertilizationMonthBetweenCondition[1] = fMonthEnd;
+
         setIsLoading(true);
-        await DataManager.updatePlant(plantInfo.uuid, plantInfo)
+        await DataManager.savePlantInfo(plantInfo);
         setIsLoading(false);
-        navigation.navigate('UserPlantDetails' as never, { plantInfo: plantInfo } as never);
+
+        navigation.navigate('Home' as never);
     }
 
     const appHeaderText = "Edycja rośliny";
@@ -135,4 +137,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default UserPlantDetailsEdit;
+export default UserPlantSettings;
