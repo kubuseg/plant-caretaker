@@ -9,7 +9,7 @@ import InformationChoice from './src/screens/InformationChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import UserPlantDetails from './src/screens/UserPlantDetails';
-import UserPlantDetailsEdit from './src/screens/UserPlantDetailsEdit';
+import UserPlantSettings from './src/screens/UserPlantSettings';
 import DataManager from './src/services/DataManager';
 import PlantTypes from './src/screens/PlantTypes';
 import UserSettingsScreen from './src/screens/UserSettingsScreen';
@@ -62,8 +62,8 @@ function App(): JSX.Element {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name="UserPlantDetailsEdit"
-            component={UserPlantDetailsEdit}
+            name="UserPlantSettings"
+            component={UserPlantSettings}
             options={{ headerShown: false }}
           />
           <Stack.Screen
@@ -72,9 +72,9 @@ function App(): JSX.Element {
             options={{ headerShown: false }}
           />
           <Stack.Screen
-          name="InformationChoice"
-          component={InformationChoice}
-          options={{ headerShown: false}}
+            name="InformationChoice"
+            component={InformationChoice}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
           name="UserSettings"
