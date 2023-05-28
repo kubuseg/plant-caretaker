@@ -11,7 +11,7 @@ function PlantTypeChoice(route): JSX.Element {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <AppHeader>NOWA ROŚLINA</AppHeader>
-            <PlantTypesSV onTouchScreen='' />
+            <PlantTypesSV onTouchScreen='UserPlantSettings' />
             <AppFooter children={footerContents} />
         </SafeAreaView>
     );
