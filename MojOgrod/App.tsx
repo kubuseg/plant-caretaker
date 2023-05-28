@@ -11,16 +11,17 @@ import UserPlantDetails from './src/screens/UserPlantDetails';
 import UserPlantDetailsEdit from './src/screens/UserPlantDetailsEdit';
 import DataManager from './src/services/DataManager';
 import PlantTypes from './src/screens/PlantTypes';
+import UserSettingsScreen from './src/screens/UserSettingsScreen';
+import JsonFileManager from './src/services/JsonFileManager';
+import {AuthProvider} from './src/auth/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  const userId = '1';
 
   useEffect(() => {
     DataManager.updatePlantTypes();
     DataManager.updateUserPlants();
-
   }, []);
 
   const backgroundStyle = {
@@ -29,6 +30,7 @@ function App(): JSX.Element {
   };
 
   return (
+    <AuthProvider>
     <NavigationContainer>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar
@@ -71,9 +73,15 @@ function App(): JSX.Element {
           component={InformationChoice}
           options={{ headerShown: false}}
           />
+          <Stack.Screen
+          name="UserSettings"
+          component={UserSettingsScreen}
+          options={{ headerShown: false}}
+          />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
+    </AuthProvider>
   );
 }
 

@@ -8,6 +8,7 @@ import {
     Animated
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {useAuth} from '../auth/AuthContext';
 
 import infoScrollViewStyle from '../styles/infoScrollViewStyle';
 
@@ -21,6 +22,12 @@ type InformationSVParams = {
 
 function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVParams): JSX.Element {
     const navigation = useNavigation();
+    const {
+        authUser,
+        setAuthUser,
+        isLoggedIn,
+        setIsLoggedIn
+        } = useAuth()
     return (
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
@@ -69,6 +76,25 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
                                 />
                           </View>
                     </View>
+                    <TouchableOpacity
+                         style={styles.card}
+                         onPress={() => {
+                         navigation.navigate("UserSettings" as never);
+                         }}
+                     >
+                    <View style={styles.cardInner}>
+                         <Image style={styles.icon}
+                         source={require('../../assets/info-icons/user-icon.png')}
+                         />
+                         <Text style={styles.title}>{authUser.name}</Text>
+                         <View style={styles.alertContainer}>
+                               <Image
+                               style={styles.alertIcon}
+                               source={require('../../assets/info-icons/settings-icon.png')}
+                               />
+                                              </View>
+                         </View>
+                    </TouchableOpacity>
                 </View>
             </Animated.View>
         </ScrollView>

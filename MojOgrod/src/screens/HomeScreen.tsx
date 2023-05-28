@@ -8,6 +8,8 @@ import PlantTypesSV from '../components/PlantTypesSV';
 import UserPlantsSV from '../components/UserPlantsSV';
 import { Text, SafeAreaView } from 'react-native';
 import eventEmitter from '../services/eventEmitter';
+import {useAuth} from '../auth/AuthContext';
+import SignIn from '../components/SignIn';
 
 export const homeSVTypes = {
     userPlants: 1,
@@ -16,9 +18,17 @@ export const homeSVTypes = {
 
 function HomeScreen({ route }): JSX.Element {
 
+    const {
+        authUser,
+        setAuthUser,
+        isLoggedIn,
+        setIsLoggedIn
+    } = useAuth()
+
+
     let list;
     let headerText = "";
-    list = <UserPlantsSV />;
+    list = <UserPlantsSV/>;
     headerText = <AppTitleText />
 
 
@@ -30,7 +40,7 @@ function HomeScreen({ route }): JSX.Element {
             <AppHeader>
                 {headerText}
             </AppHeader>
-            {list}
+            {isLoggedIn ? list : <SignIn/>}
             <AppFooter children={footerContents} />
         </SafeAreaView>
     );
