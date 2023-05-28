@@ -16,9 +16,14 @@ import PlantDetailsPickerOptions from '../services/PlantDetailsPickerOptions';
 
 const UserPlantDetailsEdit = ({ route }) => {
     const plantInfo = route.params.plantInfo;
-    const [isLoading, setIsLoading] = useState(false);
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false);
+
     const [plantName, setPlantName] = useState(plantInfo.name);
+    const [wateringInterval, setWateringInterval] = useState(parseInt(plantInfo.wateringIntervalInDays));
+    const [fertilizationInterval, setFertilizationInterval] = useState(parseInt(plantInfo.fertilizationIntervalInWeeks));
+    const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
+    const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
 
     async function deletePlant() {
         setIsLoading(true);
@@ -51,11 +56,6 @@ const UserPlantDetailsEdit = ({ route }) => {
             />
         </>
     );
-
-    const [wateringInterval, setWateringInterval] = useState(parseInt(plantInfo.wateringIntervalInDays));
-    const [fertilizationInterval, setFertilizationInterval] = useState(parseInt(plantInfo.fertilizationIntervalInWeeks));
-    const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
-    const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
 
     const mainContents = (
         <View>
@@ -104,12 +104,6 @@ const UserPlantDetailsEdit = ({ route }) => {
         </View>
     );
 
-    if (isLoading) {
-        return (
-            <LoadingScreen />
-        );
-    }
-
     const footerContents = (
         <>
             <BackButton />
@@ -117,13 +111,19 @@ const UserPlantDetailsEdit = ({ route }) => {
         </>
     );
 
+    if (!isLoading) {
+        return (
+            <PlantDetailsTemplate
+                appHeaderText={appHeaderText}
+                plantHeaderContents={plantHeaderContents}
+                mainContents={mainContents}
+                footerContents={footerContents}
+            />
+        );
+    }
+
     return (
-        <PlantDetailsTemplate
-            appHeaderText={appHeaderText}
-            plantHeaderContents={plantHeaderContents}
-            mainContents={mainContents}
-            footerContents={footerContents}
-        />
+        <LoadingScreen />
     );
 };
 
