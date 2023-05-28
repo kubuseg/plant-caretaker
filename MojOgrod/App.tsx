@@ -19,11 +19,6 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
 
-  useEffect(() => {
-    DataManager.updatePlantTypes();
-    DataManager.updateUserPlants();
-  }, []);
-
   const backgroundStyle = {
     flex: 1,
     backgroundColor: Colors.lighter,

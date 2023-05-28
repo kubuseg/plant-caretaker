@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {AxiosResponse} from 'axios';
-import userId from './userId';
-
+import JsonFileManager from '../services/JsonFileManager';
 axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
 axios.defaults.params = {
   code: 'aE6B5CXrIMeU85MzXP3HHWHCZcvvhOegFz6K4qvN79vhAzFu388wAg==',
@@ -20,6 +19,7 @@ class PlantsDBApi {
 
   static getUserPlants = async (): Promise<any> => {
     try {
+      const userId = await JsonFileManager.read('userId.json');
       const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
       return response.data;
     } catch (error) {
@@ -30,6 +30,7 @@ class PlantsDBApi {
 
   static addUserPlant = async (plantId: string): Promise<any> => {
     try {
+      const userId = await JsonFileManager.read('userId.json');
       const response: AxiosResponse<any> = await axios.post(
         `/plants/${userId}`,
         {plantId: plantId},
@@ -43,6 +44,7 @@ class PlantsDBApi {
 
   static deleteUserPlant = async (plantUUID: string) => {
     try {
+      const userId = await JsonFileManager.read('userId.json');
       await axios.delete(`/plants/${userId}`, {params: {uuid: plantUUID}});
     } catch (error) {
       console.log(error);
@@ -51,6 +53,7 @@ class PlantsDBApi {
 
   static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
+        const userId = await JsonFileManager.read('userId.json');
         await axios.patch(`/plants/${userId}`, {
         uuid: plantUUID,
         plant: newPlant,
@@ -77,6 +80,7 @@ class PlantsDBApi {
     newMcId: string,
   ) => {
     try {
+      const userId = await JsonFileManager.read('userId.json');
       await axios.patch(`/mcId/${userId}`, {mcId: newMcId});
     } catch (error) {
       console.log(error);

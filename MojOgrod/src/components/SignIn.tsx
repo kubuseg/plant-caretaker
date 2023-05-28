@@ -44,7 +44,6 @@ function SignIn(): JSX.Element {
     const logIn = (e) =>
     {
         if (user.id != null){
-            console.log('f')
             setIsLoggedIn(true)
             setAuthUser({
                 name: user.username,

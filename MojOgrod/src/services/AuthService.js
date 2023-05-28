@@ -16,7 +16,7 @@ class AuthService {
 
     static logOut = async () => {
         try {
-            JsonFileManager.save('userId.json', "");
+            await JsonFileManager.save('userId.json', "");
         } catch (error) {
             console.log("Error logging out", error);
         }

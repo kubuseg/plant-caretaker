@@ -10,6 +10,7 @@ import { Text, SafeAreaView } from 'react-native';
 import eventEmitter from '../services/eventEmitter';
 import {useAuth} from '../auth/AuthContext';
 import SignIn from '../components/SignIn';
+import DataManager from '../services/DataManager';
 
 export const homeSVTypes = {
     userPlants: 1,
@@ -25,11 +26,18 @@ function HomeScreen({ route }): JSX.Element {
         setIsLoggedIn
     } = useAuth()
 
+    useEffect(() => {
+        const get_both = async () => {
+              await DataManager.updatePlantTypes();
+              await DataManager.updateUserPlants();
+        }
+        get_both()
+    }, [isLoggedIn]);
 
     let list;
     let headerText = "";
     list = <UserPlantsSV/>;
-    headerText = <AppTitleText />
+    headerText = <AppTitleText/>
 
 
     const footerContents = HomeFooterContents();
