@@ -53,14 +53,14 @@ const UserPlantSettings = ({ route }) => {
             <TextInput
                 value={plantName}
                 onChangeText={setPlantName}
-                style={[homeScrollViewStyles.title, { marginLeft: 6, backgroundColor: appColors.onEditGrey }]}
+                style={[homeScrollViewStyles.title, { color: 'white', marginLeft: 6, backgroundColor: appColors.onEditGrey }]}
                 maxLength={28}
             />
         </>
     );
 
     const mainContents = (
-        <View>
+        <View style={{ width: '100%' }}>
             <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
                 <Picker
                     selectedValue={wateringInterval.toString()}
@@ -133,7 +133,8 @@ const styles = StyleSheet.create({
     icon: homeScrollViewStyles.icon,
     picker: {
         backgroundColor: appColors.onEditGrey,
-        width: sizes.screenWidth * 0.25,
+        width: sizes.screenWidth * 0.27,
+        color: 'white'
     },
 });
 
