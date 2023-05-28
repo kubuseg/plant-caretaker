@@ -7,9 +7,8 @@ import {
 } from 'react-native';
 import React from 'react';
 import PlantDetailsTemplate from "./PlantDetailsTemplate";
-import sizes from "../styles/sizes";
 import PlantTypeDetailsSection from '../components/PlantTypeDetailsSection';
-import chipColors from '../styles/chipColors';
+import { chipColors } from '../styles/chip';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
 

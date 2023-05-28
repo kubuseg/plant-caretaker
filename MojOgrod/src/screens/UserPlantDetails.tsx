@@ -5,10 +5,11 @@ import PlantDetailsSection from '../components/PlantDetailsSection';
 import { useNavigation } from '@react-navigation/native';
 import PlantDetailsTemplate from './PlantDetailsTemplate';
 import monthMap from '../services/monthMap';
-import chipColors from '../styles/chipColors';
 import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
 import FooterTextButton from '../components/FooterTextButton';
+import chipStyles, { chipColors } from '../styles/chip';
+import appColors from '../styles/appColors';
 
 const UserPlantDetails = ({ route }) => {
     const plantInfo = route.params.plantInfo;
@@ -84,8 +85,10 @@ const styles = StyleSheet.create({
         width: sizes.screenWidth * 0.25,
     },
     detailsText: {
+        ...chipStyles.chip,
         fontSize: 20,
-        marginBottom: '3%'
+        marginBottom: '3%',
+        color: appColors.grey
     },
 });
 

@@ -2,6 +2,7 @@ import React, { PropsWithChildren, PropsWithRef } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import appColors from '../styles/appColors';
 import PlantDetailsSection from './PlantDetailsSection';
+import chipStyles from '../styles/chip';
 
 type SectionProps = {
     title: string;
@@ -38,11 +39,7 @@ const PlantTypeDetailsSection = ({ title, items, containerColor }: SectionProps)
 
 const styles = StyleSheet.create({
     chipContainer: {
-        borderRadius: 20,
-        paddingHorizontal: 13,
-        paddingVertical: 6,
-        marginVertical: 5,
-        marginRight: 10,
+        ...chipStyles.chip,
         justifyContent: 'center',
     },
     chipList: {
