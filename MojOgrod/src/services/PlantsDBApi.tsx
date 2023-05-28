@@ -1,5 +1,7 @@
 import axios from 'axios';
 import {AxiosResponse} from 'axios';
+import {AuthContext} from '../auth/AuthContext';
+import userId from './userId'
 
 axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
 axios.defaults.params = {
@@ -8,11 +10,11 @@ axios.defaults.params = {
 
 class PlantsDBApi {
 
-    static contextType = AuthContext;
-
-    componentDidMount() {
-        const userId = this.context.authUser.userId
-      }
+//     static contextType = AuthContext;
+//
+//     componentDidMount() {
+//         const userId = this.context.authUser.userId
+//       }
 
   static getPlants = async (): Promise<any> => {
     try {
