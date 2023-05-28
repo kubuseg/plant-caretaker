@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {View, Button, TextInput, TouchableOpacity, Text} from 'react-native';
 import AppHeader from '../components/AppHeader'
 import AppTitleText from '../components/AppTitleText';
@@ -23,20 +23,32 @@ function SignIn(): JSX.Element {
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [user, setUser] = React.useState('');
+    const [cos, setCos] = React.useState('');
+
+
+    const xd = () => {if(cos==0){setCos(1)}else{setCos(0)}}
+
+    useEffect(() => {
+        const get_user = async () => {
+              result = await AuthService.logIn(username, password)
+              setUser(result)
+        }
+        get_user()
+        }, [cos]);
+
+    useEffect(() => {
+         logIn()
+        }, [user]);
 
     const logIn = (e) =>
     {
-        e.preventDefault()
-//         const result = AuthService.logIn(username, password)
-        // start mock
-        const result = {"id": 1,
-                        "username": "User1"}
-        // end mock
-        if (result.id != null){
+        if (user.id != null){
+            console.log('f')
             setIsLoggedIn(true)
             setAuthUser({
-                name: result.username,
-                userId: result.id
+                name: user.username,
+                userId: user.id
         })
         }
         else{
@@ -60,7 +72,7 @@ function SignIn(): JSX.Element {
             onChangeText={setPassword}
             secureTextEntry
           />
-          <TouchableOpacity style={styles.loginButton} onPress = {logIn}>
+          <TouchableOpacity style={styles.loginButton} onPress = {xd}>
              <Text>Zaloguj się</Text>
           </TouchableOpacity>
     </View>
