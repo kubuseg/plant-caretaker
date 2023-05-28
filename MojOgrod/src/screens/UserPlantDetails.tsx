@@ -56,7 +56,7 @@ const UserPlantDetails = ({ route }) => {
     );
 
     const onPressEdit = () => {
-        navigation.navigate("UserPlantDetailsEdit" as never, { plantInfo: plantInfo } as never);
+        navigation.navigate("UserPlantSettings" as never, { plantInfo: plantInfo } as never);
     }
 
 
