@@ -32,7 +32,7 @@ function UserSettingsScreen(): JSX.Element {
     }
 
     let headerText = "";
-    headerText = <AppTitleText />
+    headerText = "USTAWIENIA KONTA"
 
   return (
     <>
