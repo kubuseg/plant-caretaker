@@ -3,6 +3,7 @@ import { Animated } from 'react-native';
 import InformationSVTemplate from './InformationSVTemplate';
 import JsonFileManager from '../services/JsonFileManager';
 import PlantsDBApi from '../services/PlantsDBApi';
+import {useAuth} from '../auth/AuthContext';
 
 type InformationSVParams = {
     onTouchScreen: string;
@@ -12,9 +13,22 @@ function InformationSV({ onTouchScreen }: InformationSVParams): JSX.Element {
     const [infoController, setInfoController] = React.useState<any[]>([]);
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
+    const {
+        authUser,
+        setAuthUser,
+        isLoggedIn,
+        setIsLoggedIn
+        } = useAuth()
+
     const readInformation = async () => {
-        const result = await PlantsDBApi.getMicrocontroller("1"); // TODO getUserMicrocontroller
-        setInfoController(result);
+        if(authUser){
+            const result = await PlantsDBApi.getMicrocontroller(authUser.mcId);
+            setInfoController(result);
+        }
+        else{
+            const result = "";
+            setInfoController("");
+        }
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 500,

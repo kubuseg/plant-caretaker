@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState} from 'react';
 import {View, Button, TextInput, TouchableOpacity, Text} from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import AppHeader from '../components/AppHeader';
 import AppFooter from '../components/AppFooter';
 import BackButton from '../components/BackButton';
@@ -9,6 +10,7 @@ import JsonFileManager from '../services/JsonFileManager';
 import PlantsDBApi from '../services/PlantsDBApi';
 import {useAuth} from '../auth/AuthContext';
 import AuthService from '../services/AuthService';
+import FooterTextButton from '../components/FooterTextButton';
 
 import signInStyle from '../styles/signInStyle';
 
@@ -31,6 +33,16 @@ function UserSettingsScreen(): JSX.Element {
         setIsLoggedIn
     } = useAuth()
 
+    if (authUser){
+       user_name = authUser.name
+       userId = authUser.userId
+       mcId = authUser.mcId
+       }else{
+       user_name = "";
+       mcId = "";
+       userId = "";
+       }
+
 
     const logOut = React.useCallback(() => {
         const get_logged_out = async () => {
@@ -42,11 +54,24 @@ function UserSettingsScreen(): JSX.Element {
         get_logged_out()
     }, [cos]);
 
+    async function onPressSave() {
+        try{
+        await PlantsDBApi.updateUserMicrocontroller(userId, microcontroller)
+        } catch(error) {
+         console.log("Error updating microcontroller");
+        }
+    }
+
 
     let headerText = "";
     headerText = "USTAWIENIA KONTA";
 
-    const footerContents = BackButton();
+    const footerContents = (<>
+                             <BackButton/>
+                             <FooterTextButton text="ZAPISZ" onPress={onPressSave} />
+                             </>);
+
+    const [microcontroller, setMicrocontroller] = useState(mcId);
 
   return (
     <>
@@ -55,11 +80,18 @@ function UserSettingsScreen(): JSX.Element {
     </AppHeader>
     <View style={styles.container}>
           <Text style={{width: "80%", fontSize: 20, marginTop: 10}}>
-          {"Nazwa konta:"}
+          Login: {user_name}
           </Text>
           <Text style={{width: "80%", fontSize: 20, marginTop: 10}}>
-          {"Mikrokontroler:"}
+          Mikrokontroler: {mcId}
           </Text>
+{/*           <Picker */}
+{/*               selectedValue={microcontroller} */}
+{/*               onValueChange={(itemValue) => setMicrocontroller(itemValue)} */}
+{/*           > */}
+{/*               <Picker.Item label="Kontroler 1" value="1" /> */}
+{/*               <Picker.Item label="Kontroler 2" value="2" />} */}
+{/*           </Picker> */}
           <TouchableOpacity style={styles.loginButton} onPress = {logOut}>
              <Text>Wyloguj się</Text>
           </TouchableOpacity>

@@ -65,18 +65,6 @@ class PlantsDBApi {
     }
   };
 
-  static getUserMicrocontroller = async (
-    userId: string
-  ) => {
-    try {
-        const response: AxiosResponse<any> = await axios.get(''); // TODO
-        return response.data;
-    } catch (error){
-        console.log(error);
-        return null;
-        }
-  };
-
   static updateUserMicrocontroller = async (
     userId: string,
     newMcId: string,

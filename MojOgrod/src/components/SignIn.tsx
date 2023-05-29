@@ -64,7 +64,8 @@ function SignIn(): JSX.Element {
             setIsLoggedIn(true)
             setAuthUser({
                 name: user.username,
-                userId: user.id
+                userId: user.id,
+                mcId: user.mcId
         })
          if(user){navigation.navigate('Home' as never)}
         }

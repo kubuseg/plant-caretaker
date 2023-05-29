@@ -30,11 +30,14 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
         } = useAuth()
 
         let user_name
+        let mcId
 
         if (authUser){
             user_name = authUser.name
+            mcId = authUser.mcId
         }else{
-           user_name =""
+           user_name = "";
+           mcId = "";
         }
 
     return (
@@ -75,13 +78,13 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
                           <Image style={styles.icon}
                                  source={require('../../assets/info-icons/chip-icon.png')}
                           />
-                          <Text style={styles.title}>POŁĄCZENIE ZE STEROWANIEM</Text>
+                          <Text style={styles.title}>KONTROLER: {mcId} </Text>
                           <View style={styles.alertContainer}>
                                 <Image
                                      style={styles.alertIcon}
-                                     source={1 == 2 ? // TODO
-                                      require('../../assets/info-icons/wifi-icon.png')
-                                      : require('../../assets/info-icons/alert-icon.png')}
+                                     source={mcId = "" ?
+                                      require('../../assets/info-icons/alert-icon.png')
+                                      : require('../../assets/info-icons/wifi-icon.png')}
                                 />
                           </View>
                     </View>
@@ -95,7 +98,7 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
                          <Image style={styles.icon}
                          source={require('../../assets/info-icons/user-icon.png')}
                          />
-                         <Text style={styles.title}>{user_name}</Text>
+                         <Text style={styles.title}>{"KONTO: "}{user_name}</Text>
                          <View style={styles.alertContainer}>
                                <Image
                                style={styles.alertIcon}

@@ -2,6 +2,7 @@ import JsonFileManager from './JsonFileManager';
 import PlantsDBApi from './PlantsDBApi';
 
 class DataManager {
+
     static updatePlantTypes = async () => {
         try {
             const plantTypes = await PlantsDBApi.getPlants();
