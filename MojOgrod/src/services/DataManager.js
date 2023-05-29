@@ -2,10 +2,11 @@ import JsonFileManager from './JsonFileManager';
 import PlantsDBApi from './PlantsDBApi';
 
 class DataManager {
+
     static updatePlantTypes = async () => {
         try {
             const plantTypes = await PlantsDBApi.getPlants();
-            JsonFileManager.save('typesDescriptions', plantTypes);
+            await JsonFileManager.save('typesDescriptions', plantTypes);
         } catch (error) {
             console.log("Error with updating plants descriptions", error);
             // toDo - implement alert
@@ -15,7 +16,7 @@ class DataManager {
     static updateUserPlants = async () => {
         try {
             const userPlants = await PlantsDBApi.getUserPlants();
-            JsonFileManager.save('userPlants', userPlants);
+            await JsonFileManager.save('userPlants', userPlants);
         } catch (error) {
             console.log("Error with updating user plants", error);
             // toDo - implement alert

@@ -21,6 +21,10 @@ const infoScrollViewStyle = StyleSheet.create({
         backgroundColor: 'white',
         elevation: 4,
     },
+    cardInner: {
+        alignItems: "center",
+        flexDirection: "row"
+    },
     icon: {
         width: sizes.SVelementHeight*0.6,
         height: sizes.SVelementHeight*0.6,

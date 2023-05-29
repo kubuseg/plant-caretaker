@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { AxiosResponse } from 'axios';
-import userId from './userId';
-
+import {AxiosResponse} from 'axios';
+import JsonFileManager from '../services/JsonFileManager';
 axios.defaults.baseURL = 'https://plants-function-app.azurewebsites.net/api';
 axios.defaults.params = {
   code: 'aE6B5CXrIMeU85MzXP3HHWHCZcvvhOegFz6K4qvN79vhAzFu388wAg==',
@@ -20,8 +19,11 @@ class PlantsDBApi {
 
   static getUserPlants = async (): Promise<any> => {
     try {
-      const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
-      return response.data;
+      const userId = await JsonFileManager.read('userId.json');
+      if(userId){
+          const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
+          return response.data;
+      }
     } catch (error) {
       console.log(error);
       return null;
@@ -30,7 +32,8 @@ class PlantsDBApi {
 
   static addUserPlant = async (plant: object) => {
     try {
-      await axios.post(
+      const userId = await JsonFileManager.read('userId.json');
+      const response: AxiosResponse<any> = await axios.post(
         `/plants/${userId}`,
         { plant: plant },
       );
@@ -41,7 +44,8 @@ class PlantsDBApi {
 
   static deleteUserPlant = async (plantUUID: string) => {
     try {
-      await axios.delete(`/plants/${userId}`, { params: { uuid: plantUUID } });
+      const userId = await JsonFileManager.read('userId.json');
+      await axios.delete(`/plants/${userId}`, {params: {uuid: plantUUID}});
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +53,8 @@ class PlantsDBApi {
 
   static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
-      await axios.patch(`/plants/${userId}`, {
+        const userId = await JsonFileManager.read('userId.json');
+        await axios.patch(`/plants/${userId}`, {
         uuid: plantUUID,
         plant: newPlant,
       });
@@ -58,24 +63,13 @@ class PlantsDBApi {
     }
   };
 
-  static getUserMicrocontroller = async (
-    userId: string
-  ) => {
-    try {
-      const response: AxiosResponse<any> = await axios.get(''); // TODO
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      return null;
-    }
-  };
-
   static updateUserMicrocontroller = async (
     userId: string,
     newMcId: string,
   ) => {
     try {
-      await axios.patch(`/mcId/${userId}`, { mcId: newMcId });
+      const userId = await JsonFileManager.read('userId.json');
+      await axios.patch(`/mcId/${userId}`, {mcId: newMcId});
     } catch (error) {
       console.log(error);
     }

@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import PlantTypeDetails from './src/screens/PlantTypeDetails';
+import LoggScreen from './src/screens/logg_screen'
 import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import InformationChoice from './src/screens/InformationChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
@@ -11,17 +12,15 @@ import UserPlantDetails from './src/screens/UserPlantDetails';
 import UserPlantSettings from './src/screens/UserPlantSettings';
 import DataManager from './src/services/DataManager';
 import PlantTypes from './src/screens/PlantTypes';
+import UserSettingsScreen from './src/screens/UserSettingsScreen';
+import JsonFileManager from './src/services/JsonFileManager';
+import {AuthProvider} from './src/auth/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  const userId = '1';
 
-  useEffect(() => {
-    DataManager.updatePlantTypes();
-    DataManager.updateUserPlants();
 
-  }, []);
 
   const backgroundStyle = {
     flex: 1,
@@ -29,6 +28,7 @@ function App(): JSX.Element {
   };
 
   return (
+    <AuthProvider>
     <NavigationContainer>
       <SafeAreaView style={backgroundStyle}>
         <StatusBar
@@ -36,6 +36,11 @@ function App(): JSX.Element {
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Stack.Navigator screenOptions={{ animation: 'fade' }}>
+          <Stack.Screen
+            name="logg"
+            component={LoggScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -71,9 +76,15 @@ function App(): JSX.Element {
             component={InformationChoice}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+          name="UserSettings"
+          component={UserSettingsScreen}
+          options={{ headerShown: false}}
+          />
         </Stack.Navigator>
       </SafeAreaView>
     </NavigationContainer>
+    </AuthProvider>
   );
 }
 
