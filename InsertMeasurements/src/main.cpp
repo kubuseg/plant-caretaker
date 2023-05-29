@@ -41,7 +41,7 @@ void setup() {
   connectWifi();
 }
 
-String getQueryString(const char variableName[], const int values[]) {
+String getJsonString(const char variableName[], const int values[]) {
   String queryString = "&" + String(variableName) + "=";
   queryString += "[";
   for (int i=0; i<sensorsNo-1; ++i) {
@@ -52,7 +52,7 @@ String getQueryString(const char variableName[], const int values[]) {
   return queryString;
 }
 
-void sendToApi(String serverPath) {
+void sendMeasurementsToApi(String serverPath) {
   HTTPClient http;
 
   http.begin(serverPath.c_str());
@@ -72,12 +72,12 @@ void sendToApi(String serverPath) {
   http.end();
 }
 
-int average(int array[]) {
+int average(const int array[], const int size) {
   int avg = 0;
-  for (int i=0; i<arraySize; ++i) {
+  for (int i=0; i<size; ++i) {
     avg += array[i];
   }
-  return avg/arraySize;
+  return avg/size;
 }
 
 int getHumidty(const int sensor) {
@@ -85,7 +85,7 @@ int getHumidty(const int sensor) {
   for (int i=arraySize-1; i>0; --i)
     analogValuesArray[sensor][i] = analogValuesArray[sensor][i-1];
   analogValuesArray[sensor][0] = analogValue;
-  int humidity = map(average(analogValuesArray[sensor]), dryWetConst[sensor][0], dryWetConst[sensor][1], 0, 100);
+  int humidity = map(average(analogValuesArray[sensor], arraySize), dryWetConst[sensor][0], dryWetConst[sensor][1], 0, 100);
   humidity = min(max(humidity, 0), 100); //Make sure 0<=humidity<=100
   Serial.printf("Humidity%d = %d\n", sensor, humidity);
   return humidity;
@@ -99,7 +99,7 @@ void loop() {
 
   if ((millis() - lastTime) > timerDelay) {
     if(WiFi.status() == WL_CONNECTED) {
-      sendToApi(serverName + getQueryString("humidities", humidity));
+      sendMeasurementsToApi(serverName + getJsonString("humidities", humidity));
     }
     else {
       Serial.println("WiFi Disconnected");

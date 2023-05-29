@@ -32,7 +32,7 @@ struct MonthInterval {
 };
 
 constexpr int linesNo = 4;
-bool wateringLineConnected[linesNo];
+bool isWateringLineConnected[linesNo];
 short wateringIntervalInDays[linesNo], fertilizationIntervalInWeeks[linesNo], criticalHumidity[linesNo];
 int wateringMl[linesNo];
 MonthInterval fertilizationMonthBetweenCondition[linesNo];
@@ -46,13 +46,13 @@ void parseJsonObject(String httpString) {
       return;
     }
     for (int i=0; i<linesNo; ++i) {
-      wateringLineConnected[i] = false;
+      isWateringLineConnected[i] = false;
     }
     for (JsonPair item : doc.as<JsonObject>()) {
       const char* item_key = item.key().c_str();
       int key = atoi(item_key);
 
-      wateringLineConnected[key] = true;
+      isWateringLineConnected[key] = true;
       wateringIntervalInDays[key] = item.value()["wateringIntervalInDays"];
       fertilizationIntervalInWeeks[key] = item.value()["fertilizationIntervalInWeeks"];
       fertilizationMonthBetweenCondition[key] = MonthInterval(item.value()["fertilizationMonthBetweenCondition"][0], 
@@ -88,9 +88,9 @@ void setup() {
 
 void loop() {
   Serial.println();
-  sendApiRequest("https://plants-function-app.azurewebsites.net/api/mc/1?code=_Hd71BUZGZ5LusfC0qZGs-XzETgXHGslEzExPuF_EdSKAzFuBHlwRg==");
+  sendApiRequest("https://plants-function-app.azurewebsites.net/api/mcData/1?code=_Hd71BUZGZ5LusfC0qZGs-XzETgXHGslEzExPuF_EdSKAzFuBHlwRg==");
   for (int i=0; i<linesNo; ++i) {
-    if (!wateringLineConnected[i])
+    if (!isWateringLineConnected[i])
       continue;
     Serial.print("Watering line ");
     Serial.print(i);
