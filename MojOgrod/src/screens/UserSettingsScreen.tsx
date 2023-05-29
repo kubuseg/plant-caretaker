@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import {View, Button, TextInput, TouchableOpacity, Text} from 'react-native';
-import AppHeader from '../components/AppHeader'
+import AppHeader from '../components/AppHeader';
+import AppFooter from '../components/AppFooter';
+import BackButton from '../components/BackButton';
 import AppTitleText from '../components/AppTitleText';
 import { useNavigation } from '@react-navigation/native';
 import JsonFileManager from '../services/JsonFileManager';
@@ -42,7 +44,9 @@ function UserSettingsScreen(): JSX.Element {
 
 
     let headerText = "";
-    headerText = "USTAWIENIA KONTA"
+    headerText = "USTAWIENIA KONTA";
+
+    const footerContents = BackButton();
 
   return (
     <>
@@ -50,11 +54,17 @@ function UserSettingsScreen(): JSX.Element {
        {headerText}
     </AppHeader>
     <View style={styles.container}>
+          <Text style={{width: "80%", fontSize: 20, marginTop: 10}}>
+          {"Nazwa konta:"}
+          </Text>
+          <Text style={{width: "80%", fontSize: 20, marginTop: 10}}>
+          {"Mikrokontroler:"}
+          </Text>
           <TouchableOpacity style={styles.loginButton} onPress = {logOut}>
              <Text>Wyloguj się</Text>
           </TouchableOpacity>
-
     </View>
+    <AppFooter children={footerContents} />
     </>
   );
 }

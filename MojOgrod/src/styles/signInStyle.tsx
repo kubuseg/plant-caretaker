@@ -11,9 +11,9 @@ const signInStyle = StyleSheet.create({
     paddingLeft: 30,
     },
     container:{
-    height: "100%",
     alignItems: 'center',
-    marginTop: 30
+    marginTop: 30,
+    height: "67.6%"
     },
     loginButton:{
     width:"40%",
@@ -27,7 +27,7 @@ const signInStyle = StyleSheet.create({
     signupButton:{
         marginTop: 10,
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "center"
         },
 });
 
