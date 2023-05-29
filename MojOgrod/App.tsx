@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from './src/screens/HomeScreen';
 import PlantTypeDetails from './src/screens/PlantTypeDetails';
+import LoggScreen from './src/screens/logg_screen'
 import PlantTypeChoice from './src/screens/PlantTypeChoice';
 import InformationChoice from './src/screens/InformationChoice';
 import { SafeAreaView, StatusBar } from 'react-native';
@@ -19,6 +20,8 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
 
+
+
   const backgroundStyle = {
     flex: 1,
     backgroundColor: Colors.lighter,
@@ -33,6 +36,11 @@ function App(): JSX.Element {
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Stack.Navigator screenOptions={{ animation: 'fade' }}>
+          <Stack.Screen
+            name="logg"
+            component={LoggScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name="Home"
             component={HomeScreen}

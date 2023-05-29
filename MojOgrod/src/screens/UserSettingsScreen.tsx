@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {View, Button, TextInput, TouchableOpacity, Text} from 'react-native';
 import AppHeader from '../components/AppHeader'
 import AppTitleText from '../components/AppTitleText';
@@ -16,6 +16,12 @@ function UserSettingsScreen(): JSX.Element {
 
     const navigation = useNavigation();
 
+    const [cos, setCos] = React.useState('');
+    const [read, setRead] = React.useState('');
+
+    const xd = React.useCallback(() => {if(cos==0){setCos(1)}else{setCos(0)};},[])
+    const xdd = () => {if(read==0){setRead(1)}else{setRead(0)}}
+
     const {
         authUser,
         setAuthUser,
@@ -23,13 +29,17 @@ function UserSettingsScreen(): JSX.Element {
         setIsLoggedIn
     } = useAuth()
 
-    const logOut = (e) => {
-        e.preventDefault()
-        AuthService.logOut()
-        setAuthUser(null)
-        setIsLoggedIn(false)
-        navigation.navigate('Home' as never)
-    }
+
+    const logOut = React.useCallback(() => {
+        const get_logged_out = async () => {
+              await AuthService.logOut()
+              setIsLoggedIn(false)
+              setAuthUser(null)
+              navigation.navigate('logg' as never)
+        }
+        get_logged_out()
+    }, [cos]);
+
 
     let headerText = "";
     headerText = "USTAWIENIA KONTA"

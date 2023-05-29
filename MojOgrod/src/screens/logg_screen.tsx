@@ -19,8 +19,9 @@ export const homeSVTypes = {
     plantTypes: 2,
 };
 
-function HomeScreen({ route }): JSX.Element {
+function LoggScreen({ route }): JSX.Element {
     const [cos, setCos] = React.useState('');
+    const navigation = useNavigation();
 
     const {
         authUser,
@@ -30,27 +31,15 @@ function HomeScreen({ route }): JSX.Element {
     } = useAuth()
 
 
-
-
-    let list;
-    let headerText = "";
-    list = <UserPlantsSV/>;
-    headerText = <AppTitleText/>
-
-
-    const footerContents = HomeFooterContents();
-
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <AppHeader>
                 <AppTitleText/>
             </AppHeader>
-            <UserPlantsSV/>
-            <AppFooter children={footerContents} />
+            <SignIn/>
         </SafeAreaView>
     );
 }
 
 
-export default HomeScreen;
+export default LoggScreen;

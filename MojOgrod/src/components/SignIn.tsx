@@ -7,7 +7,7 @@ import JsonFileManager from '../services/JsonFileManager';
 import PlantsDBApi from '../services/PlantsDBApi';
 import {useAuth} from '../auth/AuthContext';
 import AuthService from '../services/AuthService';
-
+import DataManager from '../services/DataManager';
 import signInStyle from '../styles/signInStyle';
 
 const styles = signInStyle;
@@ -21,25 +21,42 @@ function SignIn(): JSX.Element {
         setIsLoggedIn
     } = useAuth()
 
+    const navigation = useNavigation();
+
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [user, setUser] = React.useState('');
     const [cos, setCos] = React.useState('');
+    const [read, setRead] = React.useState('');
 
 
     const xd = () => {if(cos==0){setCos(1)}else{setCos(0)}}
+    const xdd = () => {if(read==0){setRead(1)}else{setRead(0)}}
 
     useEffect(() => {
+
         const get_user = async () => {
-              result = await AuthService.logIn(username, password)
+              const result = await AuthService.logIn(username, password)
               setUser(result)
         }
+        if(!authUser){setUsername("");
+                      setPassword("");}
         get_user()
         }, [cos]);
 
     useEffect(() => {
-         logIn()
-        }, [user]);
+        const get_both = async () => {
+              await DataManager.updatePlantTypes();
+              await DataManager.updateUserPlants();
+              xdd()
+        }
+        get_both()
+
+    }, [user]);
+
+    useEffect(() => {
+        logIn()
+    }, [read]);
 
     const logIn = (e) =>
     {
@@ -49,6 +66,7 @@ function SignIn(): JSX.Element {
                 name: user.username,
                 userId: user.id
         })
+         if(user){navigation.navigate('Home' as never)}
         }
         else{
             setUsername("");

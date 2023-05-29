@@ -4,10 +4,18 @@ import { useFocusEffect } from '@react-navigation/native';
 import PlantsSVTemplate from './PlantsSVTemplate';
 import JsonFileManager from '../services/JsonFileManager';
 import plantsNameCompare from '../services/plantsNameCompare';
+import {useAuth} from '../auth/AuthContext';
 
 function UserPlantsSV(): JSX.Element {
     const [plantTypes, setPlantTypes] = React.useState<any[]>([]);
     const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const {
+        authUser,
+        setAuthUser,
+        isLoggedIn,
+        setIsLoggedIn
+    } = useAuth()
 
     useFocusEffect(
         React.useCallback(() => {

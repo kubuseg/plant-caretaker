@@ -28,6 +28,15 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
         isLoggedIn,
         setIsLoggedIn
         } = useAuth()
+
+        let user_name
+
+        if (authUser){
+            user_name = authUser.name
+        }else{
+           user_name =""
+        }
+
     return (
         <ScrollView
             contentInsetAdjustmentBehavior="automatic"
@@ -86,7 +95,7 @@ function InformationSVTemplate({ infoList, onTouchScreen, fadeAnim }: InfoSVPara
                          <Image style={styles.icon}
                          source={require('../../assets/info-icons/user-icon.png')}
                          />
-                         <Text style={styles.title}>{authUser.name}</Text>
+                         <Text style={styles.title}>{user_name}</Text>
                          <View style={styles.alertContainer}>
                                <Image
                                style={styles.alertIcon}

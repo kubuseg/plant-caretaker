@@ -20,8 +20,10 @@ class PlantsDBApi {
   static getUserPlants = async (): Promise<any> => {
     try {
       const userId = await JsonFileManager.read('userId.json');
-      const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
-      return response.data;
+      if(userId){
+          const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
+          return response.data;
+      }
     } catch (error) {
       console.log(error);
       return null;
