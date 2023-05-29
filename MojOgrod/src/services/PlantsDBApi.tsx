@@ -30,17 +30,15 @@ class PlantsDBApi {
     }
   };
 
-  static addUserPlant = async (plantId: string): Promise<any> => {
+  static addUserPlant = async (plant: object) => {
     try {
       const userId = await JsonFileManager.read('userId.json');
       const response: AxiosResponse<any> = await axios.post(
         `/plants/${userId}`,
-        {plantId: plantId},
+        { plant: plant },
       );
-      return response.data;
     } catch (error) {
       console.log(error);
-      return null;
     }
   };
 
@@ -80,7 +78,7 @@ class PlantsDBApi {
   static getUser = async (username: string, password: string): Promise<any> => {
     try {
       const response: AxiosResponse<any> = await axios.get(`/user`, {
-        params: {username: username, password: password},
+        params: { username: username, password: password },
       });
       return response.data;
     } catch (error) {
@@ -91,7 +89,7 @@ class PlantsDBApi {
 
   static addUser = (username: string, password: string) => {
     axios
-      .post(`/user`, {username: username, password: password})
+      .post(`/user`, { username: username, password: password })
       .then(response => {
         console.log(response);
       })
@@ -140,7 +138,7 @@ class PlantsDBApi {
     sensorId: string,
   ) => {
     try {
-      await axios.delete(`/mc/${mcId}`, {params: {sensor: sensorId}});
+      await axios.delete(`/mc/${mcId}`, { params: { sensor: sensorId } });
     } catch (error) {
       console.log(error);
     }
