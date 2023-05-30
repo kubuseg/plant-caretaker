@@ -41,8 +41,12 @@ function UserSettingsScreen(): JSX.Element {
        user_name = "";
        mcId = "";
        userId = "";
-       }
+    }
 
+    let headerText = "";
+    headerText = "USTAWIENIA KONTA";
+
+    const [microcontroller, setMicrocontroller] = useState(mcId);
 
     const logOut = React.useCallback(() => {
         const get_logged_out = async () => {
@@ -57,21 +61,16 @@ function UserSettingsScreen(): JSX.Element {
     async function onPressSave() {
         try{
         await PlantsDBApi.updateUserMicrocontroller(userId, microcontroller)
+        setAuthUser({"name": user_name, "userId": userId, "mcId": microcontroller})
         } catch(error) {
          console.log("Error updating microcontroller");
         }
     }
 
-
-    let headerText = "";
-    headerText = "USTAWIENIA KONTA";
-
     const footerContents = (<>
-                             <BackButton/>
-                             <FooterTextButton text="ZAPISZ" onPress={onPressSave} />
-                             </>);
-
-    const [microcontroller, setMicrocontroller] = useState(mcId);
+          <BackButton/>
+          <FooterTextButton text="ZAPISZ" onPress={onPressSave} />
+          </>);
 
   return (
     <>
@@ -83,15 +82,16 @@ function UserSettingsScreen(): JSX.Element {
           Login: {user_name}
           </Text>
           <Text style={{width: "80%", fontSize: 20, marginTop: 10}}>
-          Mikrokontroler: {mcId}
+          Mikrokontroler:
           </Text>
-{/*           <Picker */}
-{/*               selectedValue={microcontroller} */}
-{/*               onValueChange={(itemValue) => setMicrocontroller(itemValue)} */}
-{/*           > */}
-{/*               <Picker.Item label="Kontroler 1" value="1" /> */}
-{/*               <Picker.Item label="Kontroler 2" value="2" />} */}
-{/*           </Picker> */}
+          <Picker
+              style={{width: "80%", fontSize: 20, backgroundColor: "#D0D3D4", marginTop: 20}}
+              selectedValue={microcontroller}
+              onValueChange={(itemValue) => setMicrocontroller(itemValue)}
+          >
+            <Picker.Item key="1" label="Kontroler 1" value="1"/>
+            <Picker.Item key="2" label="Kontroler 2" value="2"/>
+          </Picker>
           <TouchableOpacity style={styles.loginButton} onPress = {logOut}>
              <Text>Wyloguj się</Text>
           </TouchableOpacity>

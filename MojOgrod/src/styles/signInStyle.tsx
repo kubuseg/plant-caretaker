@@ -17,7 +17,7 @@ const signInStyle = StyleSheet.create({
     },
     loginButton:{
     width:"40%",
-    backgroundColor: appColors.onEditGrey,
+    backgroundColor: "#B3B6B7",
     borderRadius:25,
     height:50,
     marginTop: 20,
