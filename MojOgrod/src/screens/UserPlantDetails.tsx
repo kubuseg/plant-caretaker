@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +24,15 @@ const UserPlantDetails = ({ route }) => {
         <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <Text style={homeScrollViewStyles.title}>{plantInfo.name}</Text>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={async () => {
+                                plantTypeInfo();
+                            }}
+                        >
+                        <Text style={styles.buttonText}>Opis gatunku</Text>
+
+                        </TouchableOpacity>
         </>
     );
 
@@ -47,12 +56,6 @@ const UserPlantDetails = ({ route }) => {
                     {monthMap.get(parseInt(fMonthStart, 10))}  -  {monthMap.get(parseInt(fMonthEnd, 10))}
                 </Text>
             </PlantDetailsSection>
-            <Button
-                title={"Opis gatunku"}
-                onPress={async () => {
-                    plantTypeInfo();
-                }}
-            />
         </View>
     );
 
@@ -90,6 +93,20 @@ const styles = StyleSheet.create({
         marginBottom: '3%',
         color: appColors.grey
     },
+
+    button: {
+       width: "35%",
+       padding: 3.5,
+       backgroundColor: "#AFAFAF",
+       marginLeft: 15,
+       alignItems: "center",
+       justifyContent: "center",
+       borderRadius:25,
+        },
+        buttonText: {
+        color: 'white',
+        fontSize: 18
+        }
 });
 
 export default UserPlantDetails;

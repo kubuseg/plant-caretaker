@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Button } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity} from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';;
@@ -101,8 +101,9 @@ const UserPlantSettings = ({ route }) => {
                 </View>
             </PlantDetailsSection>
 
-            <Button title={"Usuń roślinę"} onPress={deletePlant} />
-
+            <TouchableOpacity style={styles.button} onPress={deletePlant}>
+             <Text style={styles.buttonText}>Usuń roślinę</Text>
+            </TouchableOpacity>
         </View>
     );
 
@@ -136,6 +137,20 @@ const styles = StyleSheet.create({
         width: sizes.screenWidth * 0.27,
         color: 'white'
     },
+    button: {
+        width: "50%",
+        height: "10%",
+        backgroundColor: "#CB5757",
+        marginTop: 20,
+        marginLeft: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius:25,
+    },
+    buttonText: {
+    color: 'white',
+    fontSize: 18
+    }
 });
 
 export default UserPlantSettings;
