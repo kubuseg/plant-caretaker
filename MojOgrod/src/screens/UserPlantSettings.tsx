@@ -13,9 +13,13 @@ import homeScrollViewStyles from '../styles/homeScrollViewStyle';
 import BackButton from '../components/BackButton';
 import FooterTextButton from '../components/FooterTextButton';
 import PlantDetailsPickerOptions from '../services/PlantDetailsPickerOptions';
+import JsonFileManager from '../services/JsonFileManager'
+import PlantsDBApi from '../services/PlantsDBApi'
+import { useFocusEffect } from '@react-navigation/native';
 
-const UserPlantSettings = ({ route }) => {
+const UserPlantSettings = ({ route }: any) => {
     const plantInfo = route.params.plantInfo;
+    
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -24,6 +28,21 @@ const UserPlantSettings = ({ route }) => {
     const [fertilizationInterval, setFertilizationInterval] = useState(parseInt(plantInfo.fertilizationIntervalInWeeks));
     const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
     const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
+    
+    const [wateringLines, setWateringLines] = useState<any[]>([]);
+    const disconnectedLineVal = -1
+    const initWateringLine = plantInfo.wateringLine ?? disconnectedLineVal;
+    const [wateringLine, setWateringLine] = useState<any>(initWateringLine);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            const readController = async () => {
+                const mc = await JsonFileManager.read('Controller');
+                setWateringLines(mc.wateringLines);
+            };
+            readController();
+        }, []),
+    );
 
     async function deletePlant() {
         setIsLoading(true);
@@ -38,12 +57,31 @@ const UserPlantSettings = ({ route }) => {
         plantInfo.fertilizationIntervalInWeeks = fertilizationInterval;
         plantInfo.fertilizationMonthBetweenCondition[0] = fMonthStart;
         plantInfo.fertilizationMonthBetweenCondition[1] = fMonthEnd;
+        plantInfo.wateringLine = wateringLine;
 
         setIsLoading(true);
-        await DataManager.savePlantInfo(plantInfo);
-        setIsLoading(false);
+        try {
+            await DataManager.savePlantInfo(plantInfo);
+            const mc = await JsonFileManager.read('Controller');
+            const userId = await JsonFileManager.read('userId');
 
-        navigation.navigate('Home' as never);
+            if (wateringLine === initWateringLine) {
+                return;
+            }
+            if (wateringLine === disconnectedLineVal) {
+                await PlantsDBApi.deletePlantFromMicrocontroller(mc.id, initWateringLine.toString());
+            } else if (initWateringLine === -1) {
+                await PlantsDBApi.addPlantToMicrocontroller(mc.id, wateringLine.toString(), userId, plantInfo.uuid);
+            } else {
+                await PlantsDBApi.deletePlantFromMicrocontroller(mc.id, initWateringLine.toString());
+                await PlantsDBApi.addPlantToMicrocontroller(mc.id, wateringLine.toString(), userId, plantInfo.uuid)
+            }
+        } catch(error) {
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+            navigation.navigate('Home' as never);
+        }
     }
 
     const appHeaderText = "Edycja rośliny";
@@ -99,6 +137,26 @@ const UserPlantSettings = ({ route }) => {
                         {PlantDetailsPickerOptions.monthOptions}
                     </Picker>
                 </View>
+            </PlantDetailsSection>
+            
+            <PlantDetailsSection title={'Linia podlewająca: '}>
+                <Picker
+                    selectedValue={wateringLine?.toString()}
+                    onValueChange={(itemValue) => setWateringLine(parseInt(itemValue))}
+                    style={{
+                        backgroundColor: appColors.onEditGrey,
+                        width: sizes.screenWidth * 0.30,
+                        color: 'white'
+                    }}
+                >
+                    {
+                        Array.from([<Picker.Item label='Brak' key={disconnectedLineVal} value={disconnectedLineVal.toString()} />]).concat(
+                            wateringLines.map(lineNo => (
+                                <Picker.Item key={lineNo} label={lineNo.toString()} value={lineNo.toString()} />
+                            ))
+                        )
+                    }
+                </Picker>
             </PlantDetailsSection>
 
             <TouchableOpacity style={styles.button} onPress={deletePlant}>

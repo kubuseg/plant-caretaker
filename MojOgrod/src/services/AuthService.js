@@ -6,7 +6,7 @@ class AuthService {
     static logIn = async (username, password) => {
         try {
             const result = await PlantsDBApi.getUser(username, password);
-            JsonFileManager.save('userId.json', result.id);
+            JsonFileManager.save('userId', result.id);
             return result
         } catch (error) {
             console.log("Error logging in", error);
@@ -16,7 +16,7 @@ class AuthService {
 
     static logOut = async () => {
         try {
-            await JsonFileManager.save('userId.json', "");
+            await JsonFileManager.save('userId', "");
         } catch (error) {
             console.log("Error logging out", error);
         }

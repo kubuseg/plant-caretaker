@@ -19,7 +19,7 @@ class PlantsDBApi {
 
   static getUserPlants = async (): Promise<any> => {
     try {
-      const userId = await JsonFileManager.read('userId.json');
+      const userId = await JsonFileManager.read('userId');
       if(userId){
           const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
           return response.data;
@@ -32,7 +32,7 @@ class PlantsDBApi {
 
   static addUserPlant = async (plant: object) => {
     try {
-      const userId = await JsonFileManager.read('userId.json');
+      const userId = await JsonFileManager.read('userId');
       const response: AxiosResponse<any> = await axios.post(
         `/plants/${userId}`,
         { plant: plant },
@@ -44,7 +44,7 @@ class PlantsDBApi {
 
   static deleteUserPlant = async (plantUUID: string) => {
     try {
-      const userId = await JsonFileManager.read('userId.json');
+      const userId = await JsonFileManager.read('userId');
       await axios.delete(`/plants/${userId}`, {params: {uuid: plantUUID}});
     } catch (error) {
       console.log(error);
@@ -53,7 +53,7 @@ class PlantsDBApi {
 
   static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
-        const userId = await JsonFileManager.read('userId.json');
+        const userId = await JsonFileManager.read('userId');
         await axios.patch(`/plants/${userId}`, {
         uuid: plantUUID,
         plant: newPlant,
@@ -68,7 +68,7 @@ class PlantsDBApi {
     newMcId: string,
   ) => {
     try {
-      const userId = await JsonFileManager.read('userId.json');
+      const userId = await JsonFileManager.read('userId');
       await axios.patch(`/mcId/${userId}`, {mcId: newMcId});
     } catch (error) {
       console.log(error);
