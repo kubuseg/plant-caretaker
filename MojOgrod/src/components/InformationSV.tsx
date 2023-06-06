@@ -22,7 +22,7 @@ function InformationSV({ onTouchScreen }: InformationSVParams): JSX.Element {
 
     const readInformation = async () => {
         if(authUser){
-            const result = await PlantsDBApi.getMicrocontroller(authUser.mcId);
+            const result = await  JsonFileManager.read('Controller');
             setInfoController(result);
         }
         else{

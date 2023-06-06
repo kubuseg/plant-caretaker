@@ -48,6 +48,7 @@ function SignIn(): JSX.Element {
         const get_both = async () => {
               await DataManager.updatePlantTypes();
               await DataManager.updateUserPlants();
+              await DataManager.updateController(user.mcId);
               xdd()
         }
         get_both()

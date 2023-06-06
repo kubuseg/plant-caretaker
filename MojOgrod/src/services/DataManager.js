@@ -23,6 +23,16 @@ class DataManager {
         }
     };
 
+    static updateController = async (mcId) => {
+        try {
+            const result = await PlantsDBApi.getMicrocontroller(mcId)
+            await JsonFileManager.save('Controller', result);
+        } catch (error) {
+            console.log("Error with updating user controller", error);
+            // toDo - implement alert
+        }
+    };
+
     static deletePlant = async (plantUuid) => {
         try {
             await PlantsDBApi.deleteUserPlant(plantUuid);
