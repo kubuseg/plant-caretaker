@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, ScrollView, TouchableOpacity } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import sizes from '../styles/sizes';
 import PlantDetailsSection from '../components/PlantDetailsSection';;
@@ -19,7 +19,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const UserPlantSettings = ({ route }: any) => {
     const plantInfo = route.params.plantInfo;
-    
+
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -28,7 +28,7 @@ const UserPlantSettings = ({ route }: any) => {
     const [fertilizationInterval, setFertilizationInterval] = useState(parseInt(plantInfo.fertilizationIntervalInWeeks));
     const [fMonthStart, setFMonthStart] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[0]));
     const [fMonthEnd, setFMonthEnd] = useState(parseInt(plantInfo.fertilizationMonthBetweenCondition[1]));
-    
+
     const [wateringLines, setWateringLines] = useState<any[]>([]);
     const disconnectedLineVal = -1
     const initWateringLine = plantInfo.wateringLine ?? disconnectedLineVal;
@@ -76,7 +76,7 @@ const UserPlantSettings = ({ route }: any) => {
                 await PlantsDBApi.deletePlantFromMicrocontroller(mc.id, initWateringLine.toString());
                 await PlantsDBApi.addPlantToMicrocontroller(mc.id, wateringLine.toString(), userId, plantInfo.uuid)
             }
-        } catch(error) {
+        } catch (error) {
             console.log(error);
         } finally {
             setIsLoading(false);
@@ -98,7 +98,7 @@ const UserPlantSettings = ({ route }: any) => {
     );
 
     const mainContents = (
-        <View style={{ width: '100%' }}>
+        <ScrollView style={{ width: '100%' }}>
             <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
                 <Picker
                     selectedValue={wateringInterval.toString()}
@@ -138,7 +138,7 @@ const UserPlantSettings = ({ route }: any) => {
                     </Picker>
                 </View>
             </PlantDetailsSection>
-            
+
             <PlantDetailsSection title={'Linia podlewająca: '}>
                 <Picker
                     selectedValue={wateringLine?.toString()}
@@ -160,9 +160,9 @@ const UserPlantSettings = ({ route }: any) => {
             </PlantDetailsSection>
 
             <TouchableOpacity style={styles.button} onPress={deletePlant}>
-             <Text style={styles.buttonText}>Usuń roślinę</Text>
+                <Text style={styles.buttonText}>Usuń roślinę</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 
     const footerContents = (
@@ -197,17 +197,17 @@ const styles = StyleSheet.create({
     },
     button: {
         width: "50%",
-        height: "10%",
+        height: sizes.screenHeight * 0.05,
         backgroundColor: "#CB5757",
         marginTop: 20,
         marginLeft: 10,
         alignItems: "center",
         justifyContent: "center",
-        borderRadius:25,
+        borderRadius: 25,
     },
     buttonText: {
-    color: 'white',
-    fontSize: 18
+        color: 'white',
+        fontSize: 18
     }
 });
 

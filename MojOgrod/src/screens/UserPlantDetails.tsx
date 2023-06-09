@@ -24,15 +24,6 @@ const UserPlantDetails = ({ route }) => {
         <>
             <Image style={styles.icon} source={{ uri: plantInfo.image }} />
             <Text style={homeScrollViewStyles.title}>{plantInfo.name}</Text>
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={async () => {
-                                plantTypeInfo();
-                            }}
-                        >
-                        <Text style={styles.buttonText}>Opis gatunku</Text>
-
-                        </TouchableOpacity>
         </>
     );
 
@@ -43,6 +34,16 @@ const UserPlantDetails = ({ route }) => {
 
     const mainContents = (
         <View style={{ width: '100%' }}>
+            <PlantDetailsSection title={`Opis gatunku ${plantInfo.type}:`}>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={async () => {
+                        plantTypeInfo();
+                    }}
+                >
+                    <Text style={styles.buttonText}>Opis</Text>
+                </TouchableOpacity>
+            </PlantDetailsSection>
             <PlantDetailsSection title={'Czas między podlewaniem:'}>
                 <Text style={[styles.detailsText, { backgroundColor: chipColors.blue }]}>{wateringInterval} dni</Text>
             </PlantDetailsSection>
@@ -95,18 +96,17 @@ const styles = StyleSheet.create({
     },
 
     button: {
-       width: "35%",
-       padding: 3.5,
-       backgroundColor: "#AFAFAF",
-       marginLeft: 15,
-       alignItems: "center",
-       justifyContent: "center",
-       borderRadius:25,
-        },
-        buttonText: {
+        width: "35%",
+        padding: 3.5,
+        backgroundColor: "#AFAFAF",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 25,
+    },
+    buttonText: {
         color: 'white',
         fontSize: 18
-        }
+    }
 });
 
 export default UserPlantDetails;
