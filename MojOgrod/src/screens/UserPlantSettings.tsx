@@ -76,10 +76,10 @@ const UserPlantSettings = ({route}: any) => {
     navigation.navigate('Home' as never);
   }
 
-  const handleMicrocontroller = async (mcId: string, userId: string) => {
+  const handleMicrocontroller = async (mc: any, userId: string) => {
     if (wateringLine !== disconnectedLineVal) {
       await PlantsDBApi.updatePlantOnMicrocontroller(
-        mcId,
+        mc.id,
         wateringLine.toString(),
         userId,
         plantInfo.uuid,
@@ -91,23 +91,23 @@ const UserPlantSettings = ({route}: any) => {
     }
     if (wateringLine === disconnectedLineVal) {
       await PlantsDBApi.deletePlantFromMicrocontroller(
-        mcId,
+        mc.id,
         initWateringLine.toString(),
       );
     } else if (initWateringLine === disconnectedLineVal) {
       await PlantsDBApi.addPlantToMicrocontroller(
-        mcId,
+        mc.id,
         wateringLine.toString(),
         userId,
         plantInfo.uuid,
       );
     } else {
       await PlantsDBApi.deletePlantFromMicrocontroller(
-        mcId,
+        mc.id,
         initWateringLine.toString(),
       );
       await PlantsDBApi.addPlantToMicrocontroller(
-        mcId,
+        mc.id,
         wateringLine.toString(),
         userId,
         plantInfo.uuid,
@@ -129,7 +129,7 @@ const UserPlantSettings = ({route}: any) => {
       const mc = await JsonFileManager.read('Controller');
       const userId = await JsonFileManager.read('userId');
       await DataManager.savePlantInfo(plantInfo);
-      handleMicrocontroller(mc.id, userId);
+      handleMicrocontroller(mc, userId);
     } catch (error) {
       console.log(error);
     } finally {

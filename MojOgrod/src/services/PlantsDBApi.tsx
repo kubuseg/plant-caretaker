@@ -125,7 +125,7 @@ class PlantsDBApi {
     plantUUID: string,
   ) => {
     try {
-      await axios.post(`/mc/${mcId}`, {
+      await axios.post(`/mcPlant/${mcId}`, {
         userId: userId,
         sensorId: sensorId,
         plantUUID: plantUUID,
@@ -140,7 +140,7 @@ class PlantsDBApi {
     sensorId: string,
   ) => {
     try {
-      await axios.delete(`/mc/${mcId}`, {params: {sensor: sensorId}});
+      await axios.delete(`/mcPlant/${mcId}`, {params: {sensor: sensorId}});
     } catch (error) {
       console.log(error);
     }
@@ -153,10 +153,20 @@ class PlantsDBApi {
     plantUUID: string,
   ) => {
     try {
-      await axios.patch(`/mc/${mcId}`, {
+      await axios.patch(`/mcPlant/${mcId}`, {
         userId: userId,
         sensorId: sensorId,
         plantUUID: plantUUID,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  static updateMicrocontroller = async (mc: any) => {
+    try {
+      await axios.patch(`/mc/${mc.id}`, {
+        mc: mc,
       });
     } catch (error) {
       console.log(error);
