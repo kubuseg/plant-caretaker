@@ -20,9 +20,11 @@ class PlantsDBApi {
   static getUserPlants = async (): Promise<any> => {
     try {
       const userId = await JsonFileManager.read('userId');
-      if(userId){
-          const response: AxiosResponse<any> = await axios.get(`/plants/${userId}`);
-          return response.data;
+      if (userId) {
+        const response: AxiosResponse<any> = await axios.get(
+          `/plants/${userId}`,
+        );
+        return response.data;
       }
     } catch (error) {
       console.log(error);
@@ -35,7 +37,7 @@ class PlantsDBApi {
       const userId = await JsonFileManager.read('userId');
       const response: AxiosResponse<any> = await axios.post(
         `/plants/${userId}`,
-        { plant: plant },
+        {plant: plant},
       );
     } catch (error) {
       console.log(error);
@@ -53,8 +55,8 @@ class PlantsDBApi {
 
   static updateUserPlant = async (plantUUID: string, newPlant: object) => {
     try {
-        const userId = await JsonFileManager.read('userId');
-        await axios.patch(`/plants/${userId}`, {
+      const userId = await JsonFileManager.read('userId');
+      await axios.patch(`/plants/${userId}`, {
         uuid: plantUUID,
         plant: newPlant,
       });
@@ -78,7 +80,7 @@ class PlantsDBApi {
   static getUser = async (username: string, password: string): Promise<any> => {
     try {
       const response: AxiosResponse<any> = await axios.get(`/user`, {
-        params: { username: username, password: password },
+        params: {username: username, password: password},
       });
       return response.data;
     } catch (error) {
@@ -89,7 +91,7 @@ class PlantsDBApi {
 
   static addUser = (username: string, password: string) => {
     axios
-      .post(`/user`, { username: username, password: password })
+      .post(`/user`, {username: username, password: password})
       .then(response => {
         console.log(response);
       })
@@ -138,7 +140,24 @@ class PlantsDBApi {
     sensorId: string,
   ) => {
     try {
-      await axios.delete(`/mc/${mcId}`, { params: { sensor: sensorId } });
+      await axios.delete(`/mc/${mcId}`, {params: {sensor: sensorId}});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  static updatePlantOnMicrocontroller = async (
+    mcId: string,
+    sensorId: string,
+    userId: string,
+    plantUUID: string,
+  ) => {
+    try {
+      await axios.patch(`/mc/${mcId}`, {
+        userId: userId,
+        sensorId: sensorId,
+        plantUUID: plantUUID,
+      });
     } catch (error) {
       console.log(error);
     }
