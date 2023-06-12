@@ -97,6 +97,18 @@ const UserPlantSettings = ({ route }: any) => {
         </>
     );
 
+    const DeleteButton = (): JSX.Element => {
+        if (plantInfo.uuid) {
+            return (
+                <TouchableOpacity style={styles.button} onPress={deletePlant}>
+                    <Text style={styles.buttonText}>Usuń roślinę</Text>
+                </TouchableOpacity>
+            );
+        } else {
+            return <></>;;
+        }
+    };
+
     const mainContents = (
         <ScrollView style={{ width: '100%' }}>
             <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
@@ -159,9 +171,7 @@ const UserPlantSettings = ({ route }: any) => {
                 </Picker>
             </PlantDetailsSection>
 
-            <TouchableOpacity style={styles.button} onPress={deletePlant}>
-                <Text style={styles.buttonText}>Usuń roślinę</Text>
-            </TouchableOpacity>
+            <DeleteButton />
         </ScrollView>
     );
 
