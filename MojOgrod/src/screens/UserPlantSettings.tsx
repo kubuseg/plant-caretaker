@@ -47,6 +47,13 @@ const UserPlantSettings = ({ route }: any) => {
     async function deletePlant() {
         setIsLoading(true);
         await DataManager.deletePlant(plantInfo.uuid.toString());
+        if (plantInfo.wateringLine !== disconnectedLineVal) {
+            const mc = await JsonFileManager.read('Controller');
+            await PlantsDBApi.deletePlantFromMicrocontroller(
+              mc.id,
+              plantInfo.wateringLine.toString(),
+            );
+        }
         setIsLoading(false);
         navigation.navigate('Home' as never);
     }
@@ -70,7 +77,7 @@ const UserPlantSettings = ({ route }: any) => {
             }
             if (wateringLine === disconnectedLineVal) {
                 await PlantsDBApi.deletePlantFromMicrocontroller(mc.id, initWateringLine.toString());
-            } else if (initWateringLine === -1) {
+            } else if (initWateringLine === disconnectedLineVal) {
                 await PlantsDBApi.addPlantToMicrocontroller(mc.id, wateringLine.toString(), userId, plantInfo.uuid);
             } else {
                 await PlantsDBApi.deletePlantFromMicrocontroller(mc.id, initWateringLine.toString());
