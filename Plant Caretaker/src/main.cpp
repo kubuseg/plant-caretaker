@@ -13,23 +13,25 @@ const String API_MEASUREMENTS = "https://plants-function-app.azurewebsites.net/a
 const String API_MC_DATA = "https://plants-function-app.azurewebsites.net/api/mcData" + String("/") + String(MC_ID) + String("/") + API_AUTH_PARAM;
 const String API_PLANTS_HISTORY = "https://plants-function-app.azurewebsites.net/api/InsertPlantsHistory" + API_AUTH_PARAM;
 
-constexpr uint32_t WIFI_TIMEOUT = 300 * 1000;
-constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)30 * 60 * 1000000; // 0.5 hour
-constexpr uint64_t MC_DATA_TIME = (uint64_t)60 * 1000000;           // 1 minute
-constexpr uint64_t CHECK_TIME = (uint64_t)60 * 60 * 1000000;        // 1 hour
+constexpr uint32_t WIFI_TIMEOUT = 60 * 1000;
+constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)60 * 1000000; // 1 hour
+constexpr uint64_t MC_DATA_TIME = (uint64_t)10 * 1000000;      // 1 minute
+constexpr uint64_t CHECK_TIME = (uint64_t)60 * 1000000;        // 1 hour
 
-constexpr uint8_t MAX_SENSORS_NO = 4;
-constexpr uint8_t HUMIDITY_SENSOR_PIN[MAX_SENSORS_NO] = {36, 39, 34, 35}; // 36 - VP pin, 39 - VN pin
-constexpr uint8_t VALVE_PIN[MAX_SENSORS_NO] = {13, 12, 16, 17};           // 16 - RX pin, 17 - TX pin
-constexpr uint8_t PUMP_PIN[MAX_SENSORS_NO / 2] = {14, 5};
-constexpr uint16_t DRY_WET_HUMIDITY_CONST[MAX_SENSORS_NO][2] = {{2643, 879}, {2657, 944}, {2654, 964}, {2657, 909}};
+constexpr uint8_t MAX_SENSORS_NO = 2;
+constexpr uint8_t HUMIDITY_SENSOR_PIN[MAX_SENSORS_NO] = {36, 39}; // 36 - VP pin, 39 - VN pin
+constexpr uint8_t WATERING_VALVE_PIN[MAX_SENSORS_NO] = {13, 12};  // 16 - RX pin, 17 - TX pin
+constexpr uint8_t FERTELIZATION_VALVE_PIN[MAX_SENSORS_NO] = {16, 17};
+constexpr uint8_t WATERING_PUMP_PIN[MAX_SENSORS_NO / 2] = {14};
+constexpr uint8_t FERTELIZATION_PUMP_PIN[MAX_SENSORS_NO / 2] = {5};
+constexpr uint16_t DRY_WET_HUMIDITY_CONST[MAX_SENSORS_NO][2] = {{2643, 879}, {2657, 944}};
 
 constexpr uint8_t HUMIDITY_VALUES_ARRAY_SIZE = 10;
 uint16_t humidityValuesArray[MAX_SENSORS_NO][HUMIDITY_VALUES_ARRAY_SIZE];
 
 bool isWateringLineConnected[MAX_SENSORS_NO];
 uint8_t criticalHumidity[MAX_SENSORS_NO];
-uint16_t wateringMl[MAX_SENSORS_NO], fertelizationMl[MAX_SENSORS_NO]; // TODO
+uint16_t wateringMl[MAX_SENSORS_NO], fertelizationMl[MAX_SENSORS_NO];
 bool wateringDaysElapsed[MAX_SENSORS_NO], fertelizationDaysElapsed[MAX_SENSORS_NO];
 bool isPlantToWater[MAX_SENSORS_NO], isPlantToFertilize[MAX_SENSORS_NO];
 
@@ -42,7 +44,7 @@ volatile SemaphoreHandle_t mcDataTimerSemaphore;
 hw_timer_t *checkPlantsTimer = NULL;
 volatile SemaphoreHandle_t checkPlantsTimerSemaphore;
 
-hw_timer_t *waterPlantsTimer = NULL;
+hw_timer_t *pumpTimer = NULL;
 volatile SemaphoreHandle_t waterPlantsTimerSemaphore;
 
 // put function declarations here:
@@ -53,13 +55,17 @@ uint16_t average(const uint16_t array[], const uint8_t size);
 uint8_t getHumidty(const uint8_t sensor);
 void parseJsonObject(const String httpString);
 void getMcDataFromApi(const String serverPath);
-uint64_t getWateringTime(const uint8_t sensor);
+uint64_t getPumpTime(const uint16_t ml);
 void startWatering(const uint8_t sensorId);
 void stopWatering(const uint8_t sensorId);
+void startFertelizing(const uint8_t sensorId);
+void stopFertelizing(const uint8_t sensorId);
 String getWateringMlParam(const uint8_t sensorId);
 String getFertilizationMlParam(const uint8_t sensorId);
 void sendPlantHistoryToApi(const String serverPath, const String additionalParam, const uint8_t sensorId);
-int16_t getFirstPlantToWater();
+int16_t getFirstPlant(const bool isPlantTo[MAX_SENSORS_NO]);
+void startPumpPlants();
+void stopPumpPlants();
 void IRAM_ATTR onMeasurementsTimer();
 void IRAM_ATTR onMcDataTimer();
 void IRAM_ATTR onCheckTimer();
@@ -72,11 +78,13 @@ void setup()
   for (int i = 0; i < MAX_SENSORS_NO; ++i)
   {
     adcAttachPin(HUMIDITY_SENSOR_PIN[i]);
-    pinMode(VALVE_PIN[i], OUTPUT);
+    pinMode(WATERING_VALVE_PIN[i], OUTPUT);
+    pinMode(FERTELIZATION_VALVE_PIN[i], OUTPUT);
   }
   for (int i = 0; i < MAX_SENSORS_NO / 2; ++i)
   {
-    pinMode(PUMP_PIN[i], OUTPUT);
+    pinMode(WATERING_PUMP_PIN[i], OUTPUT);
+    pinMode(FERTELIZATION_PUMP_PIN[i], OUTPUT);
   }
   connectWifi();
 
@@ -103,8 +111,8 @@ void setup()
 
   // Water plants Timer
   waterPlantsTimerSemaphore = xSemaphoreCreateBinary();
-  waterPlantsTimer = timerBegin(3, 80, true);
-  timerAttachInterrupt(waterPlantsTimer, &onWaterPlantsTimer, true);
+  pumpTimer = timerBegin(3, 80, true);
+  timerAttachInterrupt(pumpTimer, &onWaterPlantsTimer, true);
 }
 
 void loop()
@@ -116,31 +124,33 @@ void loop()
 
   if (xSemaphoreTake(waterPlantsTimerSemaphore, 0) == pdTRUE)
   {
+    Serial.println();
     Serial.println("Watering Alarm Fired!");
-    int16_t firstPlantToWater = getFirstPlantToWater();
-    stopWatering(firstPlantToWater);
-    isPlantToWater[firstPlantToWater] = false;
-    firstPlantToWater = getFirstPlantToWater();
-    if (firstPlantToWater > -1)
-    {
-      Serial.print("firstPlantToWater: ");
-      Serial.println(firstPlantToWater);
-      startWatering(firstPlantToWater);
-    }
+    stopPumpPlants();
+    startPumpPlants();
   }
   if (xSemaphoreTake(checkPlantsTimerSemaphore, 0) == pdTRUE)
   {
+    Serial.println();
     Serial.println("Check Alarm Fired!");
     for (int i = 0; i < MAX_SENSORS_NO; ++i)
     {
       if (!isWateringLineConnected[i])
         continue;
+      Serial.print("Plant: ");
+      Serial.println(i);
       Serial.print("Humidity: ");
-      Serial.println(humidities[i]);
+      Serial.print(humidities[i]);
+      Serial.print(" | ");
       Serial.print("criticalHumidity: ");
-      Serial.println(criticalHumidity[i]);
+      Serial.print(criticalHumidity[i]);
+      Serial.print(" | ");
       Serial.print("wateringDaysElapsed: ");
-      Serial.println(wateringDaysElapsed[i]);
+      Serial.print(wateringDaysElapsed[i]);
+      Serial.print(" | ");
+      Serial.print("fertelizationDaysElapsed: ");
+      Serial.print(fertelizationDaysElapsed[i]);
+      Serial.println();
       if (humidities[i] < criticalHumidity[i] || wateringDaysElapsed[i])
       {
         isPlantToWater[i] = true;
@@ -150,16 +160,11 @@ void loop()
         isPlantToFertilize[i] = true;
       }
     }
-    int16_t firstPlantToWater = getFirstPlantToWater();
-    if (firstPlantToWater > -1)
-    {
-      Serial.print("firstPlantToWater: ");
-      Serial.println(firstPlantToWater);
-      startWatering(firstPlantToWater);
-    }
+    startPumpPlants();
   }
   if (xSemaphoreTake(measurementsTimerSemaphore, 0) == pdTRUE)
   {
+    Serial.println();
     Serial.println("Measurements Timer Alarm Fired!");
     if (WiFi.status() == WL_CONNECTED)
     {
@@ -174,7 +179,8 @@ void loop()
   }
   if (xSemaphoreTake(mcDataTimerSemaphore, 0) == pdTRUE)
   {
-    Serial.println("Get microcontroller Data Timer Alarm Fired!");
+    Serial.println();
+    // Serial.println("Get microcontroller Data Timer Alarm Fired!");
     if (WiFi.status() == WL_CONNECTED)
     {
       getMcDataFromApi(API_MC_DATA);
@@ -232,7 +238,6 @@ String getJsonString(const uint8_t humidities[])
 
 void sendMeasurementsToApi(const String serverPath, const String jsonString)
 {
-  Serial.println(jsonString);
   HTTPClient http;
 
   http.begin(serverPath.c_str());
@@ -241,10 +246,8 @@ void sendMeasurementsToApi(const String serverPath, const String jsonString)
 
   if (httpResponseCode > 0)
   {
-    Serial.print("HTTP Response code: ");
-    Serial.println(httpResponseCode);
+    Serial.println(jsonString);
     String payload = http.getString();
-    Serial.println(payload);
   }
   else
   {
@@ -297,6 +300,7 @@ void parseJsonObject(const String httpString)
     fertelizationDaysElapsed[key] = item.value()["fertelizationDaysElapsed"];
     criticalHumidity[key] = item.value()["criticalHumidity"];
     wateringMl[key] = item.value()["wateringMl"];
+    fertelizationMl[key] = item.value()["fertelizationMl"];
   }
 }
 
@@ -310,8 +314,6 @@ void getMcDataFromApi(const String serverPath)
 
   if (httpResponseCode > 0)
   {
-    Serial.print("HTTP Response code: ");
-    Serial.println(httpResponseCode);
     parseJsonObject(http.getString());
   }
   else
@@ -322,10 +324,10 @@ void getMcDataFromApi(const String serverPath)
   http.end();
 }
 
-uint64_t getWateringTime(const uint8_t sensor)
+uint64_t getPumpTime(const uint16_t ml)
 {
-  uint64_t wateringTime = (uint64_t)((float)wateringMl[sensor] / 4.0f) * 1000000;
-  Serial.print("Watering Time: ");
+  uint64_t wateringTime = (uint64_t)((float)ml / 4.0f) * 1000000;
+  Serial.print("Pump Time: ");
   Serial.print(wateringTime / 1000000);
   Serial.println("s");
   return wateringTime;
@@ -334,19 +336,37 @@ uint64_t getWateringTime(const uint8_t sensor)
 void startWatering(const uint8_t sensorId)
 {
   Serial.println("Started Watering!");
-  timerWrite(waterPlantsTimer, 0);
-  timerAlarmWrite(waterPlantsTimer, getWateringTime(sensorId), false);
-  timerAlarmEnable(waterPlantsTimer);
-  digitalWrite(VALVE_PIN[sensorId], HIGH);
-  digitalWrite(PUMP_PIN[sensorId / 2], HIGH);
+  timerWrite(pumpTimer, 0);
+  timerAlarmWrite(pumpTimer, getPumpTime(wateringMl[sensorId]), false);
+  timerAlarmEnable(pumpTimer);
+  digitalWrite(WATERING_VALVE_PIN[sensorId], HIGH);
+  digitalWrite(WATERING_PUMP_PIN[sensorId / 2], HIGH);
 }
 
 void stopWatering(const uint8_t sensorId)
 {
   Serial.println("Stoped Watering!");
-  digitalWrite(VALVE_PIN[sensorId], LOW);
-  digitalWrite(PUMP_PIN[sensorId / 2], LOW);
+  digitalWrite(WATERING_VALVE_PIN[sensorId], LOW);
+  digitalWrite(WATERING_PUMP_PIN[sensorId / 2], LOW);
   sendPlantHistoryToApi(API_PLANTS_HISTORY, getWateringMlParam(sensorId), sensorId);
+}
+
+void startFertelizing(const uint8_t sensorId)
+{
+  Serial.println("Started Fertelizing!");
+  timerWrite(pumpTimer, 0);
+  timerAlarmWrite(pumpTimer, getPumpTime(fertelizationMl[sensorId]), false);
+  timerAlarmEnable(pumpTimer);
+  digitalWrite(FERTELIZATION_VALVE_PIN[sensorId], HIGH);
+  digitalWrite(FERTELIZATION_PUMP_PIN[sensorId / 2], HIGH);
+}
+
+void stopFertelizing(const uint8_t sensorId)
+{
+  Serial.println("Stoped Fertelizing!");
+  digitalWrite(FERTELIZATION_VALVE_PIN[sensorId], LOW);
+  digitalWrite(FERTELIZATION_PUMP_PIN[sensorId / 2], LOW);
+  sendPlantHistoryToApi(API_PLANTS_HISTORY, getFertilizationMlParam(sensorId), sensorId);
 }
 
 String getWateringMlParam(const uint8_t sensorId)
@@ -370,10 +390,7 @@ void sendPlantHistoryToApi(const String serverPath, const String additionalParam
 
   if (httpResponseCode > 0)
   {
-    Serial.print("HTTP Response code: ");
-    Serial.println(httpResponseCode);
     String payload = http.getString();
-    Serial.println(payload);
   }
   else
   {
@@ -383,12 +400,46 @@ void sendPlantHistoryToApi(const String serverPath, const String additionalParam
   http.end();
 }
 
-int16_t getFirstPlantToWater()
+int16_t getFirstPlant(const bool isPlantTo[MAX_SENSORS_NO])
 {
   for (int i = 0; i < MAX_SENSORS_NO; ++i)
-    if (isPlantToWater[i])
+    if (isPlantTo[i])
       return i;
   return -1;
+}
+
+void startPumpPlants()
+{
+  int16_t firstPlantToWater = getFirstPlant(isPlantToWater);
+  int16_t firstPlantToFertelize = getFirstPlant(isPlantToFertilize);
+  if (firstPlantToWater > -1)
+  {
+    startWatering(firstPlantToWater);
+  }
+  else if (firstPlantToFertelize > -1)
+  {
+    startFertelizing(firstPlantToFertelize);
+  }
+}
+
+void stopPumpPlants()
+{
+  int16_t firstPlantToWater = getFirstPlant(isPlantToWater);
+  int16_t firstPlantToFertelize = getFirstPlant(isPlantToFertilize);
+  if (firstPlantToWater > -1)
+  {
+    Serial.print("firstPlantToWater: ");
+    Serial.println(firstPlantToWater);
+    stopWatering(firstPlantToWater);
+    isPlantToWater[firstPlantToWater] = false;
+  }
+  else if (firstPlantToFertelize > -1)
+  {
+    Serial.print("firstPlantToFertelize: ");
+    Serial.println(firstPlantToFertelize);
+    stopFertelizing(firstPlantToFertelize);
+    isPlantToFertilize[firstPlantToFertelize] = false;
+  }
 }
 
 void IRAM_ATTR onMeasurementsTimer()
