@@ -4,7 +4,7 @@ import InformationSVTemplate from './InformationSVTemplate';
 import JsonFileManager from '../services/JsonFileManager';
 import PlantsDBApi from '../services/PlantsDBApi';
 import {useAuth} from '../auth/AuthContext';
-
+import DataManager from '../services/DataManager';
 type InformationSVParams = {
     onTouchScreen: string;
 }
@@ -22,6 +22,7 @@ function InformationSV({ onTouchScreen }: InformationSVParams): JSX.Element {
 
     const readInformation = async () => {
         if(authUser){
+            await DataManager.updateController(authUser.mcId);
             const result = await  JsonFileManager.read('Controller');
             setInfoController(result);
         }

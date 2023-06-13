@@ -62,7 +62,7 @@ function UserSettingsScreen(): JSX.Element {
   async function onPressSave() {
     try {
       await PlantsDBApi.updateUserMicrocontroller(userId, microcontroller)
-      await DataManager.updateController(microcontroller);
+//       await DataManager.updateController(microcontroller);
       setAuthUser({ "name": user_name, "userId": userId, "mcId": microcontroller })
     } catch (error) {
       console.log("Error updating microcontroller");
