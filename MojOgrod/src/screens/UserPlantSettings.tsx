@@ -170,6 +170,41 @@ const UserPlantSettings = ({route}: any) => {
     }
   };
 
+  const WateringLineSection = (): JSX.Element => {
+    if (plantInfo.uuid) {
+      return (
+        <PlantDetailsSection title={'Linia podlewająca: '}>
+          <Picker
+            selectedValue={wateringLine?.toString()}
+            onValueChange={itemValue => setWateringLine(parseInt(itemValue))}
+            style={{
+              backgroundColor: appColors.onEditGrey,
+              width: sizes.screenWidth * 0.3,
+              color: 'white',
+            }}>
+            {Array.from([
+              <Picker.Item
+                label="Brak"
+                key={disconnectedLineVal}
+                value={disconnectedLineVal.toString()}
+              />,
+            ]).concat(
+              wateringLines.map(lineNo => (
+                <Picker.Item
+                  key={lineNo}
+                  label={lineNo.toString()}
+                  value={lineNo.toString()}
+                />
+              )),
+            )}
+          </Picker>
+        </PlantDetailsSection>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   const mainContents = (
     <ScrollView style={{width: '100%'}}>
       <PlantDetailsSection title={'Czas między podlewaniem (dni):'}>
@@ -226,34 +261,7 @@ const UserPlantSettings = ({route}: any) => {
           ]}
         </Picker>
       </PlantDetailsSection>
-
-      <PlantDetailsSection title={'Linia podlewająca: '}>
-        <Picker
-          selectedValue={wateringLine?.toString()}
-          onValueChange={itemValue => setWateringLine(parseInt(itemValue))}
-          style={{
-            backgroundColor: appColors.onEditGrey,
-            width: sizes.screenWidth * 0.3,
-            color: 'white',
-          }}>
-          {Array.from([
-            <Picker.Item
-              label="Brak"
-              key={disconnectedLineVal}
-              value={disconnectedLineVal.toString()}
-            />,
-          ]).concat(
-            wateringLines.map(lineNo => (
-              <Picker.Item
-                key={lineNo}
-                label={lineNo.toString()}
-                value={lineNo.toString()}
-              />
-            )),
-          )}
-        </Picker>
-      </PlantDetailsSection>
-
+      <WateringLineSection />
       <DeleteButton />
     </ScrollView>
   );
