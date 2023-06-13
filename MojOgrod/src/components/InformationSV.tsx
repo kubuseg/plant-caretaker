@@ -38,7 +38,7 @@ function InformationSV({ onTouchScreen }: InformationSVParams): JSX.Element {
 
     useEffect(() => {
         readInformation();
-    }, []);
+    }, [authUser]);
 
     return (
         <InformationSVTemplate
