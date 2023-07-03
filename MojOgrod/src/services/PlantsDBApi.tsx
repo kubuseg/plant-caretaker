@@ -35,10 +35,7 @@ class PlantsDBApi {
   static addUserPlant = async (plant: object) => {
     try {
       const userId = await JsonFileManager.read('userId');
-      const response: AxiosResponse<any> = await axios.post(
-        `/plants/${userId}`,
-        {plant: plant},
-      );
+      await axios.post(`/plants/${userId}`, {plant: plant});
     } catch (error) {
       console.log(error);
     }
@@ -65,10 +62,7 @@ class PlantsDBApi {
     }
   };
 
-  static updateUserMicrocontroller = async (
-    userId: string,
-    newMcId: string,
-  ) => {
+  static updateUserMicrocontroller = async (newMcId: string) => {
     try {
       const userId = await JsonFileManager.read('userId');
       await axios.patch(`/mcId/${userId}`, {mcId: newMcId});
@@ -102,6 +96,7 @@ class PlantsDBApi {
 
   static deleteUser = async () => {
     try {
+      const userId = await JsonFileManager.read('userId');
       await axios.delete(`/user/${userId}`);
     } catch (error) {
       console.log(error);
@@ -170,6 +165,30 @@ class PlantsDBApi {
       });
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  static getPlantMeasurements = async (plantUUID: string) => {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `/plants/measurements/${plantUUID}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
+    }
+  };
+
+  static getPlantHistory = async (plantUUID: string) => {
+    try {
+      const response: AxiosResponse<any> = await axios.get(
+        `/plants/history/${plantUUID}`,
+      );
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      return null;
     }
   };
 }

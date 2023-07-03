@@ -32,6 +32,7 @@ const UserPlantSettings = ({route}: any) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [plantName, setPlantName] = useState(plantInfo.name);
+
   const [wateringInterval, setWateringInterval] = useState(
     parseInt(plantInfo.wateringIntervalInDays),
   );
@@ -45,7 +46,13 @@ const UserPlantSettings = ({route}: any) => {
     parseInt(plantInfo.fertilizationMonthBetweenCondition[1]),
   );
 
-  const [flowerpotSize, setFlowerpotSize] = useState(plantInfo.flowerpotSize);
+  const [waterNeedsType, setWaterNeedsType] = useState(
+    plantInfo.waterNeedsType,
+  );
+
+  const [flowerpotSize, setFlowerpotSize] = useState(
+    plantInfo.flowerpotSize ?? 'SMALL',
+  );
 
   const [wateringLines, setWateringLines] = useState<any[]>([]);
   const disconnectedLineVal = -1;
@@ -123,6 +130,7 @@ const UserPlantSettings = ({route}: any) => {
     plantInfo.fertilizationMonthBetweenCondition[1] = fMonthEnd;
     plantInfo.wateringLine = wateringLine;
     plantInfo.flowerpotSize = flowerpotSize;
+    plantInfo.waterNeedsType = waterNeedsType;
 
     setIsLoading(true);
     try {
@@ -243,6 +251,23 @@ const UserPlantSettings = ({route}: any) => {
             {PlantDetailsPickerOptions.monthOptions}
           </Picker>
         </View>
+      </PlantDetailsSection>
+
+      <PlantDetailsSection title={'Zapotrzebowanie na wodę'}>
+        <Picker
+          selectedValue={waterNeedsType}
+          onValueChange={itemValue => setWaterNeedsType(itemValue)}
+          style={{
+            backgroundColor: appColors.onEditGrey,
+            width: sizes.screenWidth * 0.35,
+            color: 'white',
+          }}>
+          {[
+            <Picker.Item label="Małe" key={0} value={'LOW'} />,
+            <Picker.Item label="Średnie" key={1} value={'MEDIUM'} />,
+            <Picker.Item label="Duże" key={2} value={'HIGH'} />,
+          ]}
+        </Picker>
       </PlantDetailsSection>
 
       <PlantDetailsSection title={'Wielkość Doniczki'}>
