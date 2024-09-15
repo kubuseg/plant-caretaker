@@ -18,13 +18,13 @@ const String API_WATER_LEVEL = API_BASE_URL + "/mcInfo" + String("/") + String(M
 constexpr uint32_t CONNECTION_TIMEOUT = 60 * 1000; // 1 minute
 
 constexpr bool isTest = true;
-constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)1 * 60 * 60 * 1000000; // 1 hours
-constexpr uint64_t MC_DATA_TIME = (uint64_t)60 * 60 * 1000000;          // 1 hour
-constexpr uint64_t CHECK_TIME = (uint64_t)6 * 60 * 60 * 1000000;        // 6 hours
+constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)60 * 60 * 1000000; // 1 hour
+constexpr uint64_t MC_DATA_TIME = (uint64_t)60 * 60 * 1000000;      // 1 hour
+constexpr uint64_t CHECK_TIME = (uint64_t)6 * 60 * 60 * 1000000;    // 6 hours
 
 // constexpr bool isTest = true;
-// constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)1 * 60 * 1000000; // 1 minutes
-// constexpr uint64_t MC_DATA_TIME = (uint64_t)30 * 1000000;          // 1 minute
+// constexpr uint64_t MEASUREMENTS_TIME = (uint64_t)1 * 60 * 1000000; // 1 minute
+// constexpr uint64_t MC_DATA_TIME = (uint64_t)1 * 60 * 1000000;      // 1 minute
 // constexpr uint64_t CHECK_TIME = (uint64_t)6 * 60 * 1000000;        // 2 minutes
 
 constexpr uint8_t MAX_SENSORS_NO = 4;
@@ -36,10 +36,7 @@ constexpr float PUMP_WATERING_B_COEF[MAX_SENSORS_NO / 2] = {-2.5f, -0.5f};
 constexpr uint16_t DRY_WET_HUMIDITY_CONST[MAX_SENSORS_NO][2] = {{2643, 879}, {2657, 944}, {2683, 962}, {2690, 917}};
 constexpr uint8_t LEVEL_SENSOR_V = 32;
 constexpr uint8_t LEVEL_SENSOR_PIN = 33;
-constexpr uint8_t HUMIDITY_VALUES_ARRAY_SIZE = 10;
 
-uint16_t humidityValuesArray[MAX_SENSORS_NO][HUMIDITY_VALUES_ARRAY_SIZE];
-uint8_t humidities[MAX_SENSORS_NO];
 bool isWateringLineConnected[MAX_SENSORS_NO];
 uint8_t criticalHumidity[MAX_SENSORS_NO];
 uint16_t wateringMl[MAX_SENSORS_NO];
@@ -60,12 +57,11 @@ volatile SemaphoreHandle_t waterPlantsTimerSemaphore;
 
 // put function declarations here:
 bool connectToWifi();
-const String getHumiditiesSerialized(const uint8_t humidities[]);
+const String getHumiditiesSerialized();
 const String getWaterLevelAlarmSerialized(const bool waterLevelAlarm);
 const String getPlantHistorySerialized(const uint8_t sensorId);
 bool sendJson(const String serverPath, const String jsonString);
 void sendJsonSafe(const String serverPath, const String jsonString);
-uint16_t average(const uint16_t array[], const uint8_t size);
 uint8_t getHumidty(const uint8_t sensor);
 bool isWaterLevelAlarm();
 void parseJsonObject(const String httpString);
@@ -134,20 +130,30 @@ void setup()
 
 void loop()
 {
-  for (int i = 0; i < MAX_SENSORS_NO; ++i)
-  {
-    if (isWateringLineConnected[i])
-    {
-      humidities[i] = getHumidty(i);
-    }
-  }
-
   if (xSemaphoreTake(waterPlantsTimerSemaphore, 0) == pdTRUE)
   {
     Serial.println();
     Serial.println("Watering Alarm Fired!");
     stopWatering();
     handleWatering();
+  }
+
+  if (xSemaphoreTake(mcDataTimerSemaphore, 0) == pdTRUE)
+  {
+    Serial.println();
+    getMcDataFromApiSafe(API_MC_DATA);
+    for (int i = 0; i < MAX_SENSORS_NO; ++i)
+      if (isWateringLineConnected[i])
+        Serial.printf("Humidity%d = %d\n", i, getHumidty(i));
+  }
+
+  if (xSemaphoreTake(measurementsTimerSemaphore, 0) == pdTRUE)
+  {
+    Serial.println();
+    Serial.println("Measurements Timer Alarm Fired!");
+    bool waterLevelAlarm = isWaterLevelAlarm();
+    sendJsonSafe(API_MEASUREMENTS, getHumiditiesSerialized());
+    sendJsonSafe(API_WATER_LEVEL, getWaterLevelAlarmSerialized(waterLevelAlarm));
   }
 
   if (xSemaphoreTake(checkPlantsTimerSemaphore, 0) == pdTRUE)
@@ -164,7 +170,7 @@ void loop()
       Serial.print("Plant: ");
       Serial.println(i);
       Serial.print("Humidity: ");
-      Serial.print(humidities[i]);
+      Serial.print(getHumidty(i));
       Serial.print(" | ");
       Serial.print("criticalHumidity: ");
       Serial.print(criticalHumidity[i]);
@@ -172,30 +178,12 @@ void loop()
       Serial.print("wateringDaysElapsed: ");
       Serial.print(wateringDaysElapsed[i]);
       Serial.println();
-      if (humidities[i] < criticalHumidity[i] || wateringDaysElapsed[i])
+      if (getHumidty(i) < criticalHumidity[i] || wateringDaysElapsed[i])
       {
         isPlantToWater[i] = true;
       }
     }
     handleWatering();
-  }
-
-  if (xSemaphoreTake(measurementsTimerSemaphore, 0) == pdTRUE)
-  {
-    Serial.println();
-    Serial.println("Measurements Timer Alarm Fired!");
-    bool waterLevelAlarm = isWaterLevelAlarm();
-    sendJsonSafe(API_MEASUREMENTS, getHumiditiesSerialized(humidities));
-    sendJsonSafe(API_WATER_LEVEL, getWaterLevelAlarmSerialized(waterLevelAlarm));
-  }
-
-  if (xSemaphoreTake(mcDataTimerSemaphore, 0) == pdTRUE)
-  {
-    Serial.println();
-    getMcDataFromApiSafe(API_MC_DATA);
-    for (int i = 0; i < MAX_SENSORS_NO; ++i)
-      if (isWateringLineConnected[i])
-        Serial.printf("Humidity%d = %d\n", i, humidities[i]);
   }
   delay(1000);
 }
@@ -223,13 +211,13 @@ bool connectToWifi()
   return WiFi.status() == WL_CONNECTED;
 }
 
-const String getHumiditiesSerialized(const uint8_t humidities[])
+const String getHumiditiesSerialized()
 {
   StaticJsonDocument<256> doc;
   JsonArray outHumidities = doc.createNestedArray("humidities");
   for (int i = 0; i < MAX_SENSORS_NO; ++i)
     if (isWateringLineConnected[i])
-      outHumidities[i][String(i)]["humidity"] = humidities[i];
+      outHumidities[i][String(i)]["humidity"] = getHumidty(i);
   doc["mcId"] = String(MC_ID);
   String json;
   serializeJson(doc, json);
@@ -305,24 +293,11 @@ void sendJsonSafe(const String serverPath, const String jsonString)
   }
 }
 
-uint16_t average(const uint16_t array[], const uint8_t size)
-{
-  uint32_t avg = 0;
-  for (int i = 0; i < size; ++i)
-  {
-    avg += array[i];
-  }
-  return avg / size;
-}
-
 uint8_t getHumidty(const uint8_t sensor)
 {
   int humidity = map(analogRead(HUMIDITY_SENSOR_PIN[sensor]), DRY_WET_HUMIDITY_CONST[sensor][0], DRY_WET_HUMIDITY_CONST[sensor][1], 0, 100);
   humidity = min(max(humidity, 0), 100); // Make sure 0 <= humidity <= 100
-  for (int i = HUMIDITY_VALUES_ARRAY_SIZE - 1; i > 0; --i)
-    humidityValuesArray[sensor][i] = humidityValuesArray[sensor][i - 1];
-  humidityValuesArray[sensor][0] = humidity;
-  return average(humidityValuesArray[sensor], HUMIDITY_VALUES_ARRAY_SIZE);
+  return humidity;
 }
 
 bool isWaterLevelAlarm()
@@ -366,10 +341,11 @@ bool getMcDataFromApi(const String serverPath)
   if (httpResponseCode > 0)
   {
     parseJsonObject(http.getString());
+    Serial.println("Got plant parameters!");
   }
   else
   {
-    Serial.print("Error code: ");
+    Serial.print("Failed to get plant parameters! Error code: ");
     Serial.println(httpResponseCode);
   }
   http.end();
@@ -380,7 +356,7 @@ void getMcDataFromApiSafe(const String serverPath)
 {
   if (WiFi.status() == WL_CONNECTED)
   {
-    Serial.println("Getting plants parameters from api");
+    Serial.println("Fetching plant parameters from api!");
     uint64_t startTime = millis();
     while (!getMcDataFromApi(serverPath) && millis() - startTime < CONNECTION_TIMEOUT)
     {
